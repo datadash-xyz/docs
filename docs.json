@@ -7,8 +7,8 @@
     "dark": "#8b5cf6"
   },
   "logo": {
-    "light": "/images/icon.svg",
-    "dark": "/images/icon.svg"
+    "light": "/images/logo-wordmark.svg",
+    "dark": "/images/logo-wordmark.svg"
   },
   "favicon": {
     "light": "/images/favicon.svg",
