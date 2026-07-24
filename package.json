@@ -1,0 +1,22 @@
+{
+  "name": "@datadashxyz/docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "mint dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datadash-xyz/docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/datadash-xyz/docs/issues"
+  },
+  "homepage": "https://github.com/datadash-xyz/docs#readme",
+  "dependencies": {
+    "mint": "^4.2.734"
+  }
+}

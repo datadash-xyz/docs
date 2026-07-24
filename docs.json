@@ -22,7 +22,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "href": "https://datadash.xyz"
     }
   },
   "footer": {
@@ -56,7 +56,7 @@
     }
   },
   "navigation": {
-    "global": {
+    "global--old": {
       "anchors": [
         {
           "anchor": "Documentation",
@@ -70,13 +70,16 @@
         }
       ]
     },
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "openapi": "openapi.json"
+      }
+    ],
     "groups": [
       {
         "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
-        ]
+        "pages": ["index", "quickstart"]
       }
     ]
   },
