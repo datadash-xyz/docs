@@ -79,5 +79,8 @@
         ]
       }
     ]
+  },
+  "api": {
+    "openapi": "openapi.json"
   }
 }
