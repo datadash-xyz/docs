@@ -1487,7 +1487,7 @@
         },
         "summary": "Enriched Activities",
         "tags": [
-          "activity"
+          "Activity"
         ]
       }
     },
@@ -1562,7 +1562,7 @@
         },
         "summary": "Active Market Holder",
         "tags": [
-          "holders"
+          "Holders"
         ]
       }
     },
@@ -1639,7 +1639,7 @@
         },
         "summary": "All Market Holder",
         "tags": [
-          "holders"
+          "Holders"
         ]
       }
     },
@@ -1714,7 +1714,7 @@
         },
         "summary": "Closed Market Holder",
         "tags": [
-          "holders"
+          "Holders"
         ]
       }
     },
@@ -1795,7 +1795,7 @@
         },
         "summary": "Active Position",
         "tags": [
-          "positions"
+          "Positions"
         ]
       }
     },
@@ -1878,7 +1878,7 @@
         },
         "summary": "All Positions",
         "tags": [
-          "positions"
+          "Positions"
         ]
       }
     },
@@ -1958,7 +1958,7 @@
         },
         "summary": "Closed Positions",
         "tags": [
-          "positions"
+          "Positions"
         ]
       }
     },
@@ -2053,7 +2053,7 @@
         },
         "summary": "User Profile",
         "tags": [
-          "profiles"
+          "Profiles"
         ]
       }
     },
@@ -2143,7 +2143,7 @@
         },
         "summary": "User Tag Profile",
         "tags": [
-          "profiles"
+          "Profiles"
         ]
       }
     },
@@ -2228,7 +2228,7 @@
         },
         "summary": "Signal Score",
         "tags": [
-          "signals"
+          "Signals"
         ]
       }
     },
@@ -2302,7 +2302,7 @@
         },
         "summary": "Signals Tag counts",
         "tags": [
-          "signals"
+          "Signals"
         ]
       }
     },
@@ -2385,7 +2385,7 @@
         },
         "summary": "Global Smart Money",
         "tags": [
-          "smart-money"
+          "Smart Money"
         ]
       }
     },
@@ -2461,7 +2461,7 @@
         },
         "summary": "Neg Risk Smart Money Position",
         "tags": [
-          "smart-money"
+          "Smart Money"
         ]
       }
     },
@@ -2537,7 +2537,7 @@
         },
         "summary": "Neg Risk Smart Money Summary",
         "tags": [
-          "smart-money"
+          "Smart Money"
         ]
       }
     },
@@ -2611,7 +2611,7 @@
         },
         "summary": "Smart Money Position",
         "tags": [
-          "smart-money"
+          "Smart Money"
         ]
       }
     },
@@ -2687,7 +2687,7 @@
         },
         "summary": "Smart Money Summary",
         "tags": [
-          "smart-money"
+          "Smart Money"
         ]
       }
     },
@@ -2781,7 +2781,7 @@
         },
         "summary": "User Position",
         "tags": [
-          "positions"
+          "Positions"
         ]
       }
     }
