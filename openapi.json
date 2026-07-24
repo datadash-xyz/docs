@@ -283,7 +283,7 @@
             "type": "number"
           },
           "positions": {
-            "description": "Per-position breakdown within the event — bought, bought shares, avg buy price, pnl,\nrealized/unrealized pnl and roi, summed across every matching wallet (so a position held\nby N cohort users collapses to one entry). Serialized as a JSON array of objects.\n",
+            "description": "Per-position breakdown within the event, bought, bought shares, avg buy price, pnl,\nrealized/unrealized pnl and roi, summed across every matching wallet (so a position held\nby N cohort users collapses to one entry). Serialized as a JSON array of objects.\n",
             "items": {
               "properties": {
                 "avgBuyPrice": {
@@ -468,7 +468,7 @@
             "type": "number"
           },
           "positions": {
-            "description": "Per-position breakdown within the event — realized cost basis, sold shares, avg buy price,\nrealized pnl and roi, summed across every matching wallet (so a position closed by N cohort\nusers collapses to one entry). Serialized as a JSON array of objects.\n",
+            "description": "Per-position breakdown within the event, realized cost basis, sold shares, avg buy price,\nrealized pnl and roi, summed across every matching wallet (so a position closed by N cohort\nusers collapses to one entry). Serialized as a JSON array of objects.\n",
             "items": {
               "properties": {
                 "avgBuyPrice": {
@@ -523,7 +523,7 @@
       "GlobalSmartMoneyRow": {
         "properties": {
           "atRisk": {
-            "description": "Total current USD value held in the market by the selected wallets, both sides — sum of unrealized_usd across the aggregated positions.",
+            "description": "Total current USD value held in the market by the selected wallets, both sides, sum of unrealized_usd across the aggregated positions.",
             "format": "double",
             "title": "At Risk",
             "type": "number"
@@ -535,7 +535,7 @@
             "type": "integer"
           },
           "isYes": {
-            "description": "Whether the favored Side is the Yes side — true when the cohort's implied Yes price is above the live Yes price (cohort price - yes price \u003e 0). The boolean behind Side, for coloring/logic independent of the token name.",
+            "description": "Whether the favored Side is the Yes side, true when the cohort's implied Yes price is above the live Yes price (cohort price - yes price \u003e 0). The boolean behind Side, for coloring/logic independent of the token name.",
             "title": "Is Yes",
             "type": "boolean"
           },
@@ -552,18 +552,18 @@
             "type": "integer"
           },
           "marketPrice": {
-            "description": "The live market price for the Side outcome — the badge's \"vs market 62¢\" value. The live Yes price when Side is Yes, or 1 minus it when Side is No.",
+            "description": "The live market price for the Side outcome, the badge's \"vs market 62¢\" value. The live Yes price when Side is Yes, or 1 minus it when Side is No.",
             "format": "double",
             "title": "Market Price",
             "type": "number"
           },
           "side": {
-            "description": "The outcome smart money favors relative to the market — the market's own token name for the Yes side (outcomes[1]) when the cohort's implied Yes price is above the live Yes price (cohort price - yes price \u003e 0), else the No-side token name (outcomes[2]). The badge's outcome label; direction of the Edge magnitude.",
+            "description": "The outcome smart money favors relative to the market, the market's own token name for the Yes side (outcomes[1]) when the cohort's implied Yes price is above the live Yes price (cohort price - yes price \u003e 0), else the No-side token name (outcomes[2]). The badge's outcome label; direction of the Edge magnitude.",
             "title": "Side",
             "type": "string"
           },
           "smartMoneyPrice": {
-            "description": "Smart money's price for the Side outcome — the badge's \"Yes 70¢\" / \"No 78¢\" value. Smart Money Probability when Side is Yes, or 1 minus it when Side is No.",
+            "description": "Smart money's price for the Side outcome, the badge's \"Yes 70¢\" / \"No 78¢\" value. Smart Money Probability when Side is Yes, or 1 minus it when Side is No.",
             "format": "double",
             "title": "Smart Money Price",
             "type": "number"
@@ -584,7 +584,7 @@
             "type": "integer"
           },
           "yesSlippage": {
-            "description": "Magnitude of the mispricing — the absolute gap between Smart Money Probability (the cohort's implied Yes price) and the live Yes price. Direction is carried by Side (Yes when the cohort price is above the market, No when below). Default sort is by this, descending (biggest mispricing first).",
+            "description": "Magnitude of the mispricing, the absolute gap between Smart Money Probability (the cohort's implied Yes price) and the live Yes price. Direction is carried by Side (Yes when the cohort price is above the market, No when below). Default sort is by this, descending (biggest mispricing first).",
             "format": "double",
             "title": "Edge",
             "type": "number"
@@ -690,36 +690,36 @@
       "NegRiskSmartMoneyPositionRow": {
         "properties": {
           "atRisk": {
-            "description": "Dollars the wallet truly has at risk on this leg — entry-cost buy dollars after canonicalization (never current value)",
+            "description": "Dollars the wallet truly has at risk on this leg, entry-cost buy dollars after canonicalization (never current value)",
             "format": "double",
             "title": "At Risk",
             "type": "number"
           },
           "currentValue": {
-            "description": "Current USD value of the wallet's side — Yes side at the target market's live price; No side is the field legs valued at their own markets' live prices",
+            "description": "Current USD value of the wallet's side, Yes side at the target market's live price; No side is the field legs valued at their own markets' live prices",
             "format": "double",
             "title": "Current Value",
             "type": "number"
           },
           "entryPrice": {
-            "description": "Average entry price of the side — at-risk buy cost divided by the share count, with cost attributed through the neg-risk conversion by current price",
+            "description": "Average entry price of the side, at-risk buy cost divided by the share count, with cost attributed through the neg-risk conversion by current price",
             "format": "double",
             "title": "Entry Price",
             "type": "number"
           },
           "netShares": {
-            "description": "The wallet's true share count on the leg's side after per-wallet canonicalization (e' = e − min(e)) — Yes side is canonical Yes shares on the target market; No side is the wallet's field shares in synthetic NO-equivalent units.",
+            "description": "The wallet's true share count on the leg's side after per-wallet canonicalization (e' = e − min(e)), Yes side is canonical Yes shares on the target market; No side is the wallet's field shares in synthetic NO-equivalent units.",
             "format": "double",
             "title": "Net Shares",
             "type": "number"
           },
           "side": {
-            "description": "Which side of the target market this leg backs — 'yes' (the wallet's true bet on the outcome) or 'no' (its at-risk money on the rivals). Filter by this to render the Yes and No holder columns.",
+            "description": "Which side of the target market this leg backs, 'yes' (the wallet's true bet on the outcome) or 'no' (its at-risk money on the rivals). Filter by this to render the Yes and No holder columns.",
             "title": "Side",
             "type": "string"
           },
           "unrealizedPnl": {
-            "description": "Unrealized profit/loss on the side — current value minus at-risk buy cost",
+            "description": "Unrealized profit/loss on the side, current value minus at-risk buy cost",
             "format": "double",
             "title": "Open PnL",
             "type": "number"
@@ -741,43 +741,43 @@
       "NegRiskSmartMoneySummaryRow": {
         "properties": {
           "marketPct": {
-            "description": "The market's normalized probability for this outcome — its live Yes price over the sum of all open markets' Yes prices (the bar's marker)",
+            "description": "The market's normalized probability for this outcome, its live Yes price over the sum of all open markets' Yes prices (the bar's marker)",
             "format": "double",
             "title": "Market Odds",
             "type": "number"
           },
           "noPrice": {
-            "description": "Average at-risk entry price of the No side in familiar No-price units — field buy cost divided by the synthetic NO-equivalent shares (the strip's red avg)",
+            "description": "Average at-risk entry price of the No side in familiar No-price units, field buy cost divided by the synthetic NO-equivalent shares (the strip's red avg)",
             "format": "double",
             "title": "No Price",
             "type": "number"
           },
           "noValue": {
-            "description": "Current USD value of the cohort's field shares — its true bets on every other outcome of the event at live prices (no_value)",
+            "description": "Current USD value of the cohort's field shares, its true bets on every other outcome of the event at live prices (no_value)",
             "format": "double",
             "title": "No Value",
             "type": "number"
           },
           "noWallets": {
-            "description": "Number of wallets with at-risk money on the event's other outcomes — counted from the same per-wallet arrays as the dollars",
+            "description": "Number of wallets with at-risk money on the event's other outcomes, counted from the same per-wallet arrays as the dollars",
             "format": "int64",
             "title": "No Wallets",
             "type": "integer"
           },
           "smartPct": {
-            "description": "The bar percentage — the cohort's Yes value as a share of its total value on the event (value_pct); compare against Market Odds (the marker)",
+            "description": "The bar percentage, the cohort's Yes value as a share of its total value on the event (value_pct); compare against Market Odds (the marker)",
             "format": "double",
             "title": "Smart Money Odds",
             "type": "number"
           },
           "yesPrice": {
-            "description": "Average at-risk entry price of the true Yes shares — buy cost divided by canonical shares, not the live price (the strip's green avg)",
+            "description": "Average at-risk entry price of the true Yes shares, buy cost divided by canonical shares, not the live price (the strip's green avg)",
             "format": "double",
             "title": "Yes Price",
             "type": "number"
           },
           "yesValue": {
-            "description": "Current USD value of the cohort's true Yes shares on the target market (yes_value — canonical shares e' at the live Yes price)",
+            "description": "Current USD value of the cohort's true Yes shares on the target market (yes_value, canonical shares e' at the live Yes price)",
             "format": "double",
             "title": "Yes Value",
             "type": "number"
@@ -952,13 +952,13 @@
       "SmartMoneySummaryRow": {
         "properties": {
           "marketPct": {
-            "description": "The market's live Yes probability — the Yes token price normalized by the Yes + No token prices (the bar's marker)",
+            "description": "The market's live Yes probability, the Yes token price normalized by the Yes + No token prices (the bar's marker)",
             "format": "double",
             "title": "Market Odds",
             "type": "number"
           },
           "noPrice": {
-            "description": "Share-weighted average entry price of the No shares still held — buy cost divided by shares (the strip's red avg)",
+            "description": "Share-weighted average entry price of the No shares still held, buy cost divided by shares (the strip's red avg)",
             "format": "double",
             "title": "No Price",
             "type": "number"
@@ -976,13 +976,13 @@
             "type": "integer"
           },
           "smartPct": {
-            "description": "The bar percentage — Yes value as a share of the market's total held value; compare against Market Odds (the marker). 0 when the market holds no value.",
+            "description": "The bar percentage, Yes value as a share of the market's total held value; compare against Market Odds (the marker). 0 when the market holds no value.",
             "format": "double",
             "title": "Smart Money Odds",
             "type": "number"
           },
           "yesPrice": {
-            "description": "Share-weighted average entry price of the Yes shares still held — buy cost divided by shares, not the live price (the strip's green avg)",
+            "description": "Share-weighted average entry price of the Yes shares still held, buy cost divided by shares, not the live price (the strip's green avg)",
             "format": "double",
             "title": "Yes Price",
             "type": "number"
@@ -1964,7 +1964,7 @@
     },
     "/api/v1/profiles/user": {
       "post": {
-        "description": "Per-wallet performance profile — PnL, win rate, volume, ROI, hold time and trade counts — one row per wallet for the requested duration.",
+        "description": "Per-wallet performance profile, PnL, win rate, volume, ROI, hold time and trade counts, one row per wallet for the requested duration.",
         "operationId": "listProfilesUser",
         "requestBody": {
           "content": {
@@ -2059,7 +2059,7 @@
     },
     "/api/v1/profiles/user-tag": {
       "post": {
-        "description": "Per-wallet performance broken down by category tag — PnL, win rate, volume and ROI per (wallet, tag) for the requested duration.",
+        "description": "Per-wallet performance broken down by category tag, PnL, win rate, volume and ROI per (wallet, tag) for the requested duration.",
         "operationId": "listProfilesUserTag",
         "requestBody": {
           "content": {
@@ -2693,7 +2693,7 @@
     },
     "/api/v1/user-position": {
       "post": {
-        "description": "Lifetime per-position trading stats for a wallet — bought/sold shares and USD, entry/exit prices, realized and unrealized PnL. One row per (wallet, position token); see positions/all for the event-grouped portfolio view.",
+        "description": "Lifetime per-position trading stats for a wallet, bought/sold shares and USD, entry/exit prices, realized and unrealized PnL. One row per (wallet, position token); see positions/all for the event-grouped portfolio view.",
         "operationId": "listUserPosition",
         "requestBody": {
           "content": {

@@ -72,14 +72,21 @@
     },
     "tabs": [
       {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["index"]
+          },
+          {
+            "group": "Features",
+            "pages": ["smart-money", "signals", "cohorts"]
+          }
+        ]
+      },
+      {
         "tab": "API Reference",
         "openapi": "openapi.json"
-      }
-    ],
-    "groups": [
-      {
-        "group": "Getting Started",
-        "pages": ["index"]
       }
     ]
   },
