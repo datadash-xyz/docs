@@ -1,0 +1,194 @@
+---
+title: "Filtering"
+description: "Narrow any list endpoint with typed conditions and AND/OR groups."
+---
+
+Every list endpoint accepts an optional `filter` in the request body. It's a **list of conditions, combined with AND**.
+
+```json
+{
+  "page": { "limit": 50 },
+  "filter": [
+    { "field": "userId", "operator": "eq",  "value": "0xAb8D...90F1" },
+    { "field": "value",  "operator": "gte", "value": 1000 }
+  ]
+}
+```
+
+That returns positions belonging to that wallet **and** worth at least $1,000. To express OR, use a [group](#groups).
+
+Fields are addressed by the same names you get back in the response, so you filter on what you see. Each endpoint documents its own filterable fields and the operators each accepts — see the [API Reference](/api-reference).
+
+## Conditions
+
+A condition names a `field`, an `operator`, and a `value`.
+
+```json
+{ "field": "unrealizedPnl", "operator": "gt", "value": 500 }
+```
+
+Because conditions are list items rather than object keys, you can use **the same field as many times as you like** — for example, to bound a value on both sides:
+
+```json
+"filter": [
+  { "field": "value", "operator": "gte", "value": 1000 },
+  { "field": "value", "operator": "lte", "value": 5000 }
+]
+```
+
+### Operators by field type
+
+| Field type | Operators | Value |
+| --- | --- | --- |
+| Numbers | `eq` `neq` `gt` `gte` `lt` `lte` | a number |
+| Categories & IDs | `in` `notIn` | one value, or an array |
+| Text | `in` `notIn` `matches` `notMatches` | `matches` takes one search term |
+| Wallet addresses | the text operators, plus `inCohort` `notInCohort` | addresses, or cohort ids |
+| Booleans | `eq` | `true` or `false` |
+| Timestamps | `last` `between` `since` | see [Time ranges](#time-ranges) |
+
+<Note>
+  `in` and `notIn` accept either a single value or an array — `"value": 1234` and `"value": [1234, 5678]` both work. ID fields such as `marketId` and `eventId` take **integers**; text fields take strings.
+</Note>
+
+### Wallet addresses and cohorts
+
+Address fields accept a list of addresses, or a [cohort](/cohorts) to filter by membership:
+
+```json
+{ "field": "userId", "operator": "inCohort", "value": ["01HQ2K..."] }
+```
+
+Use `notInCohort` to return everything outside the cohort.
+
+### Time ranges
+
+```json
+{ "field": "timestamp", "operator": "last",    "value": { "unit": "day", "length": 7 } }
+{ "field": "timestamp", "operator": "between", "value": { "from": "2026-01-01", "to": "2026-03-31" } }
+{ "field": "timestamp", "operator": "since",   "value": "2026-01-01" }
+{ "field": "timestamp", "operator": "since",   "value": { "range": "month" } }
+```
+
+`last` accepts `day`, `week`, `month`, `quarter`, `year`. `since` takes either a date or a calendar `range` (`week`, `month`, `quarter`, `year`).
+
+## Groups
+
+The top-level list is always AND. For OR, add a **group** — an item with an `operator` (`AND` or `OR`) and its own `filters`.
+
+```json
+"filter": [
+  { "field": "userId", "operator": "eq", "value": "0xAb8D...90F1" },
+  {
+    "operator": "OR",
+    "filters": [
+      { "field": "value",         "operator": "gte", "value": 1000 },
+      { "field": "unrealizedPnl", "operator": "gt",  "value": 500 }
+    ]
+  }
+]
+```
+
+That reads as: **that wallet**, AND (**value ≥ 1000** OR **PnL > 500**).
+
+To make the whole query an OR, pass a single group:
+
+```json
+"filter": [
+  {
+    "operator": "OR",
+    "filters": [
+      { "field": "value",         "operator": "gte", "value": 1000 },
+      { "field": "unrealizedPnl", "operator": "gt",  "value": 500 }
+    ]
+  }
+]
+```
+
+<Warning>
+  Groups nest at most two levels deep. A group may contain groups, but those inner groups must contain only conditions.
+</Warning>
+
+## A complete request
+
+```bash
+curl -X POST https://api.datadash.xyz/api/v1/positions/active \
+  -H "X-Api-Key: $DATADASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "page": { "offset": 0, "limit": 50 },
+    "filter": [
+      { "field": "userId", "operator": "eq",  "value": "0xAb8D...90F1" },
+      { "field": "value",  "operator": "gte", "value": 1000 },
+      { "field": "value",  "operator": "lte", "value": 5000 },
+      {
+        "operator": "OR",
+        "filters": [
+          { "field": "marketId",      "operator": "in", "value": [1234, 5678] },
+          { "field": "unrealizedPnl", "operator": "gt", "value": 500 }
+        ]
+      }
+    ],
+    "orderBy": [{ "field": "value", "direction": "desc" }]
+  }'
+```
+
+## Activity options
+
+The [activity](/api-reference) endpoint takes two extra fields that aren't filters, because they change *which* rows are built rather than narrowing the ones returned.
+
+### Selecting activity types
+
+`activityIds` restricts the log to certain activity types. The activity column isn't part of `filter` — it's selected here instead.
+
+```json
+{ "page": { "limit": 50 }, "activityIds": [1] }
+```
+
+All activity types are returned when omitted. The API Reference lists each id and its name for the endpoint.
+
+### Aggregating into buckets
+
+By default the endpoint returns **one row per event**. Pass `aggregationWindow` to get rows **grouped by time bucket, activity type, and wallet** instead — a summary rather than a log.
+
+```json
+{
+  "page": { "limit": 50 },
+  "aggregationWindow": 4,
+  "activityIds": [1],
+  "filter": [
+    { "field": "wallet", "operator": "eq", "value": "0xAb8D...90F1" }
+  ]
+}
+```
+
+Each row then covers one wallet's activity of one type within one bucket, with the measures aggregated over that window. The available grains — hourly through monthly — are listed in the API Reference; omit the field for the unaggregated log.
+
+<Note>
+  `activityIds` and `aggregationWindow` apply only to the activity endpoint. Sending them anywhere else returns `400`.
+</Note>
+
+## Required filters
+
+Some endpoints require a filter on a particular field. The position and holder endpoints, for example, require `userId` — every query must be scoped to a wallet or a cohort. Omitting one returns `400`.
+
+## Errors
+
+Filter problems come back as `400` with a machine-readable code and a message naming the field.
+
+```json
+{ "code": "invalid_argument", "message": "filter: unknown field \"markt\"" }
+```
+
+| Message | Cause |
+| --- | --- |
+| `unknown field "…"` | The field doesn't exist on this endpoint, or is misspelled. |
+| `field "…" is not filterable` | The field is returned in responses but can't be filtered on. |
+| `unsupported operator "…"` | The operator doesn't apply to that field's type. |
+| `expected a list of conditions and groups` | `filter` was sent as an object instead of a list. |
+| `a condition must name a field` | An item has neither a `field` nor nested `filters`. |
+| `value is required` | The condition is missing its value. |
+| `group operator must be "AND" or "OR"` | A group with several members didn't say how to combine them. |
+| `groups can be nested at most 2 levels deep` | Too much nesting. |
+| `unknown activity …` / `unknown window …` | An `activityIds` or `aggregationWindow` value the endpoint doesn't define. |
+| `only supported by the activity endpoint` | `activityIds` or `aggregationWindow` sent to another endpoint. |

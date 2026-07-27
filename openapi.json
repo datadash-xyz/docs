@@ -1,6 +1,223 @@
 {
   "components": {
     "schemas": {
+      "ActiveMarketHolderAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ActiveMarketHolderCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ActiveMarketHolderNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActiveMarketHolderIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActiveMarketHolderAddressCondition"
+          }
+        ]
+      },
+      "ActiveMarketHolderFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/ActiveMarketHolderFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "ActiveMarketHolderFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActiveMarketHolderCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/ActiveMarketHolderFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ActiveMarketHolderFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/ActiveMarketHolderCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ActiveMarketHolderFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ActiveMarketHolderCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActiveMarketHolderFilterGroup"
+          }
+        ]
+      },
+      "ActiveMarketHolderIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "eventId",
+              "positionId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ActiveMarketHolderNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "invested",
+              "totalPnl",
+              "pnlPercentage",
+              "userRank",
+              "currentValue"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
       "ActiveMarketHolderRow": {
         "properties": {
           "currentValue": {
@@ -84,6 +301,224 @@
         },
         "type": "object"
       },
+      "ActivePositionAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ActivePositionCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ActivePositionNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivePositionIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivePositionAddressCondition"
+          }
+        ]
+      },
+      "ActivePositionFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/ActivePositionFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "ActivePositionFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActivePositionCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/ActivePositionFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ActivePositionFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/ActivePositionCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ActivePositionFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ActivePositionCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivePositionFilterGroup"
+          }
+        ]
+      },
+      "ActivePositionIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ActivePositionNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "shares",
+              "value",
+              "unrealizedPnl",
+              "invested"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
       "ActivePositionRow": {
         "properties": {
           "avgBuyPrice": {
@@ -141,6 +576,278 @@
             "type": "number"
           }
         },
+        "type": "object"
+      },
+      "ActivityAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "wallet"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ActivityBigNumberCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "seqId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "big-integer",
+                "type": "string"
+              },
+              {
+                "items": {
+                  "format": "big-integer",
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ActivityCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ActivityNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivityBigNumberCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivityIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivityAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivityTimeCondition"
+          }
+        ]
+      },
+      "ActivityFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/ActivityFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "ActivityFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActivityCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/ActivityFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ActivityFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/ActivityCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ActivityFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ActivityCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivityFilterGroup"
+          }
+        ]
+      },
+      "ActivityIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds",
+              "seriesId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ActivityNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "amount",
+              "usdPrice",
+              "usdAmount",
+              "avgBuyingPrice",
+              "realizedPnl",
+              "realizedPnlPercentage",
+              "userRank",
+              "timestampNum"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "ActivityRow": {
@@ -243,6 +950,349 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "ActivityTimeCondition": {
+        "description": "last takes {unit, length}; between takes {from, to}; since takes a date or {range}.",
+        "properties": {
+          "field": {
+            "enum": [
+              "timestamp"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "last",
+              "between",
+              "since"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "description": "last: a trailing window",
+                "properties": {
+                  "length": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "unit": {
+                    "enum": [
+                      "day",
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "unit",
+                  "length"
+                ],
+                "type": "object"
+              },
+              {
+                "description": "between: a fixed range",
+                "properties": {
+                  "from": {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "to": {
+                    "format": "date",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "type": "object"
+              },
+              {
+                "description": "since: an open-ended range from a calendar unit",
+                "properties": {
+                  "range": {
+                    "enum": [
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "range"
+                ],
+                "type": "object"
+              },
+              {
+                "description": "since: an open-ended range from a date",
+                "format": "date",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "AllPositionAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "AllPositionBooleanCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "marketClosed"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "AllPositionCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AllPositionNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/AllPositionIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/AllPositionAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/AllPositionBooleanCondition"
+          }
+        ]
+      },
+      "AllPositionFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/AllPositionFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "AllPositionFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/AllPositionCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/AllPositionFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "AllPositionFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/AllPositionCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "AllPositionFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AllPositionCondition"
+          },
+          {
+            "$ref": "#/components/schemas/AllPositionFilterGroup"
+          }
+        ]
+      },
+      "AllPositionIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "AllPositionNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "shares",
+              "invested",
+              "pnl",
+              "unrealizedShares",
+              "unrealizedPnl",
+              "entryPrice",
+              "exitPriceFilter"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "AllPositionRow": {
@@ -355,6 +1405,223 @@
         },
         "type": "object"
       },
+      "ClosedMarketHolderAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ClosedMarketHolderCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ClosedMarketHolderNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ClosedMarketHolderIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ClosedMarketHolderAddressCondition"
+          }
+        ]
+      },
+      "ClosedMarketHolderFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/ClosedMarketHolderFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "ClosedMarketHolderFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ClosedMarketHolderCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/ClosedMarketHolderFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ClosedMarketHolderFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/ClosedMarketHolderCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ClosedMarketHolderFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ClosedMarketHolderCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ClosedMarketHolderFilterGroup"
+          }
+        ]
+      },
+      "ClosedMarketHolderIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "eventId",
+              "positionId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ClosedMarketHolderNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "invested",
+              "totalPnl",
+              "pnlPercentage",
+              "volume",
+              "userRank"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
       "ClosedMarketHolderRow": {
         "properties": {
           "invested": {
@@ -433,6 +1700,225 @@
             "type": "number"
           }
         },
+        "type": "object"
+      },
+      "ClosedPositionAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ClosedPositionCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ClosedPositionNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ClosedPositionIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ClosedPositionAddressCondition"
+          }
+        ]
+      },
+      "ClosedPositionFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/ClosedPositionFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "ClosedPositionFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ClosedPositionCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/ClosedPositionFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ClosedPositionFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/ClosedPositionCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "ClosedPositionFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ClosedPositionCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ClosedPositionFilterGroup"
+          }
+        ]
+      },
+      "ClosedPositionIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "ClosedPositionNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "shares",
+              "invested",
+              "pnl",
+              "entryPrice",
+              "exitPriceFilter"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "ClosedPositionRow": {
@@ -520,6 +2006,275 @@
         },
         "type": "object"
       },
+      "Error": {
+        "properties": {
+          "code": {
+            "description": "machine-readable error code",
+            "type": "string"
+          },
+          "message": {
+            "description": "human-readable description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object"
+      },
+      "GlobalSmartMoneyAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "GlobalSmartMoneyBooleanCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "isYes",
+              "inSignals"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "GlobalSmartMoneyCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneyNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneyIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneyTextCondition"
+          },
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneyAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneyBooleanCondition"
+          }
+        ]
+      },
+      "GlobalSmartMoneyFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/GlobalSmartMoneyFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "GlobalSmartMoneyFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/GlobalSmartMoneyCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/GlobalSmartMoneyFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "GlobalSmartMoneyFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/GlobalSmartMoneyCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "GlobalSmartMoneyFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneyCondition"
+          },
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneyFilterGroup"
+          }
+        ]
+      },
+      "GlobalSmartMoneyIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "marketId",
+              "tagIds"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "GlobalSmartMoneyNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "smartMoneyPrice",
+              "marketPrice",
+              "yesSlippage",
+              "atRisk",
+              "liquidity",
+              "wallets",
+              "daysLeft",
+              "userRank"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
       "GlobalSmartMoneyRow": {
         "properties": {
           "atRisk": {
@@ -590,6 +2345,264 @@
             "type": "number"
           }
         },
+        "type": "object"
+      },
+      "GlobalSmartMoneyTextCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "side"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "MarketHolderAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "MarketHolderCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/MarketHolderNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/MarketHolderIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/MarketHolderAddressCondition"
+          }
+        ]
+      },
+      "MarketHolderFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/MarketHolderFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "MarketHolderFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/MarketHolderCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/MarketHolderFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "MarketHolderFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/MarketHolderCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "MarketHolderFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/MarketHolderCondition"
+          },
+          {
+            "$ref": "#/components/schemas/MarketHolderFilterGroup"
+          }
+        ]
+      },
+      "MarketHolderIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "eventId",
+              "positionId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "MarketHolderNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "invested",
+              "totalPnl",
+              "unrealizedPnl",
+              "pnlPercentage",
+              "volume",
+              "userRank",
+              "currentValue"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "MarketHolderRow": {
@@ -687,6 +2700,213 @@
         },
         "type": "object"
       },
+      "NegRiskSmartMoneyPositionAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "NegRiskSmartMoneyPositionBooleanCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "inSignals"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "NegRiskSmartMoneyPositionCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionTextCondition"
+          },
+          {
+            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionBooleanCondition"
+          }
+        ]
+      },
+      "NegRiskSmartMoneyPositionFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/NegRiskSmartMoneyPositionFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "NegRiskSmartMoneyPositionFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/NegRiskSmartMoneyPositionCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/NegRiskSmartMoneyPositionFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "NegRiskSmartMoneyPositionFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/NegRiskSmartMoneyPositionCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "NegRiskSmartMoneyPositionFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionCondition"
+          },
+          {
+            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionFilterGroup"
+          }
+        ]
+      },
+      "NegRiskSmartMoneyPositionNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "netShares",
+              "currentValue",
+              "entryPrice",
+              "unrealizedPnl",
+              "unrealizedPnlPercentage",
+              "userRank",
+              "atRisk"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
       "NegRiskSmartMoneyPositionRow": {
         "properties": {
           "atRisk": {
@@ -736,6 +2956,45 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "NegRiskSmartMoneyPositionTextCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "side"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "NegRiskSmartMoneySummaryRow": {
@@ -804,6 +3063,229 @@
         },
         "required": [
           "limit"
+        ],
+        "type": "object"
+      },
+      "SignalScoreAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "SignalScoreCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SignalScoreNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SignalScoreIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SignalScoreAddressCondition"
+          }
+        ]
+      },
+      "SignalScoreFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/SignalScoreFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "SignalScoreFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SignalScoreCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/SignalScoreFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "SignalScoreFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/SignalScoreCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "SignalScoreFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SignalScoreCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SignalScoreFilterGroup"
+          }
+        ]
+      },
+      "SignalScoreIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "SignalScoreNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "avgEntryPrice",
+              "totalBoughtShares",
+              "tradeSize",
+              "relSize",
+              "daysToResolution",
+              "pNow",
+              "slipAbs",
+              "score",
+              "userRank"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
         ],
         "type": "object"
       },
@@ -892,6 +3374,120 @@
         },
         "type": "object"
       },
+      "SignalTagCountsFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/SignalTagCountsFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "SignalTagCountsFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SignalTagCountsIdCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/SignalTagCountsFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "SignalTagCountsFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/SignalTagCountsIdCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "SignalTagCountsFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SignalTagCountsIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SignalTagCountsFilterGroup"
+          }
+        ]
+      },
+      "SignalTagCountsIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "id",
+              "count"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
       "SignalTagCountsRow": {
         "properties": {
           "count": {
@@ -907,6 +3503,251 @@
             "type": "integer"
           }
         },
+        "type": "object"
+      },
+      "SmartMoneyPositionAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "SmartMoneyPositionBooleanCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "inSignals"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "SmartMoneyPositionCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SmartMoneyPositionNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SmartMoneyPositionIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SmartMoneyPositionAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SmartMoneyPositionBooleanCondition"
+          }
+        ]
+      },
+      "SmartMoneyPositionFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/SmartMoneyPositionFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "SmartMoneyPositionFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SmartMoneyPositionCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/SmartMoneyPositionFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "SmartMoneyPositionFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/SmartMoneyPositionCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "SmartMoneyPositionFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SmartMoneyPositionCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SmartMoneyPositionFilterGroup"
+          }
+        ]
+      },
+      "SmartMoneyPositionIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "marketId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "SmartMoneyPositionNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "netShares",
+              "currentValue",
+              "entryPrice",
+              "unrealizedPnl",
+              "unrealizedPnlPercentage",
+              "userRank"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "SmartMoneyPositionRow": {
@@ -947,6 +3788,201 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "SmartMoneySummaryBooleanCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "inSignals"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "SmartMoneySummaryCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SmartMoneySummaryNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SmartMoneySummaryIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SmartMoneySummaryBooleanCondition"
+          }
+        ]
+      },
+      "SmartMoneySummaryFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/SmartMoneySummaryFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "SmartMoneySummaryFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SmartMoneySummaryCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/SmartMoneySummaryFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "SmartMoneySummaryFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/SmartMoneySummaryCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "SmartMoneySummaryFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SmartMoneySummaryCondition"
+          },
+          {
+            "$ref": "#/components/schemas/SmartMoneySummaryFilterGroup"
+          }
+        ]
+      },
+      "SmartMoneySummaryIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "marketId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "SmartMoneySummaryNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "userRank"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "SmartMoneySummaryRow": {
@@ -1000,6 +4036,237 @@
             "type": "integer"
           }
         },
+        "type": "object"
+      },
+      "UserPositionAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "UserPositionCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/UserPositionNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserPositionIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserPositionAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserPositionTimeCondition"
+          }
+        ]
+      },
+      "UserPositionFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/UserPositionFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "UserPositionFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/UserPositionCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/UserPositionFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "UserPositionFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/UserPositionCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "UserPositionFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/UserPositionCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserPositionFilterGroup"
+          }
+        ]
+      },
+      "UserPositionIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds",
+              "seriesId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "UserPositionNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "totalBoughtShares",
+              "totalBoughtUsd",
+              "totalSoldShares",
+              "totalSoldUsd",
+              "currentlyHeldShares",
+              "avgBuyingPrice",
+              "avgSellingPrice",
+              "realizedPnl",
+              "totalBuyCost",
+              "realizedAvgBuyingPrice",
+              "totalTrades",
+              "unrealizedUsd",
+              "positionSize"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "UserPositionRow": {
@@ -1139,6 +4406,347 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "UserPositionTimeCondition": {
+        "description": "last takes {unit, length}; between takes {from, to}; since takes a date or {range}.",
+        "properties": {
+          "field": {
+            "enum": [
+              "firstTradeTimestamp",
+              "latestTradeTimestamp"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "last",
+              "between",
+              "since"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "description": "last: a trailing window",
+                "properties": {
+                  "length": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "unit": {
+                    "enum": [
+                      "day",
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "unit",
+                  "length"
+                ],
+                "type": "object"
+              },
+              {
+                "description": "between: a fixed range",
+                "properties": {
+                  "from": {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "to": {
+                    "format": "date",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "type": "object"
+              },
+              {
+                "description": "since: an open-ended range from a calendar unit",
+                "properties": {
+                  "range": {
+                    "enum": [
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "range"
+                ],
+                "type": "object"
+              },
+              {
+                "description": "since: an open-ended range from a date",
+                "format": "date",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "UserProfileAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "UserProfileCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/UserProfileNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserProfileAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserProfileDurationCondition"
+          }
+        ]
+      },
+      "UserProfileDurationCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "duration"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "enum": [
+                  "1D",
+                  "1W",
+                  "1M",
+                  "1Y",
+                  "ALL"
+                ],
+                "type": "string"
+              },
+              {
+                "items": {
+                  "enum": [
+                    "1D",
+                    "1W",
+                    "1M",
+                    "1Y",
+                    "ALL"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "UserProfileFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/UserProfileFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "UserProfileFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/UserProfileCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/UserProfileFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "UserProfileFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/UserProfileCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "UserProfileFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/UserProfileCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserProfileFilterGroup"
+          }
+        ]
+      },
+      "UserProfileNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "realizedPnl",
+              "wins",
+              "losses",
+              "profit",
+              "loss",
+              "volume",
+              "profitFactor",
+              "positions",
+              "winRate",
+              "realizedBuyCost",
+              "roi",
+              "holdTime",
+              "numTrades",
+              "numSplitTrades",
+              "numMergeTrades",
+              "numRedeemTrades",
+              "numConvertTrades",
+              "numP2pTrades",
+              "numPredictions",
+              "avgTradesPerPrediction",
+              "rank"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "type": "object"
       },
       "UserProfileRow": {
@@ -1283,6 +4891,244 @@
         },
         "type": "object"
       },
+      "UserTagProfileCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/UserTagProfileNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserTagProfileIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserTagProfileDurationCondition"
+          }
+        ]
+      },
+      "UserTagProfileDurationCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "duration"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "enum": [
+                  "1D",
+                  "1W",
+                  "1M",
+                  "1Y",
+                  "ALL"
+                ],
+                "type": "string"
+              },
+              {
+                "items": {
+                  "enum": [
+                    "1D",
+                    "1W",
+                    "1M",
+                    "1Y",
+                    "ALL"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "UserTagProfileFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/UserTagProfileFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "UserTagProfileFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/UserTagProfileCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/UserTagProfileFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "UserTagProfileFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/UserTagProfileCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "type": "object"
+      },
+      "UserTagProfileFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/UserTagProfileCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UserTagProfileFilterGroup"
+          }
+        ]
+      },
+      "UserTagProfileIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "tagId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
+      "UserTagProfileNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "realizedPnl",
+              "wins",
+              "losses",
+              "profit",
+              "loss",
+              "volume",
+              "profitFactor",
+              "positions",
+              "winRate",
+              "realizedBuyCost",
+              "roi",
+              "holdTime",
+              "numTrades",
+              "numPredictions",
+              "avgTradesPerPrediction",
+              "rank"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "type": "object"
+      },
       "UserTagProfileRow": {
         "properties": {
           "avgTradesPerPrediction": {
@@ -1395,6 +5241,20 @@
         },
         "type": "object"
       }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "description": "API key issued for programmatic access.",
+        "in": "header",
+        "name": "X-Api-Key",
+        "type": "apiKey"
+      },
+      "BearerAuth": {
+        "bearerFormat": "JWT",
+        "description": "User access token.",
+        "scheme": "bearer",
+        "type": "http"
+      }
     }
   },
   "info": {
@@ -1412,6 +5272,33 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "activityIds": {
+                    "description": "Restrict to these activity types (1 = Buy, 2 = Sell). All are returned when omitted.",
+                    "items": {
+                      "enum": [
+                        1,
+                        2
+                      ],
+                      "type": "integer"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "aggregationWindow": {
+                    "description": "Return rows aggregated into time buckets of this grain (1 = 1 hour, 2 = 6 hours, 3 = 12 hours, 4 = 1 day, 5 = 1 week, 6 = 1 month), grouped by bucket, activity and wallet. Omit for one row per event.",
+                    "enum": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ],
+                    "type": "integer"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/ActivityFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -1483,6 +5370,46 @@
               }
             },
             "description": "List of Enriched Activities rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Enriched Activities",
@@ -1500,6 +5427,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/ActiveMarketHolderFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -1558,6 +5488,46 @@
               }
             },
             "description": "List of Active Market Holder rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Active Market Holder",
@@ -1575,6 +5545,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/MarketHolderFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -1635,6 +5608,46 @@
               }
             },
             "description": "List of All Market Holder rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "All Market Holder",
@@ -1652,6 +5665,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/ClosedMarketHolderFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -1710,6 +5726,46 @@
               }
             },
             "description": "List of Closed Market Holder rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Closed Market Holder",
@@ -1727,6 +5783,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/ActivePositionFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -1791,6 +5850,46 @@
               }
             },
             "description": "List of Active Position rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Active Position",
@@ -1808,6 +5907,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/AllPositionFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -1874,6 +5976,46 @@
               }
             },
             "description": "List of All Positions rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "All Positions",
@@ -1891,6 +6033,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/ClosedPositionFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -1954,6 +6099,46 @@
               }
             },
             "description": "List of Closed Positions rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Closed Positions",
@@ -1971,6 +6156,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2049,6 +6237,46 @@
               }
             },
             "description": "List of User Profile rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "User Profile",
@@ -2066,6 +6294,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2139,6 +6370,46 @@
               }
             },
             "description": "List of User Tag Profile rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "User Tag Profile",
@@ -2156,6 +6427,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/SignalScoreFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2224,6 +6498,46 @@
               }
             },
             "description": "List of Signal Score rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Signal Score",
@@ -2241,6 +6555,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/SignalTagCountsFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2298,6 +6615,46 @@
               }
             },
             "description": "List of Signals Tag counts rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Signals Tag counts",
@@ -2315,6 +6672,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/GlobalSmartMoneyFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2381,6 +6741,46 @@
               }
             },
             "description": "List of Global Smart Money rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Global Smart Money",
@@ -2398,6 +6798,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/NegRiskSmartMoneyPositionFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2457,6 +6860,46 @@
               }
             },
             "description": "List of Neg Risk Smart Money Position rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Neg Risk Smart Money Position",
@@ -2533,6 +6976,46 @@
               }
             },
             "description": "List of Neg Risk Smart Money Summary rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Neg Risk Smart Money Summary",
@@ -2550,6 +7033,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/SmartMoneyPositionFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2607,6 +7093,46 @@
               }
             },
             "description": "List of Smart Money Position rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Smart Money Position",
@@ -2624,6 +7150,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/SmartMoneySummaryFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2683,6 +7212,46 @@
               }
             },
             "description": "List of Smart Money Summary rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "Smart Money Summary",
@@ -2700,6 +7269,9 @@
             "application/json": {
               "schema": {
                 "properties": {
+                  "filter": {
+                    "$ref": "#/components/schemas/UserPositionFilter"
+                  },
                   "orderBy": {
                     "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
                     "items": {
@@ -2777,6 +7349,46 @@
               }
             },
             "description": "List of User Position rows"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "invalid request (malformed body, unknown field, or failed validation)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "missing or invalid credentials"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "credentials lack access to this resource"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "internal error"
           }
         },
         "summary": "User Position",
@@ -2785,5 +7397,13 @@
         ]
       }
     }
-  }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    },
+    {
+      "BearerAuth": []
+    }
+  ]
 }

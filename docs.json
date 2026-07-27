@@ -81,6 +81,10 @@
           {
             "group": "Features",
             "pages": ["smart-money", "signals", "cohorts"]
+          },
+          {
+            "group": "Using the API",
+            "pages": ["api-keys", "filters"]
           }
         ]
       },
