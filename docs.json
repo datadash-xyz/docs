@@ -80,7 +80,7 @@
           },
           {
             "group": "Features",
-            "pages": ["smart-money", "signals", "cohorts"]
+            "pages": ["activity", "holders", "smart-money", "signals", "cohorts"]
           },
           {
             "group": "Using the API",

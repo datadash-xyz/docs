@@ -5,6 +5,10 @@ description: "Highest-conviction predictions across all markets."
 
 Signals surfaces the highest-conviction, currently-held bets across active markets. Every row is a single wallet's position in one market, scored so the strongest conviction rises to the top.
 
+<Frame caption="Held positions ranked by signal score, highest conviction first.">
+  <img src="/images/signals.png" alt="Signals table listing trader, prediction, score, slippage, relative size, trade size and days left" />
+</Frame>
+
 ## Signal score
 
 Each position gets a **Score** from 0 to 100, where higher means stronger conviction. The score blends how far the trade moved the price, how large it is relative to the trader's usual size, its absolute size, and how far the market is from resolving.
