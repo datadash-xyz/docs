@@ -7,8 +7,8 @@
     "dark": "#8b5cf6"
   },
   "logo": {
-    "light": "/images/icon.svg",
-    "dark": "/images/icon.svg"
+    "light": "/images/logo-wordmark.svg",
+    "dark": "/images/logo-wordmark.svg"
   },
   "favicon": {
     "light": "/images/favicon.svg",
@@ -22,7 +22,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "href": "https://datadash.xyz"
     }
   },
   "footer": {
@@ -56,7 +56,7 @@
     }
   },
   "navigation": {
-    "global": {
+    "global--old": {
       "anchors": [
         {
           "anchor": "Documentation",
@@ -70,14 +70,31 @@
         }
       ]
     },
-    "groups": [
+    "tabs": [
       {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["index"]
+          },
+          {
+            "group": "Features",
+            "pages": ["activity", "holders", "smart-money", "signals", "cohorts"]
+          },
+          {
+            "group": "Using the API",
+            "pages": ["api-keys", "filters"]
+          }
         ]
+      },
+      {
+        "tab": "API Reference",
+        "openapi": "openapi.json"
       }
     ]
+  },
+  "api": {
+    "openapi": "openapi.json"
   }
 }

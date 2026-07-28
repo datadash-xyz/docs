@@ -1,0 +1,51 @@
+---
+title: "Datadash Analytics API"
+description: "On-chain prediction-market intelligence: wallet performance, positions, holders, smart-money edge and insider signals."
+---
+
+Datadash turns raw prediction-market activity into structured, query-ready analytics. Every endpoint returns a ranked, paginated list of rows you can sort and search, with no indexing and no on-chain parsing on your side.
+
+<CardGroup cols={3}>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Full schema for every endpoint, request and response.
+  </Card>
+  <Card title="Dashboard" icon="layout-dashboard" href="https://datadash.xyz">
+    Explore the same data visually at datadash.xyz.
+  </Card>
+  <Card title="Follow updates" icon="twitter" href="https://x.com/datadashxyz">
+    Product news and changes on X.
+  </Card>
+</CardGroup>
+
+## What you can query
+
+<CardGroup cols={2}>
+  <Card title="Activity" icon="activity">
+    Chronological log of every buy and sell fill, enriched with market, event, category and series metadata.
+  </Card>
+  <Card title="Positions" icon="wallet">
+    Active, closed and all-time positions for a wallet or cohort: invested, shares, ROI and realized/unrealized PnL.
+  </Card>
+  <Card title="Holders" icon="users">
+    User-level holders of active, closed or all market positions, with nested token-level detail.
+  </Card>
+  <Card title="Profiles" icon="user">
+    Per-wallet performance: PnL, win rate, volume, ROI, hold time and trade counts, overall or broken down by category.
+  </Card>
+  <Card title="Smart Money" icon="trending-up">
+    Markets ranked by smart-money edge, plus Yes/No and neg-risk summaries and per-wallet positions.
+  </Card>
+  <Card title="Signals" icon="radar">
+    Per-wallet, per-position insider signal scores for currently-held legs in active markets.
+  </Card>
+</CardGroup>
+
+## How requests work
+
+Every endpoint is a `POST` that takes the same request shape:
+
+- **`page`**: required. `limit` (and optional `offset`) for pagination.
+- **`orderBy`**: optional. A prioritized list of `{ field, direction }` sort keys; the first is the primary sort. Falls back to the table's default ranking when omitted.
+- **`searchKey`**: optional, where supported. Free-text search over the endpoint's primary entity (market, event or wallet).
+
+Responses are a JSON array of rows. See the [API Reference](/api-reference) for the exact fields on each row.

@@ -1,0 +1,41 @@
+---
+title: "Signals"
+description: "Highest-conviction predictions across all markets."
+---
+
+Signals surfaces the highest-conviction, currently-held bets across active markets. Every row is a single wallet's position in one market, scored so the strongest conviction rises to the top.
+
+<Frame caption="Held positions ranked by signal score, highest conviction first.">
+  <img src="/images/signals.png" alt="Signals table listing trader, prediction, score, slippage, relative size, trade size and days left" />
+</Frame>
+
+## Signal score
+
+Each position gets a **Score** from 0 to 100, where higher means stronger conviction. The score blends how far the trade moved the price, how large it is relative to the trader's usual size, its absolute size, and how far the market is from resolving.
+
+## Columns
+
+| Column | Meaning |
+| --- | --- |
+| **Trader** | The wallet holding the position, with its rank. |
+| **Prediction** | The market, the outcome held (Yes/No and price), and the number of shares. |
+| **Score** | Signal score from 0 to 100. Higher means stronger conviction. |
+| **Slippage** | Entry price slippage. A lower value means better pricing. |
+| **Rel. Size** | Trade size relative to the trader's typical position size. |
+| **Trade Size** | Total USD value of the position. |
+| **Days Left** | Whole days until the market resolves. |
+
+## Filtering
+
+Filter signals by category (Politics, Sports, Esports, Crypto, Finance, Culture, Weather, Economics, Tech, and more) or search by market. Pair Signals with a [cohort](/cohorts) to focus only on the wallets you trust.
+
+## API endpoints
+
+<CardGroup cols={2}>
+  <Card title="Signal Scores" icon="radar" href="/api-reference">
+    `POST /api/v1/signals/scores`: per-wallet, per-position insider scores for held legs in active markets.
+  </Card>
+  <Card title="Signal Tag Counts" icon="tags" href="/api-reference">
+    `POST /api/v1/signals/tag-counts`: signal counts grouped by category tag.
+  </Card>
+</CardGroup>

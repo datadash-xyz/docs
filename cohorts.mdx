@@ -1,0 +1,56 @@
+---
+title: "Cohorts"
+description: "Track and analyze groups of wallets."
+---
+
+A cohort is a named group of wallets you track and analyze together. Cohorts are the lens for the rest of Datadash: point [Smart Money](/smart-money) or [Signals](/signals) at a cohort and every view is scoped to just those wallets.
+
+## Static and rule-based cohorts
+
+A cohort's members can be defined two ways:
+
+- **Static**: an explicit list of wallets you add by hand.
+- **Rule-based**: criteria that automatically match wallets and refresh over time. Rules combine portfolio properties and performance windows, for example:
+
+  > User has portfolio with **Median** of **Max Position Size** ≥ **$100,000**
+  > and has property with **Total PnL** ≥ **$100,000** during **Last Year**
+
+Rule-based cohorts re-evaluate on a schedule; each cohort shows when it was last refreshed.
+
+Cohorts are either **Featured** (curated and shared, such as "High Stakes Traders" or "Crypto Whales") or **Private** (yours alone).
+
+## The cohort view
+
+Every cohort opens on a set of headline stats, then a leaderboard of its wallets:
+
+<CardGroup cols={2}>
+  <Card title="Traders" icon="users">
+    Number of wallets in the cohort.
+  </Card>
+  <Card title="Total PnL" icon="dollar-sign">
+    Combined realized profit and loss across the cohort.
+  </Card>
+  <Card title="ROI" icon="percent">
+    Return on investment for the selected window.
+  </Card>
+  <Card title="Total Volume" icon="chart-column">
+    Total trading volume across the cohort.
+  </Card>
+</CardGroup>
+
+The leaderboard ranks each wallet by PnL, ROI, win rate, positions, profit factor, volume and hold time, over a selectable window (1D, 1W, 1M, 1Y, or all time).
+
+Additional tabs break the same cohort down by **Portfolio** (open and closed positions), **Activity** (the trade log), **Category** (performance per tag), and **Signals** (the cohort's highest-conviction bets).
+
+## API endpoints
+
+Cohort analytics are served by the profiles endpoints, scoped to the cohort's wallets. The positions, activity and signals endpoints back the corresponding tabs.
+
+<CardGroup cols={2}>
+  <Card title="User Profile" icon="user" href="/api-reference">
+    `POST /api/v1/profiles/user`: per-wallet PnL, win rate, volume, ROI, hold time and trade counts.
+  </Card>
+  <Card title="User Tag Profile" icon="tags" href="/api-reference">
+    `POST /api/v1/profiles/user-tag`: the same performance broken down by category tag.
+  </Card>
+</CardGroup>

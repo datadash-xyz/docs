@@ -1,0 +1,94 @@
+---
+title: "API Keys"
+description: "Authenticate your requests to the DataDash API."
+---
+
+Every API request must be authenticated with an API key, sent in the `X-Api-Key` header.
+
+```bash
+curl -X POST https://api.datadash.xyz/api/v1/positions/active \
+  -H "X-Api-Key: $DATADASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"page": {"limit": 50}, "filter": [{"field": "userId", "operator": "eq", "value": "0xAb8D...90F1"}]}'
+```
+
+Requests without a key, or with a revoked or malformed one, return `401`:
+
+```json
+{ "code": "unauthenticated", "message": "missing credentials: supply an X-Api-Key header or a bearer token" }
+```
+
+## Creating a key
+
+Create a key from your [dashboard](https://datadash.xyz), or programmatically:
+
+```bash
+curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/Create \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "production"}'
+```
+
+```json
+{ "apiKey": "datadash_AGB1c2VyXzAxSFEy..." }
+```
+
+Key names are 1–30 characters, letters and digits only.
+
+<Warning>
+  The key is returned **once, at creation**. DataDash stores only a hash of it and can never show it to you again. Save it somewhere safe immediately — if you lose it, delete the key and create a new one.
+</Warning>
+
+## Listing your keys
+
+```bash
+curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/List \
+  -H "X-Api-Key: $DATADASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"page": {"limit": 20}}'
+```
+
+```json
+{
+  "totalCount": 2,
+  "apiKeysInfos": [
+    { "name": "production", "endsWith": "f3a", "createdAt": "2026-01-15T10:22:31Z" },
+    { "name": "staging",    "endsWith": "b71", "createdAt": "2026-02-03T08:14:02Z" }
+  ]
+}
+```
+
+Listing returns each key's name, creation time, and last three characters — enough to tell your keys apart without exposing them.
+
+## Revoking a key
+
+Delete a key by name. Revocation takes effect within a few seconds across all servers.
+
+```bash
+curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/Delete \
+  -H "X-Api-Key: $DATADASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "staging"}'
+```
+
+## Keeping keys safe
+
+- **Never ship a key in client-side code.** Anything in a browser, mobile app, or public repository is readable by anyone. Call the API from your own server instead.
+- **Use one key per environment or service.** If a key leaks, you revoke just that one instead of breaking everything at once.
+- **Load keys from environment variables or a secret manager**, not from source.
+- **Rotate on exposure.** Create the replacement, switch traffic to it, then delete the old key.
+
+<Note>
+  A key carries the full access of the account that created it. Treat it like a password.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Filtering" icon="filter" href="/filters">
+    Narrow any list endpoint with typed conditions and AND/OR groups.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Every endpoint, with its fields, filters and response shape.
+  </Card>
+</CardGroup>
