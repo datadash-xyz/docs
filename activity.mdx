@@ -8,7 +8,7 @@ Activity is the chronological log of prediction-market trades. Every row is a si
 The same endpoint also returns a **summary** view, grouping fills into time buckets when you don't want the raw log.
 
 <Frame caption="The activity feed, rolled up to a one-hour window. Expanding a row charts the market's price around the fill.">
-  <img src="/images/aggregated-activities.png" alt="Activity table showing buys and sells with trader, prediction, amount, PnL and time, one row expanded to reveal a price chart" />
+  ![Activity](/images/activity.png "Activity")
 </Frame>
 
 ## Columns
@@ -32,7 +32,7 @@ The same endpoint also returns a **summary** view, grouping fills into time buck
 | **`txHash`** | On-chain transaction hash. |
 | **`seqId`** | Sequence id, for stable ordering. |
 
-The identifier columns are what make the log *enriched*: `marketId`, `eventId`, `tagIds` and `seriesId` come resolved on every row, so you can group or filter by market, event or category without a second lookup.
+The identifier columns are what make the log _enriched_: `marketId`, `eventId`, `tagIds` and `seriesId` come resolved on every row, so you can group or filter by market, event or category without a second lookup.
 
 ## Two ways to read it
 

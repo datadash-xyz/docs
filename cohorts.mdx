@@ -11,9 +11,7 @@ A cohort's members can be defined two ways:
 
 - **Static**: an explicit list of wallets you add by hand.
 - **Rule-based**: criteria that automatically match wallets and refresh over time. Rules combine portfolio properties and performance windows, for example:
-
-  > User has portfolio with **Median** of **Max Position Size** ≥ **$100,000**
-  > and has property with **Total PnL** ≥ **$100,000** during **Last Year**
+  > Users in Tennis category where $$totalPnl \geq 100,000 \;and\;  winRate \geq 70 %$$ during **Last Year**
 
 Rule-based cohorts re-evaluate on a schedule; each cohort shows when it was last refreshed.
 
@@ -27,12 +25,15 @@ Every cohort opens on a set of headline stats, then a leaderboard of its wallets
   <Card title="Traders" icon="users">
     Number of wallets in the cohort.
   </Card>
+
   <Card title="Total PnL" icon="dollar-sign">
     Combined realized profit and loss across the cohort.
   </Card>
+
   <Card title="ROI" icon="percent">
     Return on investment for the selected window.
   </Card>
+
   <Card title="Total Volume" icon="chart-column">
     Total trading volume across the cohort.
   </Card>
@@ -50,6 +51,7 @@ Cohort analytics are served by the profiles endpoints, scoped to the cohort's wa
   <Card title="User Profile" icon="user" href="/api-reference">
     `POST /api/v1/profiles/user`: per-wallet PnL, win rate, volume, ROI, hold time and trade counts.
   </Card>
+
   <Card title="User Tag Profile" icon="tags" href="/api-reference">
     `POST /api/v1/profiles/user-tag`: the same performance broken down by category tag.
   </Card>
