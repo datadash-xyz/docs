@@ -8,40 +8,43 @@ Activity is the chronological log of prediction-market trades. Every row is a si
 The same endpoint also returns a **summary** view, grouping fills into time buckets when you don't want the raw log.
 
 <Frame caption="The activity feed, rolled up to a one-hour window. Expanding a row charts the market's price around the fill.">
-  <img src="/images/aggregated-activities.png" alt="Activity table showing buys and sells with trader, prediction, amount, PnL and time, one row expanded to reveal a price chart" />
+  ![Activity](/images/activity.png "Activity")
 </Frame>
 
 ## Columns
 
-| Column | Meaning |
-| --- | --- |
-| **`activity`** | The type of activity: a buy or a sell. |
-| **`timestamp`** | When the fill occurred. |
-| **`wallet`** | The wallet that traded. |
-| **`amount`** | Shares bought or sold. |
-| **`usdPrice`** | Price per share, in USD. |
-| **`usdAmount`** | USD value of the fill. |
-| **`avgBuyingPrice`** | The wallet's average buying price at the time of this fill. |
-| **`realizedPnl`** | Realized profit and loss, in USD. |
-| **`realizedPnlPercentage`** | Realized PnL as a percentage of cost basis. |
-| **`positionId`** | The position traded. |
-| **`marketId`** | The market the fill happened in. |
-| **`eventId`** | The parent event of that market. |
-| **`tagIds`** | Categories on the event. |
-| **`seriesId`** | The series the event belongs to. |
-| **`txHash`** | On-chain transaction hash. |
-| **`seqId`** | Sequence id, for stable ordering. |
+| Column                      | Meaning                                                     |
+| --------------------------- | ----------------------------------------------------------- |
+| **`activity`**              | The type of activity: a buy or a sell.                      |
+| **`timestamp`**             | When the fill occurred.                                     |
+| **`wallet`**                | The wallet that traded.                                     |
+| **`amount`**                | Shares bought or sold.                                      |
+| **`usdPrice`**              | Price per share, in USD.                                    |
+| **`usdAmount`**             | USD value of the fill.                                      |
+| **`avgBuyingPrice`**        | The wallet's average buying price at the time of this fill. |
+| **`realizedPnl`**           | Realized profit and loss, in USD.                           |
+| **`realizedPnlPercentage`** | Realized PnL as a percentage of cost basis.                 |
+| **`positionId`**            | The position traded.                                        |
+| **`marketId`**              | The market the fill happened in.                            |
+| **`eventId`**               | The parent event of that market.                            |
+| **`tagIds`**                | Categories on the event.                                    |
+| **`seriesId`**              | The series the event belongs to.                            |
+| **`txHash`**                | On-chain transaction hash.                                  |
+| **`seqId`**                 | Sequence id, for stable ordering.                           |
 
-The identifier columns are what make the log *enriched*. Each one is returned **both as an id and as the resolved entity**, so a row already carries the market's question, the event's title and the category labels:
+The identifier columns are what make the log _enriched_. Each one is returned **both as an id and as the resolved entity**, so a row already carries the market's question, the event's title and the category labels:
 
 ```json
 {
   "marketId": 1234,
   "market": { "id": 1234, "question": "Will X win?", "closed": false },
-  "wallet":  "0xAb8D...90F1",
-  "user":    { "userId": "0xAb8D...90F1", "displayName": "..." },
-  "tagIds":  [7, 9],
-  "tags":    [{ "id": 7, "label": "Politics" }, { "id": 9, "label": "US" }]
+  "wallet": "0xAb8D...90F1",
+  "user": { "userId": "0xAb8D...90F1", "displayName": "..." },
+  "tagIds": [7, 9],
+  "tags": [
+    { "id": 7, "label": "Politics" },
+    { "id": 9, "label": "US" }
+  ]
 }
 ```
 
@@ -56,9 +59,7 @@ By default the endpoint returns **one row per fill**, newest first.
 ```json
 {
   "page": { "limit": 50 },
-  "filter": [
-    { "field": "wallet", "operator": "eq", "value": "0xAb8D...90F1" }
-  ]
+  "filter": [{ "field": "wallet", "operator": "eq", "value": "0xAb8D...90F1" }]
 }
 ```
 
@@ -71,16 +72,18 @@ Pass `aggregationWindow` to roll fills up into time buckets. Rows are grouped by
   "page": { "limit": 50 },
   "aggregationWindow": 4,
   "activityIds": [1],
-  "filter": [
-    { "field": "wallet", "operator": "eq", "value": "0xAb8D...90F1" }
-  ]
+  "filter": [{ "field": "wallet", "operator": "eq", "value": "0xAb8D...90F1" }]
 }
 ```
 
 Grains run from hourly to monthly; the API Reference lists the id for each. Omit the field for the raw log.
 
 <Note>
-  Measures are aggregated the way each one means something: `amount`, `usdAmount` and `realizedPnl` are **summed**, while `usdPrice` and `avgBuyingPrice` are **share-weighted averages** — not plain averages, so a large fill counts more than a small one. `marketId`, `eventId`, `tagIds` and `seriesId` carry through as representative values for the group.
+  Measures are aggregated the way each one means something: `amount`,
+  `usdAmount` and `realizedPnl` are **summed**, while `usdPrice` and
+  `avgBuyingPrice` are **share-weighted averages** — not plain averages, so a
+  large fill counts more than a small one. `marketId`, `eventId`, `tagIds` and
+  `seriesId` carry through as representative values for the group.
 </Note>
 
 ## Selecting activity types
@@ -101,9 +104,7 @@ Filter on wallet, market, event, category, position, timestamp, and the numeric 
 {
   "page": { "limit": 50 },
   "searchKey": "election",
-  "filter": [
-    { "field": "usdAmount", "operator": "gte", "value": 1000 }
-  ],
+  "filter": [{ "field": "usdAmount", "operator": "gte", "value": 1000 }],
   "orderBy": [{ "field": "timestamp", "direction": "desc" }]
 }
 ```
@@ -112,6 +113,7 @@ Filter on wallet, market, event, category, position, timestamp, and the numeric 
 
 <CardGroup cols={1}>
   <Card title="Activity" icon="activity" href="/api-reference">
-    `POST /api/v1/activity`: chronological log of buys and sells, or a bucketed summary.
+    `POST /api/v1/activity`: chronological log of buys and sells, or a bucketed
+    summary.
   </Card>
 </CardGroup>
