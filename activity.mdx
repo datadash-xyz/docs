@@ -32,7 +32,20 @@ The same endpoint also returns a **summary** view, grouping fills into time buck
 | **`txHash`** | On-chain transaction hash. |
 | **`seqId`** | Sequence id, for stable ordering. |
 
-The identifier columns are what make the log *enriched*: `marketId`, `eventId`, `tagIds` and `seriesId` come resolved on every row, so you can group or filter by market, event or category without a second lookup.
+The identifier columns are what make the log *enriched*. Each one is returned **both as an id and as the resolved entity**, so a row already carries the market's question, the event's title and the category labels:
+
+```json
+{
+  "marketId": 1234,
+  "market": { "id": 1234, "question": "Will X win?", "closed": false },
+  "wallet":  "0xAb8D...90F1",
+  "user":    { "userId": "0xAb8D...90F1", "displayName": "..." },
+  "tagIds":  [7, 9],
+  "tags":    [{ "id": 7, "label": "Politics" }, { "id": 9, "label": "US" }]
+}
+```
+
+Each resolved field is named after the entity: `marketId` → `market`, `eventId` → `event`, `seriesId` → `series`, `positionId` → `token`, `tagIds` → `tags`, and `wallet` → `user`. See [Resolved references](/filters#resolved-references) for the rule and its one-level depth limit.
 
 ## Two ways to read it
 
