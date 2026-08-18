@@ -2639,6 +2639,22 @@
           "description": {
             "type": "string"
           },
+          "groups": {
+            "description": "The criteria defining the cohort, in the shape create and update accept, so it can be read, edited and sent back. Absent for a cohort built from a wallet list, and for one whose stored definition names something this API cannot express — condition values are always returned as strings, since a measure can exceed the range of a JSON number.",
+            "items": {
+              "$ref": "#/components/schemas/CohortCriteriaGroup"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "match": {
+            "description": "How the members combine. Required when there is more than one.",
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          },
           "numWallets": {
             "format": "int64",
             "type": "integer"
@@ -3943,429 +3959,6 @@
         "title": "Market",
         "type": "object"
       },
-      "NegRiskSmartMoneyPositionAddressCondition": {
-        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
-        "properties": {
-          "field": {
-            "enum": [
-              "userId"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn",
-              "matches",
-              "notMatches",
-              "inCohort",
-              "notInCohort"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "title": "Single value",
-                "type": "string"
-              },
-              {
-                "items": {
-                  "type": "string"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Wallet address",
-        "type": "object"
-      },
-      "NegRiskSmartMoneyPositionBooleanCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "inSignals"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "eq"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Boolean",
-        "type": "object"
-      },
-      "NegRiskSmartMoneyPositionCondition": {
-        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionNumericCondition"
-          },
-          {
-            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionTextCondition"
-          },
-          {
-            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionAddressCondition"
-          },
-          {
-            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionBooleanCondition"
-          },
-          {
-            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionUserIdLookupCondition"
-          }
-        ],
-        "title": "Condition"
-      },
-      "NegRiskSmartMoneyPositionFilter": {
-        "description": "Filters to apply, combined with AND. Use a group for OR.",
-        "items": {
-          "$ref": "#/components/schemas/NegRiskSmartMoneyPositionFilterNode"
-        },
-        "minItems": 1,
-        "type": "array"
-      },
-      "NegRiskSmartMoneyPositionFilterGroup": {
-        "description": "A group of conditions and nested groups, combined with the group's operator.",
-        "properties": {
-          "filters": {
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/NegRiskSmartMoneyPositionCondition"
-                },
-                {
-                  "$ref": "#/components/schemas/NegRiskSmartMoneyPositionFilterInnerGroup"
-                }
-              ]
-            },
-            "minItems": 1,
-            "type": "array"
-          },
-          "operator": {
-            "enum": [
-              "AND",
-              "OR"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "operator",
-          "filters"
-        ],
-        "title": "Group",
-        "type": "object"
-      },
-      "NegRiskSmartMoneyPositionFilterInnerGroup": {
-        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
-        "properties": {
-          "filters": {
-            "items": {
-              "$ref": "#/components/schemas/NegRiskSmartMoneyPositionCondition"
-            },
-            "minItems": 1,
-            "type": "array"
-          },
-          "operator": {
-            "enum": [
-              "AND",
-              "OR"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "operator",
-          "filters"
-        ],
-        "title": "Nested group",
-        "type": "object"
-      },
-      "NegRiskSmartMoneyPositionFilterNode": {
-        "description": "A single condition, or a group combining conditions with AND/OR.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionCondition"
-          },
-          {
-            "$ref": "#/components/schemas/NegRiskSmartMoneyPositionFilterGroup"
-          }
-        ],
-        "title": "Filter"
-      },
-      "NegRiskSmartMoneyPositionNumericCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "netShares",
-              "currentValue",
-              "entryPrice",
-              "unrealizedPnl",
-              "unrealizedPnlPercentage",
-              "userRank",
-              "atRisk"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "eq",
-              "neq",
-              "lt",
-              "lte",
-              "gt",
-              "gte"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "format": "double",
-                "title": "Single value",
-                "type": "number"
-              },
-              {
-                "items": {
-                  "format": "double",
-                  "type": "number"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Numeric",
-        "type": "object"
-      },
-      "NegRiskSmartMoneyPositionRow": {
-        "properties": {
-          "atRisk": {
-            "description": "Dollars the wallet truly has at risk on this leg, entry-cost buy dollars after canonicalization (never current value)",
-            "format": "double",
-            "title": "At Risk",
-            "type": "number"
-          },
-          "currentValue": {
-            "description": "Current USD value of the wallet's side, Yes side at the target market's live price; No side is the field legs valued at their own markets' live prices",
-            "format": "double",
-            "title": "Current Value",
-            "type": "number"
-          },
-          "entryPrice": {
-            "description": "Average entry price of the side, at-risk buy cost divided by the share count, with cost attributed through the neg-risk conversion by current price",
-            "format": "double",
-            "title": "Entry Price",
-            "type": "number"
-          },
-          "netShares": {
-            "description": "The wallet's true share count on the leg's side after per-wallet canonicalization (e' = e − min(e)), Yes side is canonical Yes shares on the target market; No side is the wallet's field shares in synthetic NO-equivalent units.",
-            "format": "double",
-            "title": "Net Shares",
-            "type": "number"
-          },
-          "side": {
-            "description": "Which side of the target market this leg backs, 'yes' (the wallet's true bet on the outcome) or 'no' (its at-risk money on the rivals). Filter by this to render the Yes and No holder columns.",
-            "title": "Side",
-            "type": "string"
-          },
-          "unrealizedPnl": {
-            "description": "Unrealized profit/loss on the side, current value minus at-risk buy cost",
-            "format": "double",
-            "title": "Open PnL",
-            "type": "number"
-          },
-          "unrealizedPnlPercentage": {
-            "description": "Unrealized profit/loss as a percentage of the net shares' buy cost",
-            "format": "double",
-            "title": "Open PnL Percentage",
-            "type": "number"
-          },
-          "user": {
-            "$ref": "#/components/schemas/UserLookup"
-          }
-        },
-        "type": "object"
-      },
-      "NegRiskSmartMoneyPositionTextCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "side"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn",
-              "matches",
-              "notMatches"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "title": "Single value",
-                "type": "string"
-              },
-              {
-                "items": {
-                  "type": "string"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Text",
-        "type": "object"
-      },
-      "NegRiskSmartMoneyPositionUserIdLookupCondition": {
-        "description": "Match this field against the keys a filter over one of its lookup tables yields. The operator names which lookup table to filter through.",
-        "oneOf": [
-          {
-            "properties": {
-              "field": {
-                "enum": [
-                  "userId"
-                ],
-                "type": "string"
-              },
-              "operator": {
-                "enum": [
-                  "userProfileLookup"
-                ],
-                "type": "string"
-              },
-              "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
-              }
-            },
-            "required": [
-              "field",
-              "operator",
-              "value"
-            ],
-            "title": "User Profile Lookup",
-            "type": "object"
-          },
-          {
-            "properties": {
-              "field": {
-                "enum": [
-                  "userId"
-                ],
-                "type": "string"
-              },
-              "operator": {
-                "enum": [
-                  "userTagProfileLookup"
-                ],
-                "type": "string"
-              },
-              "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
-              }
-            },
-            "required": [
-              "field",
-              "operator",
-              "value"
-            ],
-            "title": "User Tag Profile Lookup",
-            "type": "object"
-          }
-        ],
-        "title": "Wallet lookup filter"
-      },
-      "NegRiskSmartMoneySummaryRow": {
-        "properties": {
-          "marketPct": {
-            "description": "The market's normalized probability for this outcome, its live Yes price over the sum of all open markets' Yes prices (the bar's marker)",
-            "format": "double",
-            "title": "Market Odds",
-            "type": "number"
-          },
-          "noPrice": {
-            "description": "Average at-risk entry price of the No side in familiar No-price units, field buy cost divided by the synthetic NO-equivalent shares (the strip's red avg)",
-            "format": "double",
-            "title": "No Price",
-            "type": "number"
-          },
-          "noValue": {
-            "description": "Current USD value of the cohort's field shares, its true bets on every other outcome of the event at live prices (no_value)",
-            "format": "double",
-            "title": "No Value",
-            "type": "number"
-          },
-          "noWallets": {
-            "description": "Number of wallets with at-risk money on the event's other outcomes, counted from the same per-wallet arrays as the dollars",
-            "format": "int64",
-            "title": "No Wallets",
-            "type": "integer"
-          },
-          "smartPct": {
-            "description": "The bar percentage, the cohort's Yes value as a share of its total value on the event (value_pct); compare against Market Odds (the marker)",
-            "format": "double",
-            "title": "Smart Money Odds",
-            "type": "number"
-          },
-          "yesPrice": {
-            "description": "Average at-risk entry price of the true Yes shares, buy cost divided by canonical shares, not the live price (the strip's green avg)",
-            "format": "double",
-            "title": "Yes Price",
-            "type": "number"
-          },
-          "yesValue": {
-            "description": "Current USD value of the cohort's true Yes shares on the target market (yes_value, canonical shares e' at the live Yes price)",
-            "format": "double",
-            "title": "Yes Value",
-            "type": "number"
-          },
-          "yesWallets": {
-            "description": "Number of wallets whose canonical bet includes this outcome (true share count e' \u003e 0 after netting, conversion, and the floor skim)",
-            "format": "int64",
-            "title": "Yes Wallets",
-            "type": "integer"
-          }
-        },
-        "type": "object"
-      },
       "PageInput": {
         "properties": {
           "limit": {
@@ -5260,533 +4853,6 @@
         },
         "type": "object"
       },
-      "SmartMoneyPositionAddressCondition": {
-        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
-        "properties": {
-          "field": {
-            "enum": [
-              "userId"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn",
-              "matches",
-              "notMatches",
-              "inCohort",
-              "notInCohort"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "title": "Single value",
-                "type": "string"
-              },
-              {
-                "items": {
-                  "type": "string"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Wallet address",
-        "type": "object"
-      },
-      "SmartMoneyPositionBooleanCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "inSignals"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "eq"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Boolean",
-        "type": "object"
-      },
-      "SmartMoneyPositionCondition": {
-        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/SmartMoneyPositionNumericCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SmartMoneyPositionAddressCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SmartMoneyPositionBooleanCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SmartMoneyPositionUserIdLookupCondition"
-          }
-        ],
-        "title": "Condition"
-      },
-      "SmartMoneyPositionFilter": {
-        "description": "Filters to apply, combined with AND. Use a group for OR.",
-        "items": {
-          "$ref": "#/components/schemas/SmartMoneyPositionFilterNode"
-        },
-        "minItems": 1,
-        "type": "array"
-      },
-      "SmartMoneyPositionFilterGroup": {
-        "description": "A group of conditions and nested groups, combined with the group's operator.",
-        "properties": {
-          "filters": {
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/SmartMoneyPositionCondition"
-                },
-                {
-                  "$ref": "#/components/schemas/SmartMoneyPositionFilterInnerGroup"
-                }
-              ]
-            },
-            "minItems": 1,
-            "type": "array"
-          },
-          "operator": {
-            "enum": [
-              "AND",
-              "OR"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "operator",
-          "filters"
-        ],
-        "title": "Group",
-        "type": "object"
-      },
-      "SmartMoneyPositionFilterInnerGroup": {
-        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
-        "properties": {
-          "filters": {
-            "items": {
-              "$ref": "#/components/schemas/SmartMoneyPositionCondition"
-            },
-            "minItems": 1,
-            "type": "array"
-          },
-          "operator": {
-            "enum": [
-              "AND",
-              "OR"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "operator",
-          "filters"
-        ],
-        "title": "Nested group",
-        "type": "object"
-      },
-      "SmartMoneyPositionFilterNode": {
-        "description": "A single condition, or a group combining conditions with AND/OR.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/SmartMoneyPositionCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SmartMoneyPositionFilterGroup"
-          }
-        ],
-        "title": "Filter"
-      },
-      "SmartMoneyPositionNumericCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "netShares",
-              "currentValue",
-              "entryPrice",
-              "unrealizedPnl",
-              "unrealizedPnlPercentage",
-              "userRank"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "eq",
-              "neq",
-              "lt",
-              "lte",
-              "gt",
-              "gte"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "format": "double",
-                "title": "Single value",
-                "type": "number"
-              },
-              {
-                "items": {
-                  "format": "double",
-                  "type": "number"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Numeric",
-        "type": "object"
-      },
-      "SmartMoneyPositionRow": {
-        "properties": {
-          "currentValue": {
-            "description": "Current USD value of the net shares at the target position's live price",
-            "format": "double",
-            "title": "Current Value",
-            "type": "number"
-          },
-          "entryPrice": {
-            "description": "Average buying price of the target position's shares still held",
-            "format": "double",
-            "title": "Entry Price",
-            "type": "number"
-          },
-          "netShares": {
-            "description": "The wallet's shares on the target position minus its shares on the opposite leg. Filter with net shares \u003e 0 to show net positions only.",
-            "format": "double",
-            "title": "Net Shares",
-            "type": "number"
-          },
-          "unrealizedPnl": {
-            "description": "Unrealized profit/loss on the target position's shares still held",
-            "format": "double",
-            "title": "Open PnL",
-            "type": "number"
-          },
-          "unrealizedPnlPercentage": {
-            "description": "Unrealized profit/loss as a percentage of the target position's buy cost",
-            "format": "double",
-            "title": "Open PnL Percentage",
-            "type": "number"
-          },
-          "user": {
-            "$ref": "#/components/schemas/UserLookup"
-          }
-        },
-        "type": "object"
-      },
-      "SmartMoneyPositionUserIdLookupCondition": {
-        "description": "Match this field against the keys a filter over one of its lookup tables yields. The operator names which lookup table to filter through.",
-        "oneOf": [
-          {
-            "properties": {
-              "field": {
-                "enum": [
-                  "userId"
-                ],
-                "type": "string"
-              },
-              "operator": {
-                "enum": [
-                  "userProfileLookup"
-                ],
-                "type": "string"
-              },
-              "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
-              }
-            },
-            "required": [
-              "field",
-              "operator",
-              "value"
-            ],
-            "title": "User Profile Lookup",
-            "type": "object"
-          },
-          {
-            "properties": {
-              "field": {
-                "enum": [
-                  "userId"
-                ],
-                "type": "string"
-              },
-              "operator": {
-                "enum": [
-                  "userTagProfileLookup"
-                ],
-                "type": "string"
-              },
-              "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
-              }
-            },
-            "required": [
-              "field",
-              "operator",
-              "value"
-            ],
-            "title": "User Tag Profile Lookup",
-            "type": "object"
-          }
-        ],
-        "title": "Wallet lookup filter"
-      },
-      "SmartMoneySummaryBooleanCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "inSignals"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "eq"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Boolean",
-        "type": "object"
-      },
-      "SmartMoneySummaryCondition": {
-        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/SmartMoneySummaryNumericCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SmartMoneySummaryBooleanCondition"
-          }
-        ],
-        "title": "Condition"
-      },
-      "SmartMoneySummaryFilter": {
-        "description": "Filters to apply, combined with AND. Use a group for OR.",
-        "items": {
-          "$ref": "#/components/schemas/SmartMoneySummaryFilterNode"
-        },
-        "minItems": 1,
-        "type": "array"
-      },
-      "SmartMoneySummaryFilterGroup": {
-        "description": "A group of conditions and nested groups, combined with the group's operator.",
-        "properties": {
-          "filters": {
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/SmartMoneySummaryCondition"
-                },
-                {
-                  "$ref": "#/components/schemas/SmartMoneySummaryFilterInnerGroup"
-                }
-              ]
-            },
-            "minItems": 1,
-            "type": "array"
-          },
-          "operator": {
-            "enum": [
-              "AND",
-              "OR"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "operator",
-          "filters"
-        ],
-        "title": "Group",
-        "type": "object"
-      },
-      "SmartMoneySummaryFilterInnerGroup": {
-        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
-        "properties": {
-          "filters": {
-            "items": {
-              "$ref": "#/components/schemas/SmartMoneySummaryCondition"
-            },
-            "minItems": 1,
-            "type": "array"
-          },
-          "operator": {
-            "enum": [
-              "AND",
-              "OR"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "operator",
-          "filters"
-        ],
-        "title": "Nested group",
-        "type": "object"
-      },
-      "SmartMoneySummaryFilterNode": {
-        "description": "A single condition, or a group combining conditions with AND/OR.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/SmartMoneySummaryCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SmartMoneySummaryFilterGroup"
-          }
-        ],
-        "title": "Filter"
-      },
-      "SmartMoneySummaryNumericCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "userRank"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "eq",
-              "neq",
-              "lt",
-              "lte",
-              "gt",
-              "gte"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "format": "double",
-                "title": "Single value",
-                "type": "number"
-              },
-              {
-                "items": {
-                  "format": "double",
-                  "type": "number"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Numeric",
-        "type": "object"
-      },
-      "SmartMoneySummaryRow": {
-        "properties": {
-          "marketPct": {
-            "description": "The market's live Yes probability, the Yes token price normalized by the Yes + No token prices (the bar's marker)",
-            "format": "double",
-            "title": "Market Odds",
-            "type": "number"
-          },
-          "noPrice": {
-            "description": "Share-weighted average entry price of the No shares still held, buy cost divided by shares (the strip's red avg)",
-            "format": "double",
-            "title": "No Price",
-            "type": "number"
-          },
-          "noValue": {
-            "description": "Current USD value of the No-side shares still held on the market (position_id even)",
-            "format": "double",
-            "title": "No Value",
-            "type": "number"
-          },
-          "noWallets": {
-            "description": "Number of distinct wallets holding No-side shares on the market",
-            "format": "int64",
-            "title": "No Wallets",
-            "type": "integer"
-          },
-          "smartPct": {
-            "description": "The bar percentage, Yes value as a share of the market's total held value; compare against Market Odds (the marker). 0 when the market holds no value.",
-            "format": "double",
-            "title": "Smart Money Odds",
-            "type": "number"
-          },
-          "yesPrice": {
-            "description": "Share-weighted average entry price of the Yes shares still held, buy cost divided by shares, not the live price (the strip's green avg)",
-            "format": "double",
-            "title": "Yes Price",
-            "type": "number"
-          },
-          "yesValue": {
-            "description": "Current USD value of the Yes-side shares still held on the market (position_id odd)",
-            "format": "double",
-            "title": "Yes Value",
-            "type": "number"
-          },
-          "yesWallets": {
-            "description": "Number of distinct wallets holding Yes-side shares on the market",
-            "format": "int64",
-            "title": "Yes Wallets",
-            "type": "integer"
-          }
-        },
-        "type": "object"
-      },
       "TagLookup": {
         "description": "Resolved Tag row.",
         "properties": {
@@ -5966,6 +5032,429 @@
           }
         },
         "title": "Token",
+        "type": "object"
+      },
+      "UnifiedSmartMoneyPositionAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches",
+              "inCohort",
+              "notInCohort"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "title": "Single value",
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "title": "List of values",
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Wallet address",
+        "type": "object"
+      },
+      "UnifiedSmartMoneyPositionBooleanCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "inSignals"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Boolean",
+        "type": "object"
+      },
+      "UnifiedSmartMoneyPositionCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/UnifiedSmartMoneyPositionNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UnifiedSmartMoneyPositionTextCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UnifiedSmartMoneyPositionAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UnifiedSmartMoneyPositionBooleanCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UnifiedSmartMoneyPositionUserIdLookupCondition"
+          }
+        ],
+        "title": "Condition"
+      },
+      "UnifiedSmartMoneyPositionFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/UnifiedSmartMoneyPositionFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "UnifiedSmartMoneyPositionFilterGroup": {
+        "description": "A group of conditions and nested groups, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/UnifiedSmartMoneyPositionCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/UnifiedSmartMoneyPositionFilterInnerGroup"
+                }
+              ]
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "title": "Group",
+        "type": "object"
+      },
+      "UnifiedSmartMoneyPositionFilterInnerGroup": {
+        "description": "A nested group. Its members must be conditions, which bounds grouping at two levels.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/UnifiedSmartMoneyPositionCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "title": "Nested group",
+        "type": "object"
+      },
+      "UnifiedSmartMoneyPositionFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/UnifiedSmartMoneyPositionCondition"
+          },
+          {
+            "$ref": "#/components/schemas/UnifiedSmartMoneyPositionFilterGroup"
+          }
+        ],
+        "title": "Filter"
+      },
+      "UnifiedSmartMoneyPositionNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "netShares",
+              "currentValue",
+              "entryPrice",
+              "unrealizedPnl",
+              "unrealizedPnlPercentage",
+              "userRank",
+              "atRisk"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "title": "Single value",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "title": "List of values",
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Numeric",
+        "type": "object"
+      },
+      "UnifiedSmartMoneyPositionRow": {
+        "properties": {
+          "atRisk": {
+            "description": "Dollars the wallet truly has at risk on this leg — entry-cost buy dollars after canonicalization on a neg-risk race, or the surviving leg's buy cost scaled by the netting on a binary market (never current value)",
+            "format": "double",
+            "title": "At Risk",
+            "type": "number"
+          },
+          "currentValue": {
+            "description": "Current USD value of the wallet's side (net shares at the side's live price) — a neg-risk No side is the field legs valued at their own markets' live prices",
+            "format": "double",
+            "title": "Current Value",
+            "type": "number"
+          },
+          "entryPrice": {
+            "description": "Average entry price of the side — at-risk buy cost divided by the share count, with cost attributed through the neg-risk conversion by current price on a race, or scaled by the netting on a binary market (where it equals the surviving leg's average buying price)",
+            "format": "double",
+            "title": "Entry Price",
+            "type": "number"
+          },
+          "netShares": {
+            "description": "The wallet's true share count on the leg's side. Neg-risk race — after per-wallet canonicalization (e' = e − min(e)); Yes side is canonical Yes shares on the target market, No side is the wallet's field shares in synthetic NO-equivalent units. Binary market — the side's shares minus the opposite leg's shares.",
+            "format": "double",
+            "title": "Net Shares",
+            "type": "number"
+          },
+          "side": {
+            "description": "Which side of the target market this leg backs — 'yes' (the wallet's true bet on the outcome) or 'no' (its at-risk money on the rivals, or its net No stance on a binary market). A wallet can sit on both sides only in a neg-risk race with genuine opposing bets. Filter by this to render the Yes and No holder columns.",
+            "title": "Side",
+            "type": "string"
+          },
+          "unrealizedPnl": {
+            "description": "Unrealized profit/loss on the side — current value minus at-risk buy cost, on both market types (on a binary market this equals the surviving leg's unrealized PnL for any wallet holding just that side)",
+            "format": "double",
+            "title": "Open PnL",
+            "type": "number"
+          },
+          "unrealizedPnlPercentage": {
+            "description": "Unrealized profit/loss as a percentage of the net shares' buy cost",
+            "format": "double",
+            "title": "Open PnL Percentage",
+            "type": "number"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserLookup"
+          }
+        },
+        "type": "object"
+      },
+      "UnifiedSmartMoneyPositionTextCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "side"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "title": "Single value",
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "title": "List of values",
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Text",
+        "type": "object"
+      },
+      "UnifiedSmartMoneyPositionUserIdLookupCondition": {
+        "description": "Match this field against the keys a filter over one of its lookup tables yields. The operator names which lookup table to filter through.",
+        "oneOf": [
+          {
+            "properties": {
+              "field": {
+                "enum": [
+                  "userId"
+                ],
+                "type": "string"
+              },
+              "operator": {
+                "enum": [
+                  "userProfileLookup"
+                ],
+                "type": "string"
+              },
+              "value": {
+                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+              }
+            },
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
+            "title": "User Profile Lookup",
+            "type": "object"
+          },
+          {
+            "properties": {
+              "field": {
+                "enum": [
+                  "userId"
+                ],
+                "type": "string"
+              },
+              "operator": {
+                "enum": [
+                  "userTagProfileLookup"
+                ],
+                "type": "string"
+              },
+              "value": {
+                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+              }
+            },
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
+            "title": "User Tag Profile Lookup",
+            "type": "object"
+          }
+        ],
+        "title": "Wallet lookup filter"
+      },
+      "UnifiedSmartMoneySummaryRow": {
+        "properties": {
+          "marketPct": {
+            "description": "The market's normalized probability for this outcome — its live Yes price over the sum of the race's Yes prices (neg-risk) or over Yes + No (binary); the bar's marker",
+            "format": "double",
+            "title": "Market Odds",
+            "type": "number"
+          },
+          "noPrice": {
+            "description": "Average at-risk entry price of the No side in familiar No-price units — field buy cost divided by the synthetic NO-equivalent shares for a neg-risk race, raw No legs' cost over shares otherwise (the strip's red avg)",
+            "format": "double",
+            "title": "No Price",
+            "type": "number"
+          },
+          "noValue": {
+            "description": "Current USD value of the No side — the cohort's true bets on every other outcome of a neg-risk race at live prices, the raw No legs' value otherwise",
+            "format": "double",
+            "title": "No Value",
+            "type": "number"
+          },
+          "noWallets": {
+            "description": "Number of wallets on the No side — at-risk money on the event's other outcomes (counted from the same per-wallet arrays as the dollars) for a neg-risk race, distinct holders of No shares otherwise",
+            "format": "int64",
+            "title": "No Wallets",
+            "type": "integer"
+          },
+          "smartPct": {
+            "description": "The bar percentage — the cohort's Yes value as a share of its total value on the race (neg-risk) or on the market's two legs (binary); compare against Market Odds (the marker)",
+            "format": "double",
+            "title": "Smart Money Odds",
+            "type": "number"
+          },
+          "yesPrice": {
+            "description": "Average at-risk entry price of the Yes side — buy cost divided by shares (canonical for a neg-risk race, share-weighted raw legs otherwise), not the live price (the strip's green avg)",
+            "format": "double",
+            "title": "Yes Price",
+            "type": "number"
+          },
+          "yesValue": {
+            "description": "Current USD value of the Yes side still held on the market — canonical true-bet shares (e') at the live Yes price for a neg-risk race, the raw Yes legs' value otherwise",
+            "format": "double",
+            "title": "Yes Value",
+            "type": "number"
+          },
+          "yesWallets": {
+            "description": "Number of wallets on the Yes side — canonical bet includes this outcome (e' \u003e 0 after netting, conversion, and the floor skim) for a neg-risk race, distinct holders of Yes shares otherwise",
+            "format": "int64",
+            "title": "Yes Wallets",
+            "type": "integer"
+          }
+        },
         "type": "object"
       },
       "UserLookup": {
@@ -10924,10 +10413,10 @@
         ]
       }
     },
-    "/api/v1/smart-money/neg-risk/positions": {
+    "/api/v1/smart-money/position": {
       "post": {
-        "description": "Neg-risk (multi-outcome) smart-money wallet positions for a single market.",
-        "operationId": "listSmartMoneyNegRiskPositions",
+        "description": "Per-wallet smart-money positions on a single (binary, non neg-risk) market.",
+        "operationId": "listSmartMoneyPosition",
         "requestBody": {
           "content": {
             "application/json": {
@@ -10947,7 +10436,7 @@
                     "type": "string"
                   },
                   "filter": {
-                    "$ref": "#/components/schemas/NegRiskSmartMoneyPositionFilter"
+                    "$ref": "#/components/schemas/UnifiedSmartMoneyPositionFilter"
                   },
                   "marketId": {
                     "description": "Query argument $2, bound as a query parameter and cast inside the query.",
@@ -11024,13 +10513,13 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/NegRiskSmartMoneyPositionRow"
+                    "$ref": "#/components/schemas/UnifiedSmartMoneyPositionRow"
                   },
                   "type": "array"
                 }
               }
             },
-            "description": "List of Neg Risk Smart Money Position rows"
+            "description": "List of Smart Money Position rows"
           },
           "400": {
             "content": {
@@ -11073,16 +10562,16 @@
             "description": "internal error"
           }
         },
-        "summary": "Neg Risk Smart Money Position",
+        "summary": "Smart Money Position",
         "tags": [
           "Smart Money"
         ]
       }
     },
-    "/api/v1/smart-money/neg-risk/summary": {
+    "/api/v1/smart-money/summary": {
       "post": {
-        "description": "Neg-risk (multi-outcome) smart-money summary for a single market.",
-        "operationId": "listSmartMoneyNegRiskSummary",
+        "description": "Per-wallet smart-money positions on a single (binary, non neg-risk) market.",
+        "operationId": "listSmartMoneySummary",
         "requestBody": {
           "content": {
             "application/json": {
@@ -11171,320 +10660,7 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/NegRiskSmartMoneySummaryRow"
-                  },
-                  "type": "array"
-                }
-              }
-            },
-            "description": "List of Neg Risk Smart Money Summary rows"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "invalid request (malformed body, unknown field, or failed validation)"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "internal error"
-          }
-        },
-        "summary": "Neg Risk Smart Money Summary",
-        "tags": [
-          "Smart Money"
-        ]
-      }
-    },
-    "/api/v1/smart-money/positions": {
-      "post": {
-        "description": "Per-wallet smart-money positions on a single (binary, non neg-risk) market.",
-        "operationId": "listSmartMoneyPositions",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "filter": {
-                    "$ref": "#/components/schemas/SmartMoneyPositionFilter"
-                  },
-                  "marketId": {
-                    "description": "Prediction market the position belongs to. Required, and must be exactly one market, it scopes each wallet's rows to the target market's two legs before the measures net them, so a multi-market filter would net across unrelated legs.",
-                    "properties": {
-                      "operator": {
-                        "enum": [
-                          "in",
-                          "notIn"
-                        ],
-                        "type": "string"
-                      },
-                      "value": {
-                        "oneOf": [
-                          {
-                            "format": "int32",
-                            "title": "Single value",
-                            "type": "integer"
-                          },
-                          {
-                            "items": {
-                              "format": "int32",
-                              "type": "integer"
-                            },
-                            "minItems": 1,
-                            "title": "List of values",
-                            "type": "array"
-                          }
-                        ]
-                      }
-                    },
-                    "required": [
-                      "operator",
-                      "value"
-                    ],
-                    "type": "object"
-                  },
-                  "orderBy": {
-                    "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
-                    "items": {
-                      "properties": {
-                        "direction": {
-                          "default": "asc",
-                          "enum": [
-                            "asc",
-                            "desc"
-                          ],
-                          "type": "string"
-                        },
-                        "field": {
-                          "enum": [
-                            "userId",
-                            "netShares",
-                            "currentValue",
-                            "entryPrice",
-                            "unrealizedPnl",
-                            "unrealizedPnlPercentage"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "field"
-                      ],
-                      "type": "object"
-                    },
-                    "type": "array"
-                  },
-                  "page": {
-                    "$ref": "#/components/schemas/PageInput"
-                  },
-                  "positionId": {
-                    "description": "Query argument $1, bound as a query parameter and cast inside the query.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "page",
-                  "marketId",
-                  "positionId"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/SmartMoneyPositionRow"
-                  },
-                  "type": "array"
-                }
-              }
-            },
-            "description": "List of Smart Money Position rows"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "invalid request (malformed body, unknown field, or failed validation)"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "internal error"
-          }
-        },
-        "summary": "Smart Money Position",
-        "tags": [
-          "Smart Money"
-        ]
-      }
-    },
-    "/api/v1/smart-money/summary": {
-      "post": {
-        "description": "Yes/No smart-money summary of currently-held positions for a single market.",
-        "operationId": "listSmartMoneySummary",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "filter": {
-                    "$ref": "#/components/schemas/SmartMoneySummaryFilter"
-                  },
-                  "marketId": {
-                    "description": "Prediction market the positions belong to",
-                    "properties": {
-                      "operator": {
-                        "enum": [
-                          "in",
-                          "notIn"
-                        ],
-                        "type": "string"
-                      },
-                      "value": {
-                        "oneOf": [
-                          {
-                            "format": "int32",
-                            "title": "Single value",
-                            "type": "integer"
-                          },
-                          {
-                            "items": {
-                              "format": "int32",
-                              "type": "integer"
-                            },
-                            "minItems": 1,
-                            "title": "List of values",
-                            "type": "array"
-                          }
-                        ]
-                      }
-                    },
-                    "required": [
-                      "operator",
-                      "value"
-                    ],
-                    "type": "object"
-                  },
-                  "orderBy": {
-                    "description": "Sort keys in priority order; the first is the primary sort. Defaults to the table's configured ranking when omitted.",
-                    "items": {
-                      "properties": {
-                        "direction": {
-                          "default": "asc",
-                          "enum": [
-                            "asc",
-                            "desc"
-                          ],
-                          "type": "string"
-                        },
-                        "field": {
-                          "enum": [
-                            "yesValue",
-                            "yesPrice",
-                            "yesWallets",
-                            "noValue",
-                            "noPrice",
-                            "noWallets",
-                            "smartPct",
-                            "marketPct"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "field"
-                      ],
-                      "type": "object"
-                    },
-                    "type": "array"
-                  },
-                  "page": {
-                    "$ref": "#/components/schemas/PageInput"
-                  }
-                },
-                "required": [
-                  "page",
-                  "marketId"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/SmartMoneySummaryRow"
+                    "$ref": "#/components/schemas/UnifiedSmartMoneySummaryRow"
                   },
                   "type": "array"
                 }
