@@ -8178,6 +8178,39 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "activities": [
+                  "Buy",
+                  "Sell"
+                ],
+                "filter": [
+                  {
+                    "field": "wallet",
+                    "operator": "in",
+                    "value": [
+                      "0x1234567890abcdef1234567890abcdef12345678"
+                    ]
+                  },
+                  {
+                    "field": "timestamp",
+                    "operator": "last",
+                    "value": {
+                      "length": 30,
+                      "unit": "day"
+                    }
+                  }
+                ],
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "timestamp"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "activities": {
@@ -8289,26 +8322,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -8320,6 +8333,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Enriched Activities",
         "tags": [
           "Activity"
@@ -8419,6 +8433,16 @@
               }
             },
             "description": "no such cohort"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "too many active cohorts"
           },
           "500": {
             "content": {
@@ -8547,26 +8571,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "404": {
             "content": {
               "application/json": {
@@ -8588,6 +8592,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Get a cohort",
         "tags": [
           "Cohorts"
@@ -8727,6 +8732,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "eventId": {
+                  "operator": "in",
+                  "value": [
+                    27185
+                  ]
+                },
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "currentValue"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "eventId": {
@@ -8837,26 +8860,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -8868,6 +8871,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Active Market Holder",
         "tags": [
           "Holders"
@@ -8881,6 +8885,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "eventId": {
+                  "operator": "in",
+                  "value": [
+                    27185
+                  ]
+                },
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "totalPnl"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "eventId": {
@@ -8993,26 +9015,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -9024,6 +9026,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "All Market Holder",
         "tags": [
           "Holders"
@@ -9037,6 +9040,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "eventId": {
+                  "operator": "in",
+                  "value": [
+                    27185
+                  ]
+                },
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "totalPnl"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "eventId": {
@@ -9147,26 +9168,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -9178,6 +9179,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Closed Market Holder",
         "tags": [
           "Holders"
@@ -9191,6 +9193,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "value"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                },
+                "userId": {
+                  "operator": "in",
+                  "value": [
+                    "0x1234567890abcdef1234567890abcdef12345678"
+                  ]
+                }
+              },
               "schema": {
                 "properties": {
                   "filter": {
@@ -9309,26 +9329,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -9340,6 +9340,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Active Position",
         "tags": [
           "Positions"
@@ -9353,6 +9354,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "pnl"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                },
+                "userId": {
+                  "operator": "in",
+                  "value": [
+                    "0x1234567890abcdef1234567890abcdef12345678"
+                  ]
+                }
+              },
               "schema": {
                 "properties": {
                   "filter": {
@@ -9473,26 +9492,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -9504,6 +9503,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "All Positions",
         "tags": [
           "Positions"
@@ -9517,6 +9517,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "pnl"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                },
+                "userId": {
+                  "operator": "in",
+                  "value": [
+                    "0x1234567890abcdef1234567890abcdef12345678"
+                  ]
+                }
+              },
               "schema": {
                 "properties": {
                   "filter": {
@@ -9634,26 +9652,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -9665,6 +9663,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Closed Positions",
         "tags": [
           "Positions"
@@ -9678,6 +9677,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "duration": {
+                  "operator": "in",
+                  "value": [
+                    "1M"
+                  ]
+                },
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "realizedPnl"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "duration": {
@@ -9822,26 +9839,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -9853,6 +9850,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "User Profile",
         "tags": [
           "Profiles"
@@ -9866,6 +9864,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "duration": {
+                  "operator": "in",
+                  "value": [
+                    "1M"
+                  ]
+                },
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "realizedPnl"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "duration": {
@@ -10005,26 +10021,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -10036,6 +10032,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "User Tag Profile",
         "tags": [
           "Profiles"
@@ -10049,6 +10046,18 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "score"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "filter": {
@@ -10133,26 +10142,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -10164,6 +10153,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Signal Score",
         "tags": [
           "Signals"
@@ -10177,6 +10167,18 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "count"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "filter": {
@@ -10250,26 +10252,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -10281,6 +10263,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Signals Tag counts",
         "tags": [
           "Signals"
@@ -10294,6 +10277,18 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "atRisk"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "filter": {
@@ -10376,26 +10371,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -10407,6 +10382,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Global Smart Money",
         "tags": [
           "Smart Money"
@@ -10420,6 +10396,25 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "cohortFilterEnabled": "false",
+                "cohortId": "0GYJ8T5V2Q1XW",
+                "eventId": "27185",
+                "marketId": "519143",
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "currentValue"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                },
+                "rankFilter": "0",
+                "signalFilter": "true",
+                "valueView": "false"
+              },
               "schema": {
                 "properties": {
                   "cohortFilterEnabled": {
@@ -10531,7 +10526,7 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
+          "404": {
             "content": {
               "application/json": {
                 "schema": {
@@ -10539,17 +10534,7 @@
                 }
               }
             },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
+            "description": "a cohort named by a runtime argument does not exist"
           },
           "500": {
             "content": {
@@ -10562,6 +10547,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Smart Money Position",
         "tags": [
           "Smart Money"
@@ -10575,6 +10561,24 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "cohortFilterEnabled": "false",
+                "cohortId": "0GYJ8T5V2Q1XW",
+                "eventId": "27185",
+                "marketId": "519143",
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "yesValue"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                },
+                "rankFilter": "0",
+                "signalFilter": "true"
+              },
               "schema": {
                 "properties": {
                   "cohortFilterEnabled": {
@@ -10678,7 +10682,7 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
+          "404": {
             "content": {
               "application/json": {
                 "schema": {
@@ -10686,17 +10690,7 @@
                 }
               }
             },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
+            "description": "a cohort named by a runtime argument does not exist"
           },
           "500": {
             "content": {
@@ -10709,6 +10703,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "Smart Money Summary",
         "tags": [
           "Smart Money"
@@ -10722,6 +10717,27 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "filter": [
+                  {
+                    "field": "userId",
+                    "operator": "in",
+                    "value": [
+                      "0x1234567890abcdef1234567890abcdef12345678"
+                    ]
+                  }
+                ],
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "field": "realizedPnl"
+                  }
+                ],
+                "page": {
+                  "limit": 50,
+                  "offset": 0
+                }
+              },
               "schema": {
                 "properties": {
                   "filter": {
@@ -10815,26 +10831,6 @@
             },
             "description": "invalid request (malformed body, unknown field, or failed validation)"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "missing or invalid credentials"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "credentials lack access to this resource"
-          },
           "500": {
             "content": {
               "application/json": {
@@ -10846,6 +10842,7 @@
             "description": "internal error"
           }
         },
+        "security": [],
         "summary": "User Position",
         "tags": [
           "Positions"
