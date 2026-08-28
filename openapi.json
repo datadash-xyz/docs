@@ -332,7 +332,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -358,7 +416,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -1565,7 +1717,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -1591,7 +1801,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -2255,7 +2559,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -2281,7 +2643,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -3412,7 +3868,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -3438,7 +3952,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -3797,7 +4405,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -3823,7 +4489,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -4679,7 +5439,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -4705,7 +5523,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -5364,7 +6276,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -5390,7 +6360,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -6417,7 +7481,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -6443,7 +7565,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -6917,68 +8133,9 @@
           },
           {
             "$ref": "#/components/schemas/UserProfileLookupInnerAddressCondition"
-          },
-          {
-            "$ref": "#/components/schemas/UserProfileLookupInnerDurationCondition"
           }
         ],
         "title": "Condition"
-      },
-      "UserProfileLookupInnerDurationCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "duration"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn",
-              "matches",
-              "notMatches"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "enum": [
-                  "1D",
-                  "1W",
-                  "1M",
-                  "1Y",
-                  "ALL"
-                ],
-                "title": "Single value",
-                "type": "string"
-              },
-              {
-                "items": {
-                  "enum": [
-                    "1D",
-                    "1W",
-                    "1M",
-                    "1Y",
-                    "ALL"
-                  ],
-                  "type": "string"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Duration",
-        "type": "object"
       },
       "UserProfileLookupInnerFilter": {
         "description": "Filters to apply, combined with AND. Use a group for OR.",
@@ -7297,7 +8454,65 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                "description": "Conditions to run against User Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
+                  }
+                },
+                "required": [
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -7323,7 +8538,101 @@
                 "type": "string"
               },
               "value": {
-                "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                "description": "Conditions to run against User Tag Profile Lookup.",
+                "properties": {
+                  "duration": {
+                    "description": "Time window for aggregation",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
+                            "title": "Single value",
+                            "type": "string"
+                          },
+                          {
+                            "items": {
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "filter": {
+                    "$ref": "#/components/schemas/UserTagProfileLookupInnerFilter"
+                  },
+                  "tagId": {
+                    "description": "Tag identifier",
+                    "properties": {
+                      "operator": {
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "format": "int32",
+                            "title": "Single value",
+                            "type": "integer"
+                          },
+                          {
+                            "items": {
+                              "format": "int32",
+                              "type": "integer"
+                            },
+                            "minItems": 1,
+                            "title": "List of values",
+                            "type": "array"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
+                "type": "object"
               }
             },
             "required": [
@@ -7779,72 +9088,10 @@
             "$ref": "#/components/schemas/UserTagProfileLookupInnerNumericCondition"
           },
           {
-            "$ref": "#/components/schemas/UserTagProfileLookupInnerIdCondition"
-          },
-          {
             "$ref": "#/components/schemas/UserTagProfileLookupInnerAddressCondition"
-          },
-          {
-            "$ref": "#/components/schemas/UserTagProfileLookupInnerDurationCondition"
           }
         ],
         "title": "Condition"
-      },
-      "UserTagProfileLookupInnerDurationCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "duration"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn",
-              "matches",
-              "notMatches"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "enum": [
-                  "1D",
-                  "1W",
-                  "1M",
-                  "1Y",
-                  "ALL"
-                ],
-                "title": "Single value",
-                "type": "string"
-              },
-              {
-                "items": {
-                  "enum": [
-                    "1D",
-                    "1W",
-                    "1M",
-                    "1Y",
-                    "ALL"
-                  ],
-                  "type": "string"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Duration",
-        "type": "object"
       },
       "UserTagProfileLookupInnerFilter": {
         "description": "Filters to apply, combined with AND. Use a group for OR.",
@@ -7890,48 +9137,6 @@
           }
         ],
         "title": "Filter"
-      },
-      "UserTagProfileLookupInnerIdCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "tagId"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "format": "int32",
-                "title": "Single value",
-                "type": "integer"
-              },
-              {
-                "items": {
-                  "format": "int32",
-                  "type": "integer"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "ID",
-        "type": "object"
       },
       "UserTagProfileLookupInnerNumericCondition": {
         "properties": {
