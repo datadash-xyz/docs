@@ -1,19 +1,13 @@
 {
-  "servers": [
-    {
-      "url": "https://api.datadash.xyz"
-    },
-    {
-      "url": "https://api2.datadash.xyz"
-    }
-  ],
   "components": {
     "schemas": {
       "ActiveMarketHolderAddressCondition": {
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -44,7 +38,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -92,11 +90,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -111,11 +115,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -134,11 +144,16 @@
       "ActiveMarketHolderIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId"],
+            "enum": [
+              "positionId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -160,7 +175,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -177,7 +196,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -199,7 +225,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -290,11 +320,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -304,19 +338,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -326,29 +377,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -358,19 +422,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -380,7 +461,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -390,7 +474,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -412,15 +499,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -465,11 +562,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -484,11 +587,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -507,11 +616,19 @@
       "ActivePositionIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -533,18 +650,34 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
       "ActivePositionNumericCondition": {
         "properties": {
           "field": {
-            "enum": ["shares", "value", "unrealizedPnl", "invested"],
+            "enum": [
+              "shares",
+              "value",
+              "unrealizedPnl",
+              "invested"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -566,7 +699,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -630,7 +767,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["wallet"],
+            "enum": [
+              "wallet"
+            ],
             "type": "string"
           },
           "operator": {
@@ -661,18 +800,31 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
       "ActivityBigNumberCondition": {
         "properties": {
           "field": {
-            "enum": ["seqId"],
+            "enum": [
+              "seqId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -694,7 +846,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Large number",
         "type": "object"
       },
@@ -726,11 +882,18 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["wallet"],
+            "enum": [
+              "wallet"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn", "inCohort", "notInCohort"],
+            "enum": [
+              "in",
+              "notIn",
+              "inCohort",
+              "notInCohort"
+            ],
             "type": "string"
           },
           "value": {
@@ -750,18 +913,31 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
       "ActivityCriteriaBigNumberCondition": {
         "properties": {
           "field": {
-            "enum": ["seqId"],
+            "enum": [
+              "seqId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -783,7 +959,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Large number",
         "type": "object"
       },
@@ -827,11 +1007,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -850,11 +1036,20 @@
       "ActivityCriteriaIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds", "seriesId"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds",
+              "seriesId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -876,7 +1071,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -896,7 +1095,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -918,7 +1124,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -926,11 +1136,17 @@
         "description": "last takes {unit, length}; between takes {from, to}; since takes a date or {range}.",
         "properties": {
           "field": {
-            "enum": ["timestamp"],
+            "enum": [
+              "timestamp"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["last", "between", "since"],
+            "enum": [
+              "last",
+              "between",
+              "since"
+            ],
             "type": "string"
           },
           "value": {
@@ -943,11 +1159,20 @@
                     "type": "integer"
                   },
                   "unit": {
-                    "enum": ["day", "week", "month", "quarter", "year"],
+                    "enum": [
+                      "day",
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["unit", "length"],
+                "required": [
+                  "unit",
+                  "length"
+                ],
                 "title": "Last",
                 "type": "object"
               },
@@ -963,7 +1188,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["from", "to"],
+                "required": [
+                  "from",
+                  "to"
+                ],
                 "title": "Between",
                 "type": "object"
               },
@@ -971,11 +1199,18 @@
                 "description": "since: an open-ended range from a calendar unit",
                 "properties": {
                   "range": {
-                    "enum": ["week", "month", "quarter", "year"],
+                    "enum": [
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["range"],
+                "required": [
+                  "range"
+                ],
                 "title": "Since calendar unit",
                 "type": "object"
               },
@@ -988,7 +1223,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Time range",
         "type": "object"
       },
@@ -997,7 +1236,10 @@
         "properties": {
           "activity": {
             "description": "Which activity to measure.",
-            "enum": ["Buy", "Sell"],
+            "enum": [
+              "Buy",
+              "Sell"
+            ],
             "type": "string"
           },
           "condition": {
@@ -1015,14 +1257,22 @@
           },
           "table": {
             "description": "Selects Enriched Activities.",
-            "enum": ["activity"],
+            "enum": [
+              "activity"
+            ],
             "type": "string"
           },
           "timeRange": {
             "$ref": "#/components/schemas/CohortTimeRange"
           }
         },
-        "required": ["table", "measure", "condition", "timeRange", "activity"],
+        "required": [
+          "table",
+          "measure",
+          "condition",
+          "timeRange",
+          "activity"
+        ],
         "title": "Enriched Activities",
         "type": "object"
       },
@@ -1064,7 +1314,9 @@
                 "type": "string"
               }
             },
-            "required": ["field"],
+            "required": [
+              "field"
+            ],
             "title": "Field",
             "type": "object"
           },
@@ -1072,11 +1324,15 @@
             "description": "Count the matching rows.",
             "properties": {
               "totalCount": {
-                "enum": [true],
+                "enum": [
+                  true
+                ],
                 "type": "boolean"
               }
             },
-            "required": ["totalCount"],
+            "required": [
+              "totalCount"
+            ],
             "title": "Row count",
             "type": "object"
           }
@@ -1109,11 +1365,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -1128,11 +1390,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -1151,11 +1419,20 @@
       "ActivityIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds", "seriesId"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds",
+              "seriesId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -1177,7 +1454,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -1197,7 +1478,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -1219,7 +1507,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -1312,11 +1604,17 @@
         "description": "last takes {unit, length}; between takes {from, to}; since takes a date or {range}.",
         "properties": {
           "field": {
-            "enum": ["timestamp"],
+            "enum": [
+              "timestamp"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["last", "between", "since"],
+            "enum": [
+              "last",
+              "between",
+              "since"
+            ],
             "type": "string"
           },
           "value": {
@@ -1329,11 +1627,20 @@
                     "type": "integer"
                   },
                   "unit": {
-                    "enum": ["day", "week", "month", "quarter", "year"],
+                    "enum": [
+                      "day",
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["unit", "length"],
+                "required": [
+                  "unit",
+                  "length"
+                ],
                 "title": "Last",
                 "type": "object"
               },
@@ -1349,7 +1656,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["from", "to"],
+                "required": [
+                  "from",
+                  "to"
+                ],
                 "title": "Between",
                 "type": "object"
               },
@@ -1357,11 +1667,18 @@
                 "description": "since: an open-ended range from a calendar unit",
                 "properties": {
                   "range": {
-                    "enum": ["week", "month", "quarter", "year"],
+                    "enum": [
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["range"],
+                "required": [
+                  "range"
+                ],
                 "title": "Since calendar unit",
                 "type": "object"
               },
@@ -1374,7 +1691,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Time range",
         "type": "object"
       },
@@ -1384,11 +1705,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["wallet"],
+                "enum": [
+                  "wallet"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -1398,19 +1723,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -1420,29 +1762,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["wallet"],
+                "enum": [
+                  "wallet"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -1452,19 +1807,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -1474,7 +1846,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -1484,7 +1859,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -1506,15 +1884,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -1524,18 +1912,26 @@
       "AllPositionBooleanCondition": {
         "properties": {
           "field": {
-            "enum": ["marketClosed"],
+            "enum": [
+              "marketClosed"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["eq"],
+            "enum": [
+              "eq"
+            ],
             "type": "string"
           },
           "value": {
             "type": "boolean"
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Boolean",
         "type": "object"
       },
@@ -1580,11 +1976,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -1599,11 +2001,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -1622,11 +2030,19 @@
       "AllPositionIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -1648,7 +2064,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -1667,7 +2087,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -1689,7 +2116,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -1804,7 +2235,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -1835,7 +2268,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -1883,11 +2320,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -1902,11 +2345,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -1925,11 +2374,16 @@
       "ClosedMarketHolderIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId"],
+            "enum": [
+              "positionId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -1951,7 +2405,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -1968,7 +2426,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -1990,7 +2455,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -2078,11 +2547,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -2092,19 +2565,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -2114,29 +2604,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -2146,19 +2649,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -2168,7 +2688,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -2178,7 +2701,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -2200,15 +2726,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -2253,11 +2789,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -2272,11 +2814,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -2295,11 +2843,19 @@
       "ClosedPositionIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -2321,7 +2877,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -2338,7 +2898,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -2360,7 +2927,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -2457,7 +3028,9 @@
             "type": "string"
           }
         },
-        "required": ["cohortId"],
+        "required": [
+          "cohortId"
+        ],
         "type": "object"
       },
       "CohortCriteria": {
@@ -2496,11 +3069,16 @@
           },
           "match": {
             "description": "How the members combine. Required when there is more than one.",
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["criteria"],
+        "required": [
+          "criteria"
+        ],
         "title": "Criteria group",
         "type": "object"
       },
@@ -2527,7 +3105,10 @@
           },
           "match": {
             "description": "How the members combine. Required when there is more than one.",
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           },
           "numWallets": {
@@ -2536,7 +3117,13 @@
           },
           "status": {
             "description": "Membership is only complete once this reads ready; numWallets is 0 until then.",
-            "enum": ["pending", "building", "ready", "canceled", "failed"],
+            "enum": [
+              "pending",
+              "building",
+              "ready",
+              "canceled",
+              "failed"
+            ],
             "type": "string"
           },
           "title": {
@@ -2547,14 +3134,25 @@
             "type": "string"
           }
         },
-        "required": ["cohortId", "title", "status", "numWallets"],
+        "required": [
+          "cohortId",
+          "title",
+          "status",
+          "numWallets"
+        ],
         "type": "object"
       },
       "CohortMeasureCondition": {
         "description": "The threshold the measure must meet. between takes two values, the others one.",
         "properties": {
           "operator": {
-            "enum": ["lt", "lte", "gt", "gte", "between"],
+            "enum": [
+              "lt",
+              "lte",
+              "gt",
+              "gte",
+              "between"
+            ],
             "type": "string"
           },
           "value": {
@@ -2574,7 +3172,10 @@
             ]
           }
         },
-        "required": ["operator", "value"],
+        "required": [
+          "operator",
+          "value"
+        ],
         "title": "Condition",
         "type": "object"
       },
@@ -2590,7 +3191,9 @@
             "type": "boolean"
           }
         },
-        "required": ["cohortId"],
+        "required": [
+          "cohortId"
+        ],
         "title": "Cohort membership",
         "type": "object"
       },
@@ -2611,7 +3214,10 @@
                 "type": "string"
               }
             },
-            "required": ["from", "to"],
+            "required": [
+              "from",
+              "to"
+            ],
             "type": "object"
           },
           "last": {
@@ -2622,11 +3228,20 @@
                 "type": "integer"
               },
               "unit": {
-                "enum": ["day", "week", "month", "quarter", "year"],
+                "enum": [
+                  "day",
+                  "week",
+                  "month",
+                  "quarter",
+                  "year"
+                ],
                 "type": "string"
               }
             },
-            "required": ["unit", "length"],
+            "required": [
+              "unit",
+              "length"
+            ],
             "type": "object"
           },
           "since": {
@@ -2640,11 +3255,18 @@
               {
                 "properties": {
                   "range": {
-                    "enum": ["week", "month", "quarter", "year"],
+                    "enum": [
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["range"],
+                "required": [
+                  "range"
+                ],
                 "title": "Calendar unit",
                 "type": "object"
               }
@@ -2665,7 +3287,10 @@
             "type": "string"
           }
         },
-        "required": ["code", "message"],
+        "required": [
+          "code",
+          "message"
+        ],
         "type": "object"
       },
       "EventLookup": {
@@ -2852,7 +3477,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -2883,25 +3510,38 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
       "GlobalSmartMoneyBooleanCondition": {
         "properties": {
           "field": {
-            "enum": ["isYes", "inSignals"],
+            "enum": [
+              "isYes",
+              "inSignals"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["eq"],
+            "enum": [
+              "eq"
+            ],
             "type": "string"
           },
           "value": {
             "type": "boolean"
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Boolean",
         "type": "object"
       },
@@ -2955,11 +3595,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -2974,11 +3620,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -2997,11 +3649,17 @@
       "GlobalSmartMoneyIdCondition": {
         "properties": {
           "field": {
-            "enum": ["marketId", "tagIds"],
+            "enum": [
+              "marketId",
+              "tagIds"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -3023,7 +3681,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -3043,7 +3705,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -3065,7 +3734,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -3138,11 +3811,18 @@
       "GlobalSmartMoneyTextCondition": {
         "properties": {
           "field": {
-            "enum": ["side"],
+            "enum": [
+              "side"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn", "matches", "notMatches"],
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
             "type": "string"
           },
           "value": {
@@ -3162,7 +3842,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Text",
         "type": "object"
       },
@@ -3172,11 +3856,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -3186,19 +3874,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -3208,29 +3913,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -3240,19 +3958,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -3262,7 +3997,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -3272,7 +4010,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -3294,15 +4035,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -3313,7 +4064,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -3344,7 +4097,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -3392,11 +4149,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -3411,11 +4174,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -3434,11 +4203,16 @@
       "MarketHolderIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId"],
+            "enum": [
+              "positionId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -3460,7 +4234,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -3479,7 +4257,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -3501,7 +4286,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -3604,11 +4393,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -3618,19 +4411,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -3640,29 +4450,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -3672,19 +4495,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -3694,7 +4534,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -3704,7 +4547,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -3726,15 +4572,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -3874,7 +4730,9 @@
             "type": "integer"
           }
         },
-        "required": ["limit"],
+        "required": [
+          "limit"
+        ],
         "type": "object"
       },
       "SeriesLookup": {
@@ -3959,7 +4817,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -3990,7 +4850,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -4016,11 +4880,18 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn", "inCohort", "notInCohort"],
+            "enum": [
+              "in",
+              "notIn",
+              "inCohort",
+              "notInCohort"
+            ],
             "type": "string"
           },
           "value": {
@@ -4040,7 +4911,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -4078,11 +4953,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -4101,11 +4982,19 @@
       "SignalScoreCriteriaIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -4127,7 +5016,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -4148,7 +5041,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -4170,7 +5070,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -4192,11 +5096,17 @@
           },
           "table": {
             "description": "Selects Signal Score.",
-            "enum": ["signalScore"],
+            "enum": [
+              "signalScore"
+            ],
             "type": "string"
           }
         },
-        "required": ["table", "measure", "condition"],
+        "required": [
+          "table",
+          "measure",
+          "condition"
+        ],
         "title": "Signal Score",
         "type": "object"
       },
@@ -4239,7 +5149,9 @@
                 "type": "string"
               }
             },
-            "required": ["field"],
+            "required": [
+              "field"
+            ],
             "title": "Field",
             "type": "object"
           },
@@ -4247,11 +5159,15 @@
             "description": "Count the matching rows.",
             "properties": {
               "totalCount": {
-                "enum": [true],
+                "enum": [
+                  true
+                ],
                 "type": "boolean"
               }
             },
-            "required": ["totalCount"],
+            "required": [
+              "totalCount"
+            ],
             "title": "Row count",
             "type": "object"
           }
@@ -4284,11 +5200,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -4303,11 +5225,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -4326,11 +5254,19 @@
       "SignalScoreIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -4352,7 +5288,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -4373,7 +5313,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -4395,7 +5342,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -4476,11 +5427,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -4490,19 +5445,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -4512,29 +5484,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -4544,19 +5529,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -4566,7 +5568,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -4576,7 +5581,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -4598,15 +5606,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -4639,11 +5657,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -4658,11 +5682,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -4681,11 +5711,17 @@
       "SignalTagCountsIdCondition": {
         "properties": {
           "field": {
-            "enum": ["id", "count"],
+            "enum": [
+              "id",
+              "count"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -4707,7 +5743,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -4910,7 +5950,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -4941,25 +5983,37 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
       "UnifiedSmartMoneyPositionBooleanCondition": {
         "properties": {
           "field": {
-            "enum": ["inSignals"],
+            "enum": [
+              "inSignals"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["eq"],
+            "enum": [
+              "eq"
+            ],
             "type": "string"
           },
           "value": {
             "type": "boolean"
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Boolean",
         "type": "object"
       },
@@ -5010,11 +6064,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -5029,11 +6089,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -5064,7 +6130,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -5086,7 +6159,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -5142,11 +6219,18 @@
       "UnifiedSmartMoneyPositionTextCondition": {
         "properties": {
           "field": {
-            "enum": ["side"],
+            "enum": [
+              "side"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn", "matches", "notMatches"],
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
             "type": "string"
           },
           "value": {
@@ -5166,7 +6250,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Text",
         "type": "object"
       },
@@ -5176,11 +6264,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -5190,19 +6282,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -5212,29 +6321,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -5244,19 +6366,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -5266,7 +6405,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -5276,7 +6418,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -5298,15 +6443,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -5430,7 +6585,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -5461,7 +6618,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -5490,11 +6651,18 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn", "inCohort", "notInCohort"],
+            "enum": [
+              "in",
+              "notIn",
+              "inCohort",
+              "notInCohort"
+            ],
             "type": "string"
           },
           "value": {
@@ -5514,7 +6682,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -5555,11 +6727,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -5578,11 +6756,20 @@
       "UserPositionCriteriaIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds", "seriesId"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds",
+              "seriesId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -5604,7 +6791,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -5629,7 +6820,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -5651,7 +6849,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -5659,11 +6861,18 @@
         "description": "last takes {unit, length}; between takes {from, to}; since takes a date or {range}.",
         "properties": {
           "field": {
-            "enum": ["firstTradeTimestamp", "latestTradeTimestamp"],
+            "enum": [
+              "firstTradeTimestamp",
+              "latestTradeTimestamp"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["last", "between", "since"],
+            "enum": [
+              "last",
+              "between",
+              "since"
+            ],
             "type": "string"
           },
           "value": {
@@ -5676,11 +6885,20 @@
                     "type": "integer"
                   },
                   "unit": {
-                    "enum": ["day", "week", "month", "quarter", "year"],
+                    "enum": [
+                      "day",
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["unit", "length"],
+                "required": [
+                  "unit",
+                  "length"
+                ],
                 "title": "Last",
                 "type": "object"
               },
@@ -5696,7 +6914,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["from", "to"],
+                "required": [
+                  "from",
+                  "to"
+                ],
                 "title": "Between",
                 "type": "object"
               },
@@ -5704,11 +6925,18 @@
                 "description": "since: an open-ended range from a calendar unit",
                 "properties": {
                   "range": {
-                    "enum": ["week", "month", "quarter", "year"],
+                    "enum": [
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["range"],
+                "required": [
+                  "range"
+                ],
                 "title": "Since calendar unit",
                 "type": "object"
               },
@@ -5721,7 +6949,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Time range",
         "type": "object"
       },
@@ -5743,11 +6975,17 @@
           },
           "table": {
             "description": "Selects User Position.",
-            "enum": ["userPosition"],
+            "enum": [
+              "userPosition"
+            ],
             "type": "string"
           }
         },
-        "required": ["table", "measure", "condition"],
+        "required": [
+          "table",
+          "measure",
+          "condition"
+        ],
         "title": "User Position",
         "type": "object"
       },
@@ -5797,7 +7035,9 @@
                 "type": "string"
               }
             },
-            "required": ["field"],
+            "required": [
+              "field"
+            ],
             "title": "Field",
             "type": "object"
           },
@@ -5805,11 +7045,15 @@
             "description": "Count the matching rows.",
             "properties": {
               "totalCount": {
-                "enum": [true],
+                "enum": [
+                  true
+                ],
                 "type": "boolean"
               }
             },
-            "required": ["totalCount"],
+            "required": [
+              "totalCount"
+            ],
             "title": "Row count",
             "type": "object"
           }
@@ -5842,11 +7086,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -5861,11 +7111,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -5884,11 +7140,20 @@
       "UserPositionIdCondition": {
         "properties": {
           "field": {
-            "enum": ["positionId", "marketId", "eventId", "tagIds", "seriesId"],
+            "enum": [
+              "positionId",
+              "marketId",
+              "eventId",
+              "tagIds",
+              "seriesId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -5910,7 +7175,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -5935,7 +7204,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -5957,7 +7233,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -6087,11 +7367,18 @@
         "description": "last takes {unit, length}; between takes {from, to}; since takes a date or {range}.",
         "properties": {
           "field": {
-            "enum": ["firstTradeTimestamp", "latestTradeTimestamp"],
+            "enum": [
+              "firstTradeTimestamp",
+              "latestTradeTimestamp"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["last", "between", "since"],
+            "enum": [
+              "last",
+              "between",
+              "since"
+            ],
             "type": "string"
           },
           "value": {
@@ -6104,11 +7391,20 @@
                     "type": "integer"
                   },
                   "unit": {
-                    "enum": ["day", "week", "month", "quarter", "year"],
+                    "enum": [
+                      "day",
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["unit", "length"],
+                "required": [
+                  "unit",
+                  "length"
+                ],
                 "title": "Last",
                 "type": "object"
               },
@@ -6124,7 +7420,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["from", "to"],
+                "required": [
+                  "from",
+                  "to"
+                ],
                 "title": "Between",
                 "type": "object"
               },
@@ -6132,11 +7431,18 @@
                 "description": "since: an open-ended range from a calendar unit",
                 "properties": {
                   "range": {
-                    "enum": ["week", "month", "quarter", "year"],
+                    "enum": [
+                      "week",
+                      "month",
+                      "quarter",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
-                "required": ["range"],
+                "required": [
+                  "range"
+                ],
                 "title": "Since calendar unit",
                 "type": "object"
               },
@@ -6149,7 +7455,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Time range",
         "type": "object"
       },
@@ -6159,11 +7469,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -6173,19 +7487,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -6195,29 +7526,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -6227,19 +7571,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -6249,7 +7610,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -6259,7 +7623,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -6281,15 +7648,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -6300,7 +7677,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -6331,7 +7710,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -6354,11 +7737,18 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn", "inCohort", "notInCohort"],
+            "enum": [
+              "in",
+              "notIn",
+              "inCohort",
+              "notInCohort"
+            ],
             "type": "string"
           },
           "value": {
@@ -6378,7 +7768,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -6413,11 +7807,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -6462,7 +7862,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -6484,7 +7891,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -6506,11 +7917,17 @@
           },
           "table": {
             "description": "Selects User Profile.",
-            "enum": ["userProfile"],
+            "enum": [
+              "userProfile"
+            ],
             "type": "string"
           }
         },
-        "required": ["table", "measure", "condition"],
+        "required": [
+          "table",
+          "measure",
+          "condition"
+        ],
         "title": "User Profile",
         "type": "object"
       },
@@ -6561,7 +7978,9 @@
                 "type": "string"
               }
             },
-            "required": ["field"],
+            "required": [
+              "field"
+            ],
             "title": "Field",
             "type": "object"
           },
@@ -6569,11 +7988,15 @@
             "description": "Count the matching rows.",
             "properties": {
               "totalCount": {
-                "enum": [true],
+                "enum": [
+                  true
+                ],
                 "type": "boolean"
               }
             },
-            "required": ["totalCount"],
+            "required": [
+              "totalCount"
+            ],
             "title": "Row count",
             "type": "object"
           }
@@ -6606,11 +8029,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -6625,11 +8054,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -6649,7 +8084,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -6680,7 +8117,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -6715,11 +8156,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -6738,11 +8185,22 @@
       "UserProfileLookupInnerNumericCondition": {
         "properties": {
           "field": {
-            "enum": ["rank", "roi", "realizedPnl"],
+            "enum": [
+              "rank",
+              "roi",
+              "realizedPnl"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -6764,7 +8222,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -6797,7 +8259,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -6819,7 +8288,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -6969,11 +8442,15 @@
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userProfileLookup"],
+                "enum": [
+                  "userProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -6983,19 +8460,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -7005,29 +8499,42 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
                     "$ref": "#/components/schemas/UserProfileLookupInnerFilter"
                   }
                 },
-                "required": ["duration"],
+                "required": [
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Profile Lookup",
             "type": "object"
           },
           {
             "properties": {
               "field": {
-                "enum": ["userId"],
+                "enum": [
+                  "userId"
+                ],
                 "type": "string"
               },
               "operator": {
-                "enum": ["userTagProfileLookup"],
+                "enum": [
+                  "userTagProfileLookup"
+                ],
                 "type": "string"
               },
               "value": {
@@ -7037,19 +8544,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -7059,7 +8583,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -7069,7 +8596,10 @@
                     "description": "Tag identifier",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -7091,15 +8621,25 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["tagId", "duration"],
+                "required": [
+                  "tagId",
+                  "duration"
+                ],
                 "type": "object"
               }
             },
-            "required": ["field", "operator", "value"],
+            "required": [
+              "field",
+              "operator",
+              "value"
+            ],
             "title": "User Tag Profile Lookup",
             "type": "object"
           }
@@ -7149,11 +8689,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -7172,11 +8718,16 @@
       "UserTagProfileCriteriaIdCondition": {
         "properties": {
           "field": {
-            "enum": ["tagId"],
+            "enum": [
+              "tagId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -7198,7 +8749,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -7226,7 +8781,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -7248,7 +8810,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -7270,11 +8836,17 @@
           },
           "table": {
             "description": "Selects User Tag Profile.",
-            "enum": ["userTagProfile"],
+            "enum": [
+              "userTagProfile"
+            ],
             "type": "string"
           }
         },
-        "required": ["table", "measure", "condition"],
+        "required": [
+          "table",
+          "measure",
+          "condition"
+        ],
         "title": "User Tag Profile",
         "type": "object"
       },
@@ -7320,7 +8892,9 @@
                 "type": "string"
               }
             },
-            "required": ["field"],
+            "required": [
+              "field"
+            ],
             "title": "Field",
             "type": "object"
           },
@@ -7328,11 +8902,15 @@
             "description": "Count the matching rows.",
             "properties": {
               "totalCount": {
-                "enum": [true],
+                "enum": [
+                  true
+                ],
                 "type": "boolean"
               }
             },
-            "required": ["totalCount"],
+            "required": [
+              "totalCount"
+            ],
             "title": "Row count",
             "type": "object"
           }
@@ -7365,11 +8943,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -7384,11 +8968,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Nested group",
         "type": "object"
       },
@@ -7407,11 +8997,16 @@
       "UserTagProfileIdCondition": {
         "properties": {
           "field": {
-            "enum": ["tagId"],
+            "enum": [
+              "tagId"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["in", "notIn"],
+            "enum": [
+              "in",
+              "notIn"
+            ],
             "type": "string"
           },
           "value": {
@@ -7433,7 +9028,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "ID",
         "type": "object"
       },
@@ -7441,7 +9040,9 @@
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
         "properties": {
           "field": {
-            "enum": ["userId"],
+            "enum": [
+              "userId"
+            ],
             "type": "string"
           },
           "operator": {
@@ -7472,7 +9073,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Wallet address",
         "type": "object"
       },
@@ -7507,11 +9112,17 @@
             "type": "array"
           },
           "operator": {
-            "enum": ["AND", "OR"],
+            "enum": [
+              "AND",
+              "OR"
+            ],
             "type": "string"
           }
         },
-        "required": ["operator", "filters"],
+        "required": [
+          "operator",
+          "filters"
+        ],
         "title": "Group",
         "type": "object"
       },
@@ -7530,11 +9141,22 @@
       "UserTagProfileLookupInnerNumericCondition": {
         "properties": {
           "field": {
-            "enum": ["rank", "roi", "realizedPnl"],
+            "enum": [
+              "rank",
+              "roi",
+              "realizedPnl"
+            ],
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -7556,7 +9178,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -7584,7 +9210,14 @@
             "type": "string"
           },
           "operator": {
-            "enum": ["eq", "neq", "lt", "lte", "gt", "gte"],
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
             "type": "string"
           },
           "value": {
@@ -7606,7 +9239,11 @@
             ]
           }
         },
-        "required": ["field", "operator", "value"],
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
         "title": "Numeric",
         "type": "object"
       },
@@ -7747,12 +9384,17 @@
           "content": {
             "application/json": {
               "example": {
-                "activities": ["Buy", "Sell"],
+                "activities": [
+                  "Buy",
+                  "Sell"
+                ],
                 "filter": [
                   {
                     "field": "wallet",
                     "operator": "in",
-                    "value": ["0x1234567890abcdef1234567890abcdef12345678"]
+                    "value": [
+                      "0x1234567890abcdef1234567890abcdef12345678"
+                    ]
                   },
                   {
                     "field": "timestamp",
@@ -7779,7 +9421,10 @@
                   "activities": {
                     "description": "Restrict to these activity types. All are returned when omitted.",
                     "items": {
-                      "enum": ["Buy", "Sell"],
+                      "enum": [
+                        "Buy",
+                        "Sell"
+                      ],
                       "type": "string"
                     },
                     "minItems": 1,
@@ -7806,7 +9451,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -7831,7 +9479,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -7844,7 +9494,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["page"],
+                "required": [
+                  "page"
+                ],
                 "type": "object"
               }
             }
@@ -7888,7 +9540,9 @@
         },
         "security": [],
         "summary": "Enriched Activities",
-        "tags": ["Activity"]
+        "tags": [
+          "Activity"
+        ]
       }
     },
     "/api/v1/cohorts": {
@@ -7913,7 +9567,10 @@
                   },
                   "match": {
                     "description": "How the members combine. Required when there is more than one.",
-                    "enum": ["AND", "OR"],
+                    "enum": [
+                      "AND",
+                      "OR"
+                    ],
                     "type": "string"
                   },
                   "title": {
@@ -7921,7 +9578,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["title", "groups"],
+                "required": [
+                  "title",
+                  "groups"
+                ],
                 "type": "object"
               }
             }
@@ -8001,7 +9661,9 @@
           }
         },
         "summary": "Create a cohort",
-        "tags": ["Cohorts"]
+        "tags": [
+          "Cohorts"
+        ]
       }
     },
     "/api/v1/cohorts/{cohortId}": {
@@ -8075,7 +9737,9 @@
           }
         },
         "summary": "Delete a cohort",
-        "tags": ["Cohorts"]
+        "tags": [
+          "Cohorts"
+        ]
       },
       "get": {
         "description": "Reports a cohort's build status and size. Poll this after create or update.",
@@ -8135,7 +9799,9 @@
         },
         "security": [],
         "summary": "Get a cohort",
-        "tags": ["Cohorts"]
+        "tags": [
+          "Cohorts"
+        ]
       },
       "patch": {
         "description": "Changes a cohort's name or replaces its criteria. Only the fields sent are changed; supplying groups replaces the criteria wholesale and rebuilds the cohort.",
@@ -8169,7 +9835,10 @@
                   },
                   "match": {
                     "description": "How the members combine. Required when there is more than one.",
-                    "enum": ["AND", "OR"],
+                    "enum": [
+                      "AND",
+                      "OR"
+                    ],
                     "type": "string"
                   },
                   "title": {
@@ -8256,7 +9925,9 @@
           }
         },
         "summary": "Update a cohort",
-        "tags": ["Cohorts"]
+        "tags": [
+          "Cohorts"
+        ]
       }
     },
     "/api/v1/market-holders/active": {
@@ -8269,7 +9940,9 @@
               "example": {
                 "eventId": {
                   "operator": "in",
-                  "value": [27185]
+                  "value": [
+                    27185
+                  ]
                 },
                 "orderBy": [
                   {
@@ -8288,7 +9961,10 @@
                     "description": "Event ID.",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -8310,7 +9986,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -8322,7 +10001,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -8338,7 +10020,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -8347,7 +10031,10 @@
                     "$ref": "#/components/schemas/PageInput"
                   }
                 },
-                "required": ["page", "eventId"],
+                "required": [
+                  "page",
+                  "eventId"
+                ],
                 "type": "object"
               }
             }
@@ -8391,7 +10078,9 @@
         },
         "security": [],
         "summary": "Active Market Holder",
-        "tags": ["Holders"]
+        "tags": [
+          "Holders"
+        ]
       }
     },
     "/api/v1/market-holders/all": {
@@ -8404,7 +10093,9 @@
               "example": {
                 "eventId": {
                   "operator": "in",
-                  "value": [27185]
+                  "value": [
+                    27185
+                  ]
                 },
                 "orderBy": [
                   {
@@ -8423,7 +10114,10 @@
                     "description": "Event ID.",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -8445,7 +10139,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -8457,7 +10154,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -8475,7 +10175,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -8484,7 +10186,10 @@
                     "$ref": "#/components/schemas/PageInput"
                   }
                 },
-                "required": ["page", "eventId"],
+                "required": [
+                  "page",
+                  "eventId"
+                ],
                 "type": "object"
               }
             }
@@ -8528,7 +10233,9 @@
         },
         "security": [],
         "summary": "All Market Holder",
-        "tags": ["Holders"]
+        "tags": [
+          "Holders"
+        ]
       }
     },
     "/api/v1/market-holders/closed": {
@@ -8541,7 +10248,9 @@
               "example": {
                 "eventId": {
                   "operator": "in",
-                  "value": [27185]
+                  "value": [
+                    27185
+                  ]
                 },
                 "orderBy": [
                   {
@@ -8560,7 +10269,10 @@
                     "description": "Event ID.",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn"],
+                        "enum": [
+                          "in",
+                          "notIn"
+                        ],
                         "type": "string"
                       },
                       "value": {
@@ -8582,7 +10294,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -8594,7 +10309,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -8610,7 +10328,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -8619,7 +10339,10 @@
                     "$ref": "#/components/schemas/PageInput"
                   }
                 },
-                "required": ["page", "eventId"],
+                "required": [
+                  "page",
+                  "eventId"
+                ],
                 "type": "object"
               }
             }
@@ -8663,7 +10386,9 @@
         },
         "security": [],
         "summary": "Closed Market Holder",
-        "tags": ["Holders"]
+        "tags": [
+          "Holders"
+        ]
       }
     },
     "/api/v1/positions/active": {
@@ -8686,7 +10411,9 @@
                 },
                 "userId": {
                   "operator": "in",
-                  "value": ["0x1234567890abcdef1234567890abcdef12345678"]
+                  "value": [
+                    "0x1234567890abcdef1234567890abcdef12345678"
+                  ]
                 }
               },
               "schema": {
@@ -8700,7 +10427,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -8718,7 +10448,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -8761,11 +10493,17 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["page", "userId"],
+                "required": [
+                  "page",
+                  "userId"
+                ],
                 "type": "object"
               }
             }
@@ -8809,7 +10547,9 @@
         },
         "security": [],
         "summary": "Active Position",
-        "tags": ["Positions"]
+        "tags": [
+          "Positions"
+        ]
       }
     },
     "/api/v1/positions/all": {
@@ -8832,7 +10572,9 @@
                 },
                 "userId": {
                   "operator": "in",
-                  "value": ["0x1234567890abcdef1234567890abcdef12345678"]
+                  "value": [
+                    "0x1234567890abcdef1234567890abcdef12345678"
+                  ]
                 }
               },
               "schema": {
@@ -8846,7 +10588,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -8866,7 +10611,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -8909,11 +10656,17 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["page", "userId"],
+                "required": [
+                  "page",
+                  "userId"
+                ],
                 "type": "object"
               }
             }
@@ -8957,7 +10710,9 @@
         },
         "security": [],
         "summary": "All Positions",
-        "tags": ["Positions"]
+        "tags": [
+          "Positions"
+        ]
       }
     },
     "/api/v1/positions/closed": {
@@ -8980,7 +10735,9 @@
                 },
                 "userId": {
                   "operator": "in",
-                  "value": ["0x1234567890abcdef1234567890abcdef12345678"]
+                  "value": [
+                    "0x1234567890abcdef1234567890abcdef12345678"
+                  ]
                 }
               },
               "schema": {
@@ -8994,7 +10751,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -9011,7 +10771,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -9054,11 +10816,17 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   }
                 },
-                "required": ["page", "userId"],
+                "required": [
+                  "page",
+                  "userId"
+                ],
                 "type": "object"
               }
             }
@@ -9102,7 +10870,9 @@
         },
         "security": [],
         "summary": "Closed Positions",
-        "tags": ["Positions"]
+        "tags": [
+          "Positions"
+        ]
       }
     },
     "/api/v1/profiles/user": {
@@ -9115,7 +10885,9 @@
               "example": {
                 "duration": {
                   "operator": "in",
-                  "value": ["1M"]
+                  "value": [
+                    "1M"
+                  ]
                 },
                 "orderBy": [
                   {
@@ -9134,19 +10906,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -9156,7 +10945,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -9168,7 +10960,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -9200,7 +10995,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -9213,7 +11010,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["page", "duration"],
+                "required": [
+                  "page",
+                  "duration"
+                ],
                 "type": "object"
               }
             }
@@ -9257,7 +11057,9 @@
         },
         "security": [],
         "summary": "User Profile",
-        "tags": ["Profiles"]
+        "tags": [
+          "Profiles"
+        ]
       }
     },
     "/api/v1/profiles/user-tag": {
@@ -9270,7 +11072,9 @@
               "example": {
                 "duration": {
                   "operator": "in",
-                  "value": ["1M"]
+                  "value": [
+                    "1M"
+                  ]
                 },
                 "orderBy": [
                   {
@@ -9289,19 +11093,36 @@
                     "description": "Time window for aggregation",
                     "properties": {
                       "operator": {
-                        "enum": ["in", "notIn", "matches", "notMatches"],
+                        "enum": [
+                          "in",
+                          "notIn",
+                          "matches",
+                          "notMatches"
+                        ],
                         "type": "string"
                       },
                       "value": {
                         "oneOf": [
                           {
-                            "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                            "enum": [
+                              "1D",
+                              "1W",
+                              "1M",
+                              "1Y",
+                              "ALL"
+                            ],
                             "title": "Single value",
                             "type": "string"
                           },
                           {
                             "items": {
-                              "enum": ["1D", "1W", "1M", "1Y", "ALL"],
+                              "enum": [
+                                "1D",
+                                "1W",
+                                "1M",
+                                "1Y",
+                                "ALL"
+                              ],
                               "type": "string"
                             },
                             "minItems": 1,
@@ -9311,7 +11132,10 @@
                         ]
                       }
                     },
-                    "required": ["operator", "value"],
+                    "required": [
+                      "operator",
+                      "value"
+                    ],
                     "type": "object"
                   },
                   "filter": {
@@ -9323,7 +11147,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -9350,7 +11177,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -9363,7 +11192,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["page", "duration"],
+                "required": [
+                  "page",
+                  "duration"
+                ],
                 "type": "object"
               }
             }
@@ -9407,7 +11239,9 @@
         },
         "security": [],
         "summary": "User Tag Profile",
-        "tags": ["Profiles"]
+        "tags": [
+          "Profiles"
+        ]
       }
     },
     "/api/v1/signals/scores": {
@@ -9440,7 +11274,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -9462,7 +11299,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -9475,7 +11314,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["page"],
+                "required": [
+                  "page"
+                ],
                 "type": "object"
               }
             }
@@ -9519,7 +11360,9 @@
         },
         "security": [],
         "summary": "Signal Score",
-        "tags": ["Signals"]
+        "tags": [
+          "Signals"
+        ]
       }
     },
     "/api/v1/signals/tag-counts": {
@@ -9552,15 +11395,23 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
-                          "enum": ["id", "count"],
+                          "enum": [
+                            "id",
+                            "count"
+                          ],
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -9573,7 +11424,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["page"],
+                "required": [
+                  "page"
+                ],
                 "type": "object"
               }
             }
@@ -9617,7 +11470,9 @@
         },
         "security": [],
         "summary": "Signals Tag counts",
-        "tags": ["Signals"]
+        "tags": [
+          "Signals"
+        ]
       }
     },
     "/api/v1/smart-money/global": {
@@ -9650,7 +11505,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -9670,7 +11528,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -9683,7 +11543,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["page"],
+                "required": [
+                  "page"
+                ],
                 "type": "object"
               }
             }
@@ -9727,7 +11589,9 @@
         },
         "security": [],
         "summary": "Global Smart Money",
-        "tags": ["Smart Money"]
+        "tags": [
+          "Smart Money"
+        ]
       }
     },
     "/api/v1/smart-money/position": {
@@ -9784,7 +11648,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -9801,7 +11668,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -9885,7 +11754,9 @@
         },
         "security": [],
         "summary": "Smart Money Position",
-        "tags": ["Smart Money"]
+        "tags": [
+          "Smart Money"
+        ]
       }
     },
     "/api/v1/smart-money/summary": {
@@ -9938,7 +11809,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -9955,7 +11829,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -10034,7 +11910,9 @@
         },
         "security": [],
         "summary": "Smart Money Summary",
-        "tags": ["Smart Money"]
+        "tags": [
+          "Smart Money"
+        ]
       }
     },
     "/api/v1/user-position": {
@@ -10049,7 +11927,9 @@
                   {
                     "field": "userId",
                     "operator": "in",
-                    "value": ["0x1234567890abcdef1234567890abcdef12345678"]
+                    "value": [
+                      "0x1234567890abcdef1234567890abcdef12345678"
+                    ]
                   }
                 ],
                 "orderBy": [
@@ -10074,7 +11954,10 @@
                       "properties": {
                         "direction": {
                           "default": "asc",
-                          "enum": ["asc", "desc"],
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
                           "type": "string"
                         },
                         "field": {
@@ -10105,7 +11988,9 @@
                           "type": "string"
                         }
                       },
-                      "required": ["field"],
+                      "required": [
+                        "field"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -10118,7 +12003,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["page"],
+                "required": [
+                  "page"
+                ],
                 "type": "object"
               }
             }
@@ -10162,7 +12049,9 @@
         },
         "security": [],
         "summary": "User Position",
-        "tags": ["Positions"]
+        "tags": [
+          "Positions"
+        ]
       }
     }
   },
@@ -10172,6 +12061,11 @@
     },
     {
       "BearerAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.datadash.xyz"
     }
   ]
 }
