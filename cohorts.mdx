@@ -43,6 +43,16 @@ The leaderboard ranks each wallet by PnL, ROI, win rate, positions, profit facto
 
 Additional tabs break the same cohort down by **Portfolio** (open and closed positions), **Activity** (the trade log), **Category** (performance per tag), and **Signals** (the cohort's highest-conviction bets).
 
+## Cohort IDs
+
+A cohort ID is a TSID — 13 characters of Crockford base32 (`I`, `L`, `O` and `U` are excluded):
+
+```
+^[0-9A-HJ-KM-NP-TV-Z]{13}$
+```
+
+For example `0J9XQ4M7B2K5T`. IDs are time-sortable, so ordering by ID orders by creation.
+
 ## API endpoints
 
 Cohort analytics are served by the profiles endpoints, scoped to the cohort's wallets. The positions, activity and signals endpoints back the corresponding tabs.
