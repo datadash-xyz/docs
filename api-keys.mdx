@@ -18,58 +18,15 @@ Requests without a key, or with a revoked or malformed one, return `401`:
 { "code": "unauthenticated", "message": "missing credentials: supply an X-Api-Key header or a bearer token" }
 ```
 
-## Creating a key
+## Getting a key
 
-Create a key from your [dashboard](https://datadash.xyz), or programmatically:
+Create, list and revoke keys from your [dashboard](https://datadash.xyz). Key names are 1–30 characters, letters and digits only, and each key is listed by its name, creation time and last three characters — enough to tell your keys apart without exposing them.
 
-```bash
-curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/Create \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "production"}'
-```
-
-```json
-{ "apiKey": "datadash_AGB1c2VyXzAxSFEy..." }
-```
-
-Key names are 1–30 characters, letters and digits only.
+Revocation takes effect within a few seconds across all servers.
 
 <Warning>
   The key is returned **once, at creation**. DataDash stores only a hash of it and can never show it to you again. Save it somewhere safe immediately — if you lose it, delete the key and create a new one.
 </Warning>
-
-## Listing your keys
-
-```bash
-curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/List \
-  -H "X-Api-Key: $DATADASH_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"page": {"limit": 20}}'
-```
-
-```json
-{
-  "totalCount": 2,
-  "apiKeysInfos": [
-    { "name": "production", "endsWith": "f3a", "createdAt": "2026-01-15T10:22:31Z" },
-    { "name": "staging",    "endsWith": "b71", "createdAt": "2026-02-03T08:14:02Z" }
-  ]
-}
-```
-
-Listing returns each key's name, creation time, and last three characters — enough to tell your keys apart without exposing them.
-
-## Revoking a key
-
-Delete a key by name. Revocation takes effect within a few seconds across all servers.
-
-```bash
-curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/Delete \
-  -H "X-Api-Key: $DATADASH_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "staging"}'
-```
 
 ## Keeping keys safe
 
@@ -88,7 +45,7 @@ curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/Delete \
   <Card title="Filtering" icon="filter" href="/filters">
     Narrow any list endpoint with typed conditions and AND/OR groups.
   </Card>
-  <Card title="API Reference" icon="code" href="/api-reference">
-    Every endpoint, with its fields, filters and response shape.
+  <Card title="Generate a client" icon="terminal" href="/openapi-clients">
+    Build a typed TypeScript or Python client from the OpenAPI spec.
   </Card>
 </CardGroup>

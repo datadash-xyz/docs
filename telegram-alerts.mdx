@@ -1,0 +1,120 @@
+---
+title: "Telegram Alerts"
+description: "Send alert notifications to a Telegram chat, group or channel."
+---
+
+An alert watches a metric and notifies you when it crosses your threshold. Notifications always appear in the app; adding a Telegram chat ID sends them to Telegram as well.
+
+## Get notified
+
+The last step of creating an alert is where delivery is configured.
+
+<Frame caption="The delivery step: pick the window totals are summed over, then optionally add a Telegram chat ID.">
+  <img src="/images/alert-get-notified.png" alt="Get notified step showing a 1h/6h/12h/1d/1w/1M window picker, an optional Telegram chat ID field with a Verify button, and Cancel and Create alert buttons" />
+</Frame>
+
+### The window
+
+`1h` `6h` `12h` `1d` `1w` `1M`
+
+The window is **how much history each check adds up**, not how often the alert runs. Totals are summed over the window you pick, and the alert is evaluated **every 10 minutes** regardless.
+
+So `1d` with a $100K threshold fires when the trailing 24 hours total more than $100K — rechecked six times an hour. A short window reacts to bursts; a long one smooths them out and is harder to trip.
+
+### The chat ID
+
+The Telegram field is **optional**. Leave it empty and the alert is in-app only.
+
+## Getting your chat ID
+
+Message the Datadash bot and it replies with the ID of whatever chat you talk to it in. The bot is linked from the alert form.
+
+<Tabs>
+  <Tab title="Direct message">
+    Open a chat with the bot and send:
+
+    ```
+    /start
+    ```
+
+    It replies with your chat ID:
+
+    ```
+    Welcome to datadash telegram. Here's your chat id: 84512996
+    ```
+  </Tab>
+
+  <Tab title="Group">
+    Add the bot to the group, then post:
+
+    ```
+    /chat_id
+    ```
+
+    Group IDs are negative — `-1001842305517`, for example. Copy the whole thing, minus sign included.
+  </Tab>
+
+  <Tab title="Channel">
+    Add the bot to the channel **as an administrator**, then post:
+
+    ```
+    /chat_id
+    ```
+
+    Without admin rights the bot cannot see channel posts at all, so it will never reply. Channel IDs are negative too.
+  </Tab>
+</Tabs>
+
+The bot only answers those two commands and ignores everything else, so it is safe to leave in a working group.
+
+## Verify before you create
+
+Paste the ID and press **Verify**. That sends a test message to the chat — if it doesn't arrive, the alert won't deliver either, and it's worth fixing before you press **Create alert** rather than discovering it on the first trigger.
+
+The two things that make Verify fail are a mistyped ID (the leading `-` on groups and channels is the usual casualty) and a bot that has been removed from the chat.
+
+## What lands in the chat
+
+Messages are sent as HTML, so labels render bold and the insight name links back to the dashboard:
+
+> _Alert_: **Whale exits Politics**
+> _Message_: Value in column **totalPnl** went above **100000**
+> _At_: **2026-09-02 14:00:00**
+> _View_: [Whale exits Politics](https://datadash.xyz)
+
+Nothing is sent when a check finds no matching rows, so an alert stays quiet until it actually fires.
+
+## Managing alerts
+
+- **Pause an alert** to stop delivery without losing its configuration. Resume it and it picks up from the next check.
+- **An alert can be invalidated automatically** if its configuration stops making sense — most often because the column it watches no longer exists on the insight. The alert list shows the reason.
+- **Each alert records when it last fired**, which also bounds the window the next check looks at.
+
+<AccordionGroup>
+  <Accordion title="The bot never replied with a chat ID" icon="message-circle-off">
+    The message has to be exactly `/start` in a direct message, or exactly `/chat_id` in a group or channel — no arguments, no trailing mention. In channels the bot must be an administrator.
+  </Accordion>
+
+  <Accordion title="Alerts stopped arriving in a group" icon="user-minus">
+    Removing the bot, or Telegram converting the group to a supergroup, changes or invalidates the chat ID. Post `/chat_id` again, then update the alert with the new value and press Verify.
+  </Accordion>
+
+  <Accordion title="It fires more often than expected" icon="clock">
+    Checks run every 10 minutes, so a threshold that stays crossed can notify repeatedly. Widen the window so the total is smoothed over more history, or raise the threshold.
+  </Accordion>
+
+  <Accordion title="It never fires even though the number looks right" icon="circle-alert">
+    Check the alert isn't paused or invalidated. Then check the window — a total that clears your threshold over a week may never clear it within a single hour.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Cohorts" icon="users" href="/cohorts">
+    Scope an insight to the wallets you actually care about before alerting on it.
+  </Card>
+  <Card title="Signals" icon="radar" href="/signals">
+    The highest-conviction positions, and a natural thing to alert on.
+  </Card>
+</CardGroup>

@@ -1,0 +1,21 @@
+/* Match the web app's type stack.
+   Source: apps/web/src/app/layout.tsx (Geist, Geist_Mono) and its globals.css,
+   where --font-sans is 'Geist' and --font-mono falls back through Geist Mono.
+   docs.json sets Geist for body/headings; the fonts schema has no mono slot,
+   so the code face is set here. */
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+code,
+kbd,
+samp,
+pre,
+pre code,
+.font-mono,
+[class*='language-'],
+[class*='shiki'] {
+  font-family: var(--font-mono);
+}

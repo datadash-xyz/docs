@@ -49,3 +49,7 @@ Every endpoint is a `POST` that takes the same request shape:
 - **`searchKey`**: optional, where supported. Free-text search over the endpoint's primary entity (market, event or wallet).
 
 Responses are a JSON array of rows. See the [API Reference](/api-reference) for the exact fields on each row.
+
+## Beyond querying
+
+Generate a typed client from the same spec the reference is built from — see [Generating a Client](/openapi-clients) for TypeScript and Python. To be told when something changes instead of polling for it, attach an alert to an insight and have it delivered to [Telegram](/telegram-alerts), Discord or Slack.
