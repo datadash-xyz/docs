@@ -73,12 +73,11 @@
     "tabs": [
       {
         "tab": "Documentation",
+
         "groups": [
           {
             "group": "Getting Started",
-            "pages": [
-              "index"
-            ]
+            "pages": ["index"]
           },
           {
             "group": "Features",
@@ -92,35 +91,13 @@
           },
           {
             "group": "Using the API",
-            "pages": [
-              "api-keys",
-              "filters",
-              "position-ids",
-              "openapi-clients"
-            ]
+            "pages": ["api-keys", "filters", "position-ids", "openapi-clients"]
           }
         ]
       },
       {
         "tab": "API Reference",
         "openapi": "openapi.json"
-      },
-      {
-        "tab": "Blog",
-        "groups": [
-          {
-            "group": "Blog",
-            "pages": [
-              "blog/index"
-            ]
-          },
-          {
-            "group": "Engineering",
-            "pages": [
-              "blog/analytical-not-transactional"
-            ]
-          }
-        ]
       }
     ]
   },

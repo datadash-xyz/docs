@@ -1,21 +1,25 @@
 ---
 title: "Analytical, not transactional"
 description: "Why Datadash returns ranked, aggregated result sets instead of resources you have to assemble yourself."
+mode: "custom"
 ---
 
 import {
-  PostHeader,
+  PostLayout,
   Takeaways,
   PullQuote,
   Versus,
 } from "/snippets/blog-ui.mdx";
 
-<PostHeader
-  tags={["Engineering"]}
+<PostLayout
+  category="Engineering"
   date="2 September 2026"
-  author="Datadash Engineering"
   readingTime="6 min read"
-/>
+  title="Analytical, not transactional"
+  description="Why Datadash returns ranked, aggregated result sets instead of resources you have to assemble yourself."
+  author="Datadash Engineering"
+  role="Engineering"
+>
 
 <Takeaways
   items={[
@@ -142,3 +146,5 @@ Pick something you currently assemble client-side and see what it takes here.
     Typed TypeScript and Python clients from the OpenAPI spec.
   </Card>
 </CardGroup>
+
+</PostLayout>

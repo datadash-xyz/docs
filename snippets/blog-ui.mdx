@@ -1,39 +1,3 @@
-export const PostHeader = ({ date, author, readingTime, tags = [] }) => (
-  <div
-    style={{
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      gap: '0.6rem',
-      paddingBottom: '1.1rem',
-      marginBottom: '2rem',
-      borderBottom: '1px solid rgba(128,128,128,0.22)',
-      fontSize: '0.8125rem',
-    }}
-  >
-    {tags.map((tag) => (
-      <span
-        key={tag}
-        style={{
-          padding: '0.2rem 0.6rem',
-          borderRadius: '999px',
-          border: '1px solid rgba(139,92,246,0.45)',
-          color: '#8b5cf6',
-          fontSize: '0.6875rem',
-          fontWeight: 600,
-          letterSpacing: '0.04em',
-          textTransform: 'uppercase',
-        }}
-      >
-        {tag}
-      </span>
-    ))}
-    <span style={{ opacity: 0.62 }}>
-      {[date, author, readingTime].filter(Boolean).join('  ·  ')}
-    </span>
-  </div>
-);
-
 export const Takeaways = ({ title = 'The short version', items = [] }) => (
   <div
     style={{
@@ -196,18 +160,7 @@ export const Versus = ({ left, right, rows = [] }) => (
 );
 
 export const PostCard = ({ href, title, excerpt, date, tag, readingTime }) => (
-  <a
-    href={href}
-    style={{
-      display: 'block',
-      border: '1px solid rgba(128,128,128,0.22)',
-      borderRadius: '12px',
-      padding: '1.2rem 1.35rem',
-      textDecoration: 'none',
-      color: 'inherit',
-      background: 'rgba(128,128,128,0.06)',
-    }}
-  >
+  <a href={href} className="blog-card">
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.6rem' }}>
       {tag && (
         <span
@@ -246,3 +199,246 @@ export const PostCard = ({ href, title, excerpt, date, tag, readingTime }) => (
 export const PostGrid = ({ children }) => (
   <div style={{ display: 'grid', gap: '0.85rem', margin: '2rem 0' }}>{children}</div>
 );
+
+
+
+{/* Post template. Each post is a `mode: "custom"` page, so PostLayout supplies
+    the masthead, both rails and the article frame; the body keeps Mintlify's
+    native typography by reusing its prose classes. Two Mintlify snippet rules
+    shape the code below: an export block may not contain blank lines or JS
+    comments, and exports cannot reference each other, so each component is
+    self-contained. Usage is documented in README.md. */}
+
+export const PostLayout = ({ category, date, title, description, readingTime, author, role, avatar, related, children }) => {
+  const [toc, setToc] = useState([]);
+  const [active, setActive] = useState('');
+  const [url, setUrl] = useState('');
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    setUrl(window.location.href);
+    const root = document.getElementById('post-body');
+    if (!root) return;
+    const headings = Array.from(root.querySelectorAll(':scope > h2, :scope > h3'));
+    if (headings.length === 0) return;
+    const slug = (text) => text.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+    const found = headings.map((h, i) => {
+      if (!h.id) h.id = slug(h.textContent) || 'section-' + i;
+      h.style.scrollMarginTop = '6rem';
+      return { id: h.id, text: h.textContent, depth: h.tagName === 'H3' ? 3 : 2 };
+    });
+    setToc(found);
+    setActive(found[0].id);
+    let ticking = false;
+    const sync = () => {
+      let current = found[0].id;
+      for (let i = 0; i < headings.length; i++) {
+        if (headings[i].getBoundingClientRect().top <= 120) current = headings[i].id;
+      }
+      setActive(current);
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(sync);
+    };
+    sync();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  const enc = encodeURIComponent;
+  const shares = [
+    { key: 'in', label: 'Share on LinkedIn', href: 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url), path: 'M4.98 3.5A1.5 1.5 0 113.5 5 1.49 1.49 0 014.98 3.5zM3.7 6.5h2.56V17H3.7zM9 6.5h2.45v1.43h.03a2.7 2.7 0 012.42-1.33c2.59 0 3.07 1.7 3.07 3.92V17h-2.56v-4.93c0-1.18-.02-2.7-1.64-2.7s-1.9 1.28-1.9 2.6V17H9z' },
+    { key: 'x', label: 'Share on X', href: 'https://x.com/intent/post?url=' + enc(url) + '&text=' + enc(title || ''), path: 'M14.2 3h2.3l-5 5.72L17.4 17h-4.6l-3.2-4.2L5.9 17H3.6l5.35-6.12L3.3 3H8l2.9 3.84zm-.8 12.6h1.27L7.1 4.32H5.74z' },
+    { key: 'hn', label: 'Share on Hacker News', href: 'https://news.ycombinator.com/submitlink?u=' + enc(url) + '&t=' + enc(title || ''), path: 'M3 3h14v14H3zm7 8.1L6.6 5.6h1.6L10 9.2l1.8-3.6h1.6L10 11.1v3.3H8.8v-3.3z' },
+  ];
+  const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    });
+  };
+  const initials = (author || '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+  const railLabel = { color: 'var(--blog-muted)', marginBottom: '0.85rem' };
+  return (
+    <div className="blog-root">
+      <a href="/blog" className="blog-back blog-mono">
+        <span className="blog-back-icon" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3.5L5.5 8l4.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        All articles
+      </a>
+      <header style={{ marginTop: '2.25rem' }}>
+        <div className="blog-mono" style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+          {category ? <span style={{ color: 'var(--blog-accent)' }}>{category}</span> : null}
+          {category && date ? <span style={{ opacity: 0.35 }}>/</span> : null}
+          {date ? <span style={{ color: 'var(--blog-muted)' }}>{date}</span> : null}
+        </div>
+        <h1 className="blog-title">{title}</h1>
+        {description ? <p className="blog-lede">{description}</p> : null}
+        {readingTime ? (
+          <div className="blog-mono" style={{ marginTop: '1.25rem', color: 'var(--blog-muted)' }}>
+            {readingTime}
+          </div>
+        ) : null}
+      </header>
+      <div className="blog-grid">
+        <aside className="blog-rail blog-rail-left">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {avatar ? (
+              <img src={avatar} alt="" style={{ width: '2.5rem', height: '2.5rem', borderRadius: '999px', objectFit: 'cover' }} />
+            ) : (
+              <div style={{ display: 'grid', placeItems: 'center', width: '2.5rem', height: '2.5rem', borderRadius: '999px', border: '1px solid var(--blog-line)', background: 'var(--blog-soft)', fontSize: '0.75rem', fontWeight: 600 }}>
+                {initials}
+              </div>
+            )}
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontSize: '0.9375rem', fontWeight: 600 }}>{author}</div>
+              {role ? <div style={{ fontSize: '0.8125rem', color: 'var(--blog-muted)' }}>{role}</div> : null}
+            </div>
+          </div>
+          <div>
+            <div className="blog-mono" style={railLabel}>Share this article</div>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              {shares.map((s) => (
+                <a key={s.key} className="blog-share" href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label}>
+                  <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+                    <path d={s.path} fillRule="evenodd" clipRule="evenodd" />
+                  </svg>
+                </a>
+              ))}
+              <button type="button" className="blog-share" onClick={copyLink} aria-label="Copy link" title={copied ? 'Copied' : 'Copy link'}>
+                {copied ? (
+                  <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
+                    <path d="M4.5 10.5l3.5 3.5 7.5-7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : (
+                  <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
+                    <path d="M8.2 11.8a2.9 2.9 0 004.3 0l2.4-2.4a3 3 0 00-4.3-4.3l-.9.9M11.8 8.2a2.9 2.9 0 00-4.3 0l-2.4 2.4a3 3 0 004.3 4.3l.9-.9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+        </aside>
+        <article id="post-body" className="mdx-content prose prose-gray dark:prose-invert">
+          {children}
+        </article>
+        <aside className="blog-rail blog-rail-right">
+          {toc.length > 0 ? (
+            <nav aria-label="On this page">
+              <div className="blog-mono" style={railLabel}>On this page</div>
+              <div style={{ borderLeft: '1px solid var(--blog-line)' }}>
+                {toc.map((item) => (
+                  <a key={item.id} href={'#' + item.id} className="blog-toc-link" data-depth={item.depth} data-active={item.id === active}>
+                    {item.text}
+                  </a>
+                ))}
+              </div>
+            </nav>
+          ) : null}
+          <div style={{ display: 'grid', gap: '0.55rem' }}>
+            <div className="blog-mono" style={{ color: 'var(--blog-muted)', marginBottom: '0.3rem' }}>Start querying</div>
+            <a href="https://datadash.xyz" style={{ display: 'block', padding: '0.6rem 0.9rem', borderRadius: '8px', background: 'var(--blog-accent)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textAlign: 'center', textDecoration: 'none' }}>
+              Open dashboard
+            </a>
+            <a href="/api-reference/activity/enriched-activities" style={{ display: 'block', padding: '0.6rem 0.9rem', borderRadius: '8px', border: '1px solid var(--blog-line)', background: 'var(--blog-soft)', color: 'inherit', fontSize: '0.875rem', fontWeight: 500, textAlign: 'center', textDecoration: 'none' }}>
+              API reference
+            </a>
+          </div>
+        </aside>
+      </div>
+      {related}
+    </div>
+  );
+};
+
+{/* Index template, modelled on the reference blog: featured split panel, a row
+    of underlined category tabs, then a 3-up grid. Posts may carry a `cover`
+    image path; without one the cover is a typographic panel. blog/index.mdx
+    passes the list and the tabs derive themselves from its categories. */}
+
+export const BlogIndex = ({ title = 'Blog', description = '', posts = [] }) => {
+  const [filter, setFilter] = useState('All articles');
+  const tabs = ['All articles'].concat(
+    posts.map((p) => p.category).filter((c, i, all) => c && all.indexOf(c) === i)
+  );
+  const visible = filter === 'All articles' ? posts : posts.filter((p) => p.category === filter);
+  const featured = visible[0];
+  const rest = visible.slice(1);
+  const cover = (post, className) =>
+    post.cover ? (
+      <img src={post.cover} alt="" />
+    ) : (
+      <div className={className}>
+        <div className="blog-cover-dots" aria-hidden="true" />
+        <div className="blog-mono" style={{ position: 'relative', color: 'var(--blog-accent)' }}>
+          {post.category}
+        </div>
+        <div className="blog-cover-title">{post.title}</div>
+      </div>
+    );
+  return (
+    <div className="blog-root">
+      <header style={{ marginBottom: '2.5rem' }}>
+        <h1 className="blog-title">{title}</h1>
+        {description ? <p className="blog-lede">{description}</p> : null}
+      </header>
+      <div className="blog-tabs">
+        {tabs.map((t) => (
+          <button key={t} type="button" className="blog-tab" data-active={t === filter} onClick={() => setFilter(t)}>
+            {t}
+          </button>
+        ))}
+      </div>
+      {featured ? (
+        <a href={featured.href} className="blog-hero">
+          <div className="blog-hero-side">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div className="blog-date">
+                {[featured.date, featured.readingTime].filter(Boolean).join(' · ')}
+              </div>
+              <div className="blog-hero-title">{featured.title}</div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <div style={{ display: 'grid', placeItems: 'center', width: '2rem', height: '2rem', borderRadius: '999px', background: 'var(--blog-soft)', fontSize: '0.6875rem', fontWeight: 600 }}>
+                {(featured.author || '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('')}
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--blog-strong)' }}>{featured.author}</div>
+                <div style={{ fontSize: '0.8125rem', color: 'var(--blog-muted)' }}>{featured.role}</div>
+              </div>
+            </div>
+          </div>
+          <div className="blog-hero-art">
+            <div className="blog-cover-dots" aria-hidden="true" />
+            <div className="blog-mono" style={{ position: 'relative', color: 'var(--blog-accent)', marginBottom: '0.9rem' }}>
+              {featured.category}
+            </div>
+            <div style={{ position: 'relative', color: 'var(--blog-strong)', fontSize: 'clamp(1.75rem, 3.4vw, 2.75rem)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.08, maxWidth: '18ch' }}>
+              {featured.coverTitle || featured.title}
+            </div>
+          </div>
+        </a>
+      ) : null}
+      <div className="blog-cards">
+        {rest.map((p) => (
+          <a key={p.href} href={p.href} className="blog-post-link">
+            <div className="blog-cover">{cover(p, 'blog-cover-inner')}</div>
+            <div className="blog-meta">
+              <span className="blog-chip">{p.category}</span>
+              <span className="blog-date">{p.date}</span>
+            </div>
+            <div className="blog-post-title">{p.title}</div>
+            {p.excerpt ? <div className="blog-excerpt">{p.excerpt}</div> : null}
+          </a>
+        ))}
+      </div>
+      {visible.length === 0 ? (
+        <div style={{ color: 'var(--blog-muted)', padding: '2rem 0' }}>Nothing here yet.</div>
+      ) : null}
+    </div>
+  );
+};
