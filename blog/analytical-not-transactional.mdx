@@ -1,0 +1,124 @@
+---
+title: "Analytical, not transactional"
+description: "Why DataDash returns ranked, aggregated result sets instead of resources you have to assemble yourself."
+---
+
+import { PostHeader, Takeaways, PullQuote, Versus } from '/snippets/blog-ui.mdx';
+
+<PostHeader
+  tags={['Engineering']}
+  date="2 September 2026"
+  author="DataDash Engineering"
+  readingTime="6 min read"
+/>
+
+<Takeaways
+  items={[
+    'Transactional APIs return resources. Analytical APIs return the result of a question.',
+    'A leaderboard that costs thousands of requests elsewhere is one request here.',
+    'Rows arrive with identifiers already resolved, so there is no join table on your side.',
+    'Cohorts only work this way — a query result other queries take as input is not a resource.',
+  ]}
+/>
+
+Most prediction-market APIs — struct.to among them — are **transactional**. They hand you resources: a market, an order, a position, a user. Each response is a faithful record of one thing, and the shape of the API follows the shape of the database behind it. That is exactly right if you are placing trades, reconciling fills, or keeping a local mirror in sync.
+
+DataDash is **analytical**. Nothing we return corresponds to a single stored record. Every response is the result of a query — filtered, joined, aggregated and ranked before it leaves the server.
+
+The distinction matters more than it sounds like it should, because it decides where the work happens.
+
+## The same question, both ways
+
+Take a question you'd actually ask: _which wallets made the most money in Sports last month, and what are they holding now?_
+
+On a transactional API, that is a program:
+
+1. Page through trades for the period. There are millions.
+2. For each trade, resolve its market to find the category. That's a second endpoint, and a cache you now have to maintain.
+3. Group by wallet. Sum cost basis and proceeds. Handle partial exits, and decide what you do about positions that were open at the start of the window.
+4. Sort what you computed. Take the top 100.
+5. For each of those 100 wallets, fetch current positions. That's 100 more requests.
+6. Resolve each position's market. More requests, or a bigger cache.
+
+<PullQuote>
+  You have written an analytics engine. It runs on your infrastructure, it is slow because the data
+  crossed the network before being reduced, and every consumer of your data writes step 3 slightly
+  differently.
+</PullQuote>
+
+On DataDash it is one request:
+
+```json
+{
+  "page": { "limit": 100 },
+  "orderBy": [{ "field": "totalPnl", "direction": "desc" }],
+  "filter": [
+    { "field": "tagIds", "operator": "in", "value": [12] },
+    { "field": "timestamp", "operator": "last", "value": { "unit": "month", "length": 1 } }
+  ]
+}
+```
+
+Sent to `/api/v1/profiles/user-tag`. The ranking is the response.
+
+## What that buys you
+
+**Aggregation happens next to the data.** Our storage is columnar, and the expensive rollups — per-wallet profiles, per-category breakdowns, position accounting — are precomputed by a pipeline rather than derived per request. Summing PnL across a million fills is a column scan, not a million objects serialized over HTTP so your process can add them up.
+
+**Rows arrive resolved.** Identifier columns come back *both* as an ID and as the entity, so a row already carries the market's question, the event's title and the category labels:
+
+```json
+{
+  "token": {
+    "positionId": 2469,
+    "marketQuestion": "Will X win?",
+    "eventId": 88,
+    "tagIds": [7, 9]
+  },
+  "tags": [{ "id": 7, "label": "Politics" }, { "id": 9, "label": "US" }]
+}
+```
+
+There is no second request and no join table on your side. This is the single largest difference in practice — most of the code people write against transactional market APIs is join maintenance.
+
+**Ranking is a parameter, not a post-processing step.** `orderBy` takes a prioritized list of sort keys and applies them before pagination, so "page 2 of the top traders" means what you'd expect. Sorting after you paginate — which is what you're forced into when the server won't rank — silently gives you the wrong answer.
+
+**Filtering is typed and composable.** Conditions carry a field, an operator appropriate to that field's type, and a value; groups combine them with AND/OR. Numbers get comparisons, text gets matching, timestamps get windows, and wallet addresses get `inCohort` — membership in a group you defined, evaluated server-side.
+
+Cohorts are the clearest case of something that only works this way. "The 400 wallets matching these performance criteria" is not a resource a transactional API can hand you, because it is not a stored entity. It is a query result that other queries take as input.
+
+## Where transactional still wins
+
+We are not claiming the analytical shape is better at everything. It isn't:
+
+<Versus
+  left="Reach for transactional"
+  right="Reach for DataDash"
+  rows={[
+    ['Placing orders and reconciling fills', 'Deciding what to place in the first place'],
+    ['Fetching one record by transaction hash', 'Ranking thousands of wallets by a computed metric'],
+    ['Sub-second order book state', 'Aggregates over months of history'],
+    ['Mirroring the raw feed into your own store', 'Asking a question without storing anything'],
+  ]}
+/>
+
+The honest framing is that these are complementary. Plenty of teams use a transactional API for execution and DataDash for the analysis that decides what to execute.
+
+## The cost model is different too
+
+A transactional API charges you per resource fetched, and the leaderboard above costs thousands of requests. An analytical API charges you per question asked, and it costs one. That gap widens with every wallet you add to the analysis — which is the direction analytical work always goes.
+
+It also changes what is worth building. When a cohort leaderboard is a single request, you put it on a page and let users change the window. When it is a six-step pipeline with a cache to invalidate, you compute it nightly and ship a stale number.
+
+## Try the comparison
+
+Pick something you currently assemble client-side and see what it takes here.
+
+<CardGroup cols={2}>
+  <Card title="Filtering" icon="filter" href="/filters">
+    The condition and group grammar behind every example above.
+  </Card>
+  <Card title="Generating a Client" icon="terminal" href="/openapi-clients">
+    Typed TypeScript and Python clients from the OpenAPI spec.
+  </Card>
+</CardGroup>

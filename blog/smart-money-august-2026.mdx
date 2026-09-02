@@ -1,0 +1,98 @@
+---
+title: "What smart money did in August"
+description: "A month of prediction-market flow, read through cohort PnL, signal scores and holder churn."
+---
+
+import { PostHeader, StatGrid, Stat, Takeaways } from '/snippets/blog-ui.mdx';
+
+<PostHeader
+  tags={['Research']}
+  date="2 September 2026"
+  author="DataDash Research"
+  readingTime="4 min read"
+/>
+
+<Note>
+  **Sample post.** Every figure below is placeholder data used to shape the blog template. Swap it for real query output before publishing.
+</Note>
+
+<Takeaways
+  items={[
+    'Volume fell 12% while smart-money realized PnL rose 41% — a cheaper month for the informed side, not a better one.',
+    'Sports did half the volume of Politics and nearly twice the PnL.',
+    'Four of the five highest-scoring August entries resolved in the direction held.',
+    'A third of positions in the largest events turned over inside the month.',
+  ]}
+/>
+
+August was a quiet month by volume and a loud one by concentration. Total traded volume across tracked markets fell 12% from July, but the top 100 wallets by PnL took a larger share of it than in any month since we started measuring — 31%, against a 2026 average of 22%.
+
+## The month in five numbers
+
+<StatGrid>
+  <Stat label="Tracked volume" value="$412.6M" delta="12.4%" trend="down" />
+  <Stat label="Active wallets" value="84,910" delta="3.1%" trend="down" />
+  <Stat label="Smart-money PnL" value="$18.9M" delta="41.0%" trend="up" />
+  <Stat label="Median hold" value="6.2d" delta="1.4d" trend="up" />
+  <Stat label="Markets resolved" value="1,204" delta="8.7%" trend="down" />
+</StatGrid>
+
+Fewer traders, less volume, and considerably more money made by the wallets we already track. That combination usually means the informed side of the book got a cheaper month, not a better one.
+
+## Where the edge was
+
+We ran the **Crypto Whales** cohort against category performance for the month. Politics stayed the largest category by volume, but it was not where the returns were.
+
+| Category | Cohort volume | Realized PnL | ROI |
+| --- | --- | --- | --- |
+| Sports | $71.2M | $8.10M | 11.4% |
+| Politics | $148.9M | $4.30M | 2.9% |
+| Crypto | $52.4M | $3.60M | 6.9% |
+| Economics | $19.8M | $1.90M | 9.6% |
+| Culture | $12.1M | $1.00M | 8.3% |
+
+Sports did roughly half the volume of Politics and nearly twice the PnL. The spread is the interesting part: Politics markets stayed liquid and efficiently priced through the month, while Sports repeatedly gave up 8–12 point mispricings in the last 48 hours before resolution.
+
+## Signals that paid
+
+The five highest-scoring positions opened in August, and how they resolved:
+
+| Market | Score | Entry | Size | Outcome |
+| --- | --- | --- | --- | --- |
+| Will the Q3 print exceed 2.4%? | 94 | $0.31 | $412K | Resolved Yes |
+| City to win the league | 91 | $0.44 | $288K | Resolved Yes |
+| Chair replaced before October | 88 | $0.19 | $190K | Resolved No |
+| Merger cleared by regulators | 86 | $0.62 | $355K | Resolved Yes |
+| Storm makes landfall as Cat 3+ | 84 | $0.27 | $145K | Resolved Yes |
+
+Four of five resolved in the direction held. The one that didn't — the chair replacement market — was also the smallest and the earliest, entered 41 days before resolution against a median of 9 days for the rest.
+
+That gap matches what the [signal score](/signals) already weights: conviction shown close to resolution, in size, at a price the trader had to move to get, is worth more than the same conviction expressed early and cheaply.
+
+## Holder churn
+
+Across the 20 largest events by open interest, roughly a third of positions turned over inside the month:
+
+- **34%** of wallets holding on 1 August had fully exited by 31 August
+- **19%** of end-of-month positions belonged to wallets with no prior fill in the event
+- Median position age at exit: **6.2 days**, up from 4.8 in July
+
+Longer holds with heavier churn at the edges is the pattern of a market where the core position-takers stayed put and the tourists rotated.
+
+## Reproducing this
+
+Every number above comes from three endpoints and a cohort:
+
+```json
+{
+  "page": { "limit": 100 },
+  "orderBy": [{ "field": "totalPnl", "direction": "desc" }],
+  "filter": [
+    { "field": "userId", "operator": "inCohort", "value": ["0J9XQ4M7B2K5T"] },
+    { "field": "timestamp", "operator": "between",
+      "value": { "from": "2026-08-01", "to": "2026-08-31" } }
+  ]
+}
+```
+
+Send that to `/api/v1/profiles/user-tag` for the category table, `/api/v1/signals/scores` for the signal table, and `/api/v1/market-holders/all` for the churn figures. See [Filtering](/filters) for the full grammar and [Generating a Client](/openapi-clients) if you'd rather do this in TypeScript or Python.

@@ -1,0 +1,146 @@
+---
+title: "Generating a Client"
+description: "Build a typed TypeScript or Python client from the DataDash OpenAPI spec."
+---
+
+The [API Reference](/api-reference) is generated from an OpenAPI 3.0 document, and so is every code sample on it. That same document is what you point a generator at, so your client's types stay in step with the API instead of drifting from a hand-written wrapper.
+
+```
+https://docs.datadash.xyz/openapi.json
+```
+
+Both generators below take that URL directly. Point them at a local copy instead if you want the spec pinned in your repo — regenerating then becomes a reviewable diff.
+
+## TypeScript
+
+[`@hey-api/openapi-ts`](https://heyapi.dev) emits typed request functions plus the models behind them. Install it and the fetch client:
+
+```bash
+npm install -D @hey-api/openapi-ts
+npm install @hey-api/client-fetch
+```
+
+Configure it at the root of your project:
+
+```ts openapi-ts.config.ts
+import { defineConfig } from "@hey-api/openapi-ts";
+
+export default defineConfig({
+  input: "https://docs.datadash.xyz/openapi.json",
+  output: "src/datadash",
+  plugins: ["@hey-api/client-fetch"],
+});
+```
+
+```bash
+npx @hey-api/openapi-ts
+```
+
+Each operation becomes a function named after its `operationId` — `listPositionsActive`, `listActivity`, `listSmartMoneyGlobal`, and so on. Set the base URL and your [API key](/api-keys) once:
+
+```ts
+import { client, listPositionsActive } from "./datadash";
+
+client.setConfig({
+  baseUrl: "https://api.datadash.xyz",
+  headers: { "X-Api-Key": process.env.DATADASH_API_KEY! },
+});
+
+const { data, error } = await listPositionsActive({
+  body: {
+    page: { limit: 50 },
+    filter: [
+      { field: "userId", operator: "eq", value: "0xAb8D...90F1" },
+      { field: "value", operator: "gte", value: 1000 },
+    ],
+  },
+});
+
+if (error) throw new Error(error.message);
+data?.forEach((row) => console.log(row.token?.marketQuestion, row.unrealizedPnl));
+```
+
+<Tip>
+  Prefer something smaller? [`openapi-typescript`](https://openapi-ts.dev) generates types only — no runtime — and pairs with `openapi-fetch` for the calls. Good when you already have a fetch wrapper you like.
+</Tip>
+
+## Python
+
+[`openapi-python-client`](https://github.com/openapi-generators/openapi-python-client) generates an `httpx`-based package with `attrs` models and full type hints.
+
+By default the package is named after the spec title, which gives you `data_dash_analytics_api_client`. Override it:
+
+```yaml openapi-python-client.yaml
+project_name_override: datadash-client
+package_name_override: datadash_client
+```
+
+```bash
+pipx run openapi-python-client generate \
+  --url https://docs.datadash.xyz/openapi.json \
+  --config openapi-python-client.yaml
+```
+
+Use `AuthenticatedClient` for the `X-Api-Key` header. It defaults to `Authorization: Bearer`, so set the header name and clear the prefix:
+
+```python
+import os
+
+from datadash_client import AuthenticatedClient
+from datadash_client.api.positions import list_positions_active
+from datadash_client.models import PageInput
+
+client = AuthenticatedClient(
+    base_url="https://api.datadash.xyz",
+    token=os.environ["DATADASH_API_KEY"],
+    auth_header_name="X-Api-Key",
+    prefix="",
+)
+
+rows = list_positions_active.sync(
+    client=client,
+    body={
+        "page": {"limit": 50},
+        "filter": [
+            {"field": "userId", "operator": "eq", "value": "0xAb8D...90F1"},
+            {"field": "value", "operator": "gte", "value": 1000},
+        ],
+    },
+)
+
+for row in rows:
+    print(row.token.market_question, row.unrealized_pnl)
+```
+
+Operations live under `datadash_client.api.<tag>`, where the tag is the section it appears under in the reference — `positions`, `activity`, `holders`, `profiles`, `signals`, `smart_money`, `cohorts`. Each exposes `sync`, `sync_detailed`, `asyncio` and `asyncio_detailed`.
+
+## Things worth knowing before you generate
+
+<AccordionGroup>
+  <Accordion title="List endpoints return a bare array" icon="brackets">
+    Responses are a root-level JSON array of rows, not an envelope. Generated return types are `Row[]` / `list[Row]` — there is no `data` or `results` field to unwrap. Pagination is driven entirely by the `page` you send.
+  </Accordion>
+
+  <Accordion title="Big integers arrive as strings" icon="hash">
+    `tokenId` is declared as `type: string` with `format: big-integer`. That format is not one OpenAPI defines, so generators fall back to plain strings — which is what you want, since a 256-bit value can't round-trip through a JSON number. Parse it with `BigInt` or `int()` if you need arithmetic. See [Position IDs](/position-ids) for the 32-bit alternative.
+  </Accordion>
+
+  <Accordion title="Filters are discriminated by field type" icon="filter">
+    Each endpoint's filter is a union of condition shapes — numeric, text, ID, boolean, time — so the operators a generated type accepts depend on the field. If your generator flattens the union awkwardly, build the filter as a plain object literal and let the request type check the outer shape. [Filtering](/filters) documents the full grammar.
+  </Accordion>
+
+  <Accordion title="Two servers are listed" icon="server">
+    The spec declares `api.datadash.xyz` and `api2.datadash.xyz`. Generators pick the first as the default base URL; set it explicitly if you want the other.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="API Keys" icon="key" href="/api-keys">
+    Authenticate your generated client.
+  </Card>
+  <Card title="Filtering" icon="filter" href="/filters">
+    The condition and group grammar every list endpoint accepts.
+  </Card>
+</CardGroup>

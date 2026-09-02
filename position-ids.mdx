@@ -1,0 +1,88 @@
+---
+title: "Position IDs"
+description: "The 32-bit identifier for a single market outcome, and how it relates to market IDs and CLOB token IDs."
+---
+
+A **position** is one side of one market — the Yes token or the No token. `positionId` is the 32-bit integer DataDash uses to name it. It's the join key behind activity rows, positions, holders and signals, and it's the value every `positionId` filter expects.
+
+## How it's built
+
+Polymarket identifies each outcome by its CLOB token ID, a 256-bit integer. DataDash derives a compact `uint32` from the market and the side instead:
+
+```
+positionId = (marketId << 1) | isYesToken
+```
+
+Every market has exactly two outcomes, so 31 bits of market ID (about 2.1 billion markets) plus 1 bit of side covers every token. The mapping is 1:1 with the CLOB token ID — a position ID names exactly one token, and vice versa.
+
+| `positionId` | `marketId` | Side |
+| --- | --- | --- |
+| `2468` | `1234` | No |
+| `2469` | `1234` | Yes |
+| `2470` | `1235` | No |
+| `2471` | `1235` | Yes |
+
+<Note>
+  The compaction is why grouping and filtering are fast. A `uint32` group key costs a fraction of the memory and CPU of a `uint256` one across the profile and cohort queries.
+</Note>
+
+## Taking one apart
+
+The market ID is the high 31 bits, the side is the low bit, and flipping that low bit gives you the opposite outcome in the same market.
+
+<CodeGroup>
+
+```ts TypeScript
+const marketId = positionId >>> 1;
+const isYes = (positionId & 1) === 1;
+const complement = positionId ^ 1; // the other side of the same market
+```
+
+```python Python
+market_id = position_id >> 1
+is_yes = position_id & 1 == 1
+complement = position_id ^ 1  # the other side of the same market
+```
+
+</CodeGroup>
+
+Because the complement is a single XOR, "show me both legs of this market" needs no lookup: `positionId` and `positionId ^ 1` are the pair.
+
+## Where it appears
+
+**In responses**, `positionId` is carried on the resolved `token` object, alongside the CLOB `tokenId` and the market and event it belongs to:
+
+```json
+{
+  "token": {
+    "positionId": 2469,
+    "tokenId": "7147384807...4923",
+    "tokenName": "Yes",
+    "isYesToken": true,
+    "marketId": 1234,
+    "marketQuestion": "Will X win?",
+    "eventId": 88,
+    "tagIds": [7, 9]
+  }
+}
+```
+
+`tokenId` is returned as a **string**, not a number — a 256-bit value does not survive JSON's double-precision numbers. `positionId` is a plain integer.
+
+**In filters**, `positionId` accepts `in` and `notIn`, with a single value or an array:
+
+```json
+"filter": [
+  { "field": "positionId", "operator": "in", "value": [2469, 2471] }
+]
+```
+
+It's available on activity, all three positions endpoints, all three holders endpoints, user positions, and signal scores. See [Filtering](/filters) for operators and grouping.
+
+## Choosing between the IDs
+
+| Use | When |
+| --- | --- |
+| `positionId` | Filtering, joining and grouping inside DataDash. This is the default. |
+| `marketId` | You want both outcomes of a market at once. |
+| `tokenId` | You're reconciling against Polymarket's own CLOB API, which only knows token IDs. |
