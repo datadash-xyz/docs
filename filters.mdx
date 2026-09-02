@@ -135,25 +135,9 @@ curl -X POST https://api.datadash.xyz/api/v1/positions/active \
 
 ## Resolved references
 
-Fields that reference another entity — `marketId`, `eventId`, `userId`, `tagIds` and so on — come back **both as the id and as the resolved row**, so you don't need a second request to turn an id into a name.
+Reference fields come back as the resolved entity rather than a bare id, so you don't need a second request to turn an id into a name.
 
-```json
-{
-  "marketId": 1234,
-  "market": { "id": 1234, "question": "Will X win?", "slug": "will-x-win", "closed": false },
-
-  "tagIds": [7, 9],
-  "tags": [{ "id": 7, "label": "Politics" }, { "id": 9, "label": "US" }]
-}
-```
-
-**The resolved field is named after the entity it resolves to**, not after the id column: `marketId` → `market`, `eventId` → `event`, and activity's `wallet` → `user`. An array of ids resolves to an array of rows under the pluralized name, so `tagIds` becomes `tags`.
-
-<Note>
-  Resolution is **one level deep**. A resolved row keeps its own reference fields as plain ids — a `market` carries `eventId`, not a nested `event` — so responses can't fan out across the whole graph. An id with no matching row resolves to `null`.
-
-  Not every reference is resolved — some are returned as plain ids, either because the row isn't useful to embed or because another column on the same endpoint already embeds it. The API Reference shows exactly which fields carry a resolved object.
-</Note>
+Resolution is **one level deep** — a resolved row keeps its own references as plain ids, so responses can't fan out across the graph. The [API Reference](/api-reference) shows what each endpoint resolves.
 
 ## Activity options
 

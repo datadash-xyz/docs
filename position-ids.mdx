@@ -16,15 +16,11 @@ positionId = (marketId << 1) | isYesToken
 Every market has exactly two outcomes, so 31 bits of market ID (about 2.1 billion markets) plus 1 bit of side covers every token. The mapping is 1:1 with the CLOB token ID — a position ID names exactly one token, and vice versa.
 
 | `positionId` | `marketId` | Side |
-| --- | --- | --- |
-| `2468` | `1234` | No |
-| `2469` | `1234` | Yes |
-| `2470` | `1235` | No |
-| `2471` | `1235` | Yes |
-
-<Note>
-  The compaction is why grouping and filtering are fast. A `uint32` group key costs a fraction of the memory and CPU of a `uint256` one across the profile and cohort queries.
-</Note>
+| ------------ | ---------- | ---- |
+| `2468`       | `1234`     | No   |
+| `2469`       | `1234`     | Yes  |
+| `2470`       | `1235`     | No   |
+| `2471`       | `1235`     | Yes  |
 
 ## Taking one apart
 
@@ -63,7 +59,10 @@ Because the complement is a single XOR, "show me both legs of this market" needs
     "marketQuestion": "Will X win?",
     "eventId": 88
   },
-  "tags": [{ "id": 7, "label": "Politics" }, { "id": 9, "label": "US" }]
+  "tags": [
+    { "id": 7, "label": "Politics" },
+    { "id": 9, "label": "US" }
+  ]
 }
 ```
 
@@ -81,8 +80,8 @@ It's available on activity, all three positions endpoints, all three holders end
 
 ## Choosing between the IDs
 
-| Use | When |
-| --- | --- |
-| `positionId` | Filtering, joining and grouping inside Datadash. This is the default. |
-| `marketId` | You want both outcomes of a market at once. |
-| `tokenId` | You're reconciling against Polymarket's own CLOB API, which only knows token IDs. |
+| Use          | When                                                                              |
+| ------------ | --------------------------------------------------------------------------------- |
+| `positionId` | Filtering, joining and grouping inside Datadash. This is the default.             |
+| `marketId`   | You want both outcomes of a market at once.                                       |
+| `tokenId`    | You're reconciling against Polymarket's own CLOB API, which only knows token IDs. |

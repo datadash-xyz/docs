@@ -17,30 +17,27 @@ The same endpoint also returns a **summary** view, grouping fills into time buck
 | --------------------------- | ----------------------------------------------------------- |
 | **`activity`**              | The type of activity: a buy or a sell.                      |
 | **`timestamp`**             | When the fill occurred.                                     |
-| **`wallet`**                | The wallet that traded.                                     |
+| **`user`**                  | The wallet that traded.                                     |
 | **`amount`**                | Shares bought or sold.                                      |
 | **`usdPrice`**              | Price per share, in USD.                                    |
 | **`usdAmount`**             | USD value of the fill.                                      |
 | **`avgBuyingPrice`**        | The wallet's average buying price at the time of this fill. |
 | **`realizedPnl`**           | Realized profit and loss, in USD.                           |
 | **`realizedPnlPercentage`** | Realized PnL as a percentage of cost basis.                 |
-| **`positionId`**            | The [position](/position-ids) traded.                                        |
-| **`marketId`**              | The market the fill happened in.                            |
-| **`eventId`**               | The parent event of that market.                            |
-| **`tagIds`**                | Categories on the event.                                    |
-| **`seriesId`**              | The series the event belongs to.                            |
+| **`token`**                 | The [position](/position-ids) traded.                       |
+| **`market`**                | The market the fill happened in.                            |
+| **`event`**                 | The parent event of that market.                            |
+| **`tags`**                  | Categories on the event.                                    |
+| **`series`**                | The series the event belongs to.                            |
 | **`txHash`**                | On-chain transaction hash.                                  |
 | **`seqId`**                 | Sequence id, for stable ordering.                           |
 
-The identifier columns are what make the log _enriched_. Each one is returned **both as an id and as the resolved entity**, so a row already carries the market's question, the event's title and the category labels:
+The reference columns are what make the log _enriched_. Each comes back as the resolved entity rather than a bare id, so a row already carries the market's question, the event's title and the category labels:
 
 ```json
 {
-  "marketId": 1234,
   "market": { "id": 1234, "question": "Will X win?", "closed": false },
-  "wallet": "0xAb8D...90F1",
   "user": { "userId": "0xAb8D...90F1", "displayName": "..." },
-  "tagIds": [7, 9],
   "tags": [
     { "id": 7, "label": "Politics" },
     { "id": 9, "label": "US" }
@@ -48,7 +45,11 @@ The identifier columns are what make the log _enriched_. Each one is returned **
 }
 ```
 
-Each resolved field is named after the entity: `marketId` → `market`, `eventId` → `event`, `seriesId` → `series`, `positionId` → `token`, `tagIds` → `tags`, and `wallet` → `user`. See [Resolved references](/filters#resolved-references) for the rule and its one-level depth limit.
+Resolution is one level deep — see [Resolved references](/filters#resolved-references).
+
+<Note>
+  You still **filter** on the id fields — `marketId`, `eventId`, `tagIds`, `seriesId` and `positionId` — even though rows come back carrying the resolved entity. See [Filtering](/filters).
+</Note>
 
 ## Two ways to read it
 
@@ -82,8 +83,8 @@ Grains run from hourly to monthly; the API Reference lists the id for each. Omit
   Measures are aggregated the way each one means something: `amount`,
   `usdAmount` and `realizedPnl` are **summed**, while `usdPrice` and
   `avgBuyingPrice` are **share-weighted averages** — not plain averages, so a
-  large fill counts more than a small one. `marketId`, `eventId`, `tagIds` and
-  `seriesId` carry through as representative values for the group.
+  large fill counts more than a small one. `market`, `event`, `tags` and
+  `series` carry through as representative values for the group.
 </Note>
 
 ## Selecting activity types
