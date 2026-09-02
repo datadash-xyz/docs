@@ -76,9 +76,7 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": [
-              "index"
-            ]
+            "pages": ["index"]
           },
           {
             "group": "Features",
@@ -87,18 +85,12 @@
               "holders",
               "smart-money",
               "signals",
-              "cohorts",
-              "telegram-alerts"
+              "cohorts"
             ]
           },
           {
             "group": "Using the API",
-            "pages": [
-              "api-keys",
-              "filters",
-              "position-ids",
-              "openapi-clients"
-            ]
+            "pages": ["api-keys", "filters", "position-ids", "openapi-clients"]
           }
         ]
       },
@@ -111,21 +103,15 @@
         "groups": [
           {
             "group": "Blog",
-            "pages": [
-              "blog/index"
-            ]
+            "pages": ["blog/index"]
           },
           {
             "group": "Engineering",
-            "pages": [
-              "blog/analytical-not-transactional"
-            ]
+            "pages": ["blog/analytical-not-transactional"]
           },
           {
             "group": "Research",
-            "pages": [
-              "blog/smart-money-august-2026"
-            ]
+            "pages": ["blog/smart-money-august-2026"]
           }
         ]
       }

@@ -57,11 +57,15 @@ const { data, error } = await listPositionsActive({
 });
 
 if (error) throw new Error(error.message);
-data?.forEach((row) => console.log(row.token?.marketQuestion, row.unrealizedPnl));
+data?.forEach((row) =>
+  console.log(row.token?.marketQuestion, row.unrealizedPnl),
+);
 ```
 
 <Tip>
-  Prefer something smaller? [`openapi-typescript`](https://openapi-ts.dev) generates types only — no runtime — and pairs with `openapi-fetch` for the calls. Good when you already have a fetch wrapper you like.
+  Prefer something smaller? [`openapi-typescript`](https://openapi-ts.dev)
+  generates types only — no runtime — and pairs with `openapi-fetch` for the
+  calls. Good when you already have a fetch wrapper you like.
 </Tip>
 
 ## Python
@@ -121,16 +125,24 @@ Operations live under `datadash_client.api.<tag>`, where the tag is the section 
     Responses are a root-level JSON array of rows, not an envelope. Generated return types are `Row[]` / `list[Row]` — there is no `data` or `results` field to unwrap. Pagination is driven entirely by the `page` you send.
   </Accordion>
 
-  <Accordion title="Big integers arrive as strings" icon="hash">
-    `tokenId` is declared as `type: string` with `format: big-integer`. That format is not one OpenAPI defines, so generators fall back to plain strings — which is what you want, since a 256-bit value can't round-trip through a JSON number. Parse it with `BigInt` or `int()` if you need arithmetic. See [Position IDs](/position-ids) for the 32-bit alternative.
-  </Accordion>
+<Accordion title="Big integers arrive as strings" icon="hash">
+  `tokenId` is declared as `type: string` with `format: big-integer`. That
+  format is not one OpenAPI defines, so generators fall back to plain strings —
+  which is what you want, since a 256-bit value can't round-trip through a JSON
+  number. Parse it with `BigInt` or `int()` if you need arithmetic. See
+  [Position IDs](/position-ids) for the 32-bit alternative.
+</Accordion>
 
-  <Accordion title="Filters are discriminated by field type" icon="filter">
-    Each endpoint's filter is a union of condition shapes — numeric, text, ID, boolean, time — so the operators a generated type accepts depend on the field. If your generator flattens the union awkwardly, build the filter as a plain object literal and let the request type check the outer shape. [Filtering](/filters) documents the full grammar.
-  </Accordion>
+<Accordion title="Filters are discriminated by field type" icon="funnel">
+  Each endpoint's filter is a union of condition shapes — numeric, text, ID,
+  boolean, time — so the operators a generated type accepts depend on the field.
+  If your generator flattens the union awkwardly, build the filter as a plain
+  object literal and let the request type check the outer shape.
+  [Filtering](/filters) documents the full grammar.
+</Accordion>
 
   <Accordion title="Two servers are listed" icon="server">
-    The spec declares `api.datadash.xyz` and `api2.datadash.xyz`. Generators pick the first as the default base URL; set it explicitly if you want the other.
+    The spec declares `api.datadash.xyz`. Generators pick the first as the default base URL; set it explicitly if you want the other.
   </Accordion>
 </AccordionGroup>
 

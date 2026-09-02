@@ -21,22 +21,28 @@ Datadash turns raw prediction-market activity into structured, query-ready analy
 
 <CardGroup cols={2}>
   <Card title="Activity" icon="activity">
-    Chronological log of every buy and sell fill, enriched with market, event, category and series metadata.
+    Chronological log of every buy and sell fill, enriched with market, event,
+    category and series metadata.
   </Card>
   <Card title="Positions" icon="wallet">
-    Active, closed and all-time positions for a wallet or cohort: invested, shares, ROI and realized/unrealized PnL.
+    Active, closed and all-time positions for a wallet or cohort: invested,
+    shares, ROI and realized/unrealized PnL.
   </Card>
   <Card title="Holders" icon="users">
-    User-level holders of active, closed or all market positions, with nested token-level detail.
+    User-level holders of active, closed or all market positions, with nested
+    token-level detail.
   </Card>
   <Card title="Profiles" icon="user">
-    Per-wallet performance: PnL, win rate, volume, ROI, hold time and trade counts, overall or broken down by category.
+    Per-wallet performance: PnL, win rate, volume, ROI, hold time and trade
+    counts, overall or broken down by category.
   </Card>
   <Card title="Smart Money" icon="trending-up">
-    Markets ranked by smart-money edge, plus Yes/No and neg-risk summaries and per-wallet positions.
+    Markets ranked by smart-money edge, plus Yes/No and neg-risk summaries and
+    per-wallet positions.
   </Card>
   <Card title="Signals" icon="radar">
-    Per-wallet, per-position insider signal scores for currently-held legs in active markets.
+    Per-wallet, per-position insider signal scores for currently-held legs in
+    active markets.
   </Card>
 </CardGroup>
 
@@ -52,4 +58,4 @@ Responses are a JSON array of rows. See the [API Reference](/api-reference) for 
 
 ## Beyond querying
 
-Generate a typed client from the same spec the reference is built from — see [Generating a Client](/openapi-clients) for TypeScript and Python. To be told when something changes instead of polling for it, attach an alert to an insight and have it delivered to [Telegram](/telegram-alerts), Discord or Slack.
+Generate a typed client from the same spec the reference is built from — see [Generating a Client](/openapi-clients) for TypeScript and Python.
