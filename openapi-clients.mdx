@@ -1,6 +1,6 @@
 ---
 title: "Generating a Client"
-description: "Build a typed TypeScript or Python client from the DataDash OpenAPI spec."
+description: "Build a typed TypeScript or Python client from the Datadash OpenAPI spec."
 ---
 
 The [API Reference](/api-reference) is generated from an OpenAPI 3.0 document, and so is every code sample on it. That same document is what you point a generator at, so your client's types stay in step with the API instead of drifting from a hand-written wrapper.
@@ -16,8 +16,8 @@ Both generators below take that URL directly. Point them at a local copy instead
 [`@hey-api/openapi-ts`](https://heyapi.dev) emits typed request functions plus the models behind them. Install it and the fetch client:
 
 ```bash
-npm install -D @hey-api/openapi-ts
-npm install @hey-api/client-fetch
+pnpm add -D @hey-api/openapi-ts
+pnpm add @hey-api/client-fetch
 ```
 
 Configure it at the root of your project:
@@ -33,7 +33,7 @@ export default defineConfig({
 ```
 
 ```bash
-npx @hey-api/openapi-ts
+pnpm exec openapi-ts
 ```
 
 Each operation becomes a function named after its `operationId` — `listPositionsActive`, `listActivity`, `listSmartMoneyGlobal`, and so on. Set the base URL and your [API key](/api-keys) once:
@@ -149,7 +149,7 @@ Operations live under `datadash_client.api.<tag>`, where the tag is the section 
   <Card title="API Keys" icon="key" href="/api-keys">
     Authenticate your generated client.
   </Card>
-  <Card title="Filtering" icon="filter" href="/filters">
+  <Card title="Filtering" icon="funnel" href="/filters">
     The condition and group grammar every list endpoint accepts.
   </Card>
 </CardGroup>

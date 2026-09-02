@@ -3,11 +3,11 @@ title: "Position IDs"
 description: "The 32-bit identifier for a single market outcome, and how it relates to market IDs and CLOB token IDs."
 ---
 
-A **position** is one side of one market — the Yes token or the No token. `positionId` is the 32-bit integer DataDash uses to name it. It's the join key behind activity rows, positions, holders and signals, and it's the value every `positionId` filter expects.
+A **position** is one side of one market — the Yes token or the No token. `positionId` is the 32-bit integer Datadash uses to name it. It's the join key behind activity rows, positions, holders and signals, and it's the value every `positionId` filter expects.
 
 ## How it's built
 
-Polymarket identifies each outcome by its CLOB token ID, a 256-bit integer. DataDash derives a compact `uint32` from the market and the side instead:
+Polymarket identifies each outcome by its CLOB token ID, a 256-bit integer. Datadash derives a compact `uint32` from the market and the side instead:
 
 ```
 positionId = (marketId << 1) | isYesToken
@@ -61,9 +61,9 @@ Because the complement is a single XOR, "show me both legs of this market" needs
     "isYesToken": true,
     "marketId": 1234,
     "marketQuestion": "Will X win?",
-    "eventId": 88,
-    "tagIds": [7, 9]
-  }
+    "eventId": 88
+  },
+  "tags": [{ "id": 7, "label": "Politics" }, { "id": 9, "label": "US" }]
 }
 ```
 
@@ -83,6 +83,6 @@ It's available on activity, all three positions endpoints, all three holders end
 
 | Use | When |
 | --- | --- |
-| `positionId` | Filtering, joining and grouping inside DataDash. This is the default. |
+| `positionId` | Filtering, joining and grouping inside Datadash. This is the default. |
 | `marketId` | You want both outcomes of a market at once. |
 | `tokenId` | You're reconciling against Polymarket's own CLOB API, which only knows token IDs. |

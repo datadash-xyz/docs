@@ -1,29 +1,34 @@
 ---
 title: "Analytical, not transactional"
-description: "Why DataDash returns ranked, aggregated result sets instead of resources you have to assemble yourself."
+description: "Why Datadash returns ranked, aggregated result sets instead of resources you have to assemble yourself."
 ---
 
-import { PostHeader, Takeaways, PullQuote, Versus } from '/snippets/blog-ui.mdx';
+import {
+  PostHeader,
+  Takeaways,
+  PullQuote,
+  Versus,
+} from "/snippets/blog-ui.mdx";
 
 <PostHeader
-  tags={['Engineering']}
+  tags={["Engineering"]}
   date="2 September 2026"
-  author="DataDash Engineering"
+  author="Datadash Engineering"
   readingTime="6 min read"
 />
 
 <Takeaways
   items={[
-    'Transactional APIs return resources. Analytical APIs return the result of a question.',
-    'A leaderboard that costs thousands of requests elsewhere is one request here.',
-    'Rows arrive with identifiers already resolved, so there is no join table on your side.',
-    'Cohorts only work this way — a query result other queries take as input is not a resource.',
+    "Transactional APIs return resources. Analytical APIs return the result of a question.",
+    "A leaderboard that costs thousands of requests elsewhere is one request here.",
+    "Rows arrive with identifiers already resolved, so there is no join table on your side.",
+    "Cohorts only work this way — a query result other queries take as input is not a resource.",
   ]}
 />
 
 Most prediction-market APIs — struct.to among them — are **transactional**. They hand you resources: a market, an order, a position, a user. Each response is a faithful record of one thing, and the shape of the API follows the shape of the database behind it. That is exactly right if you are placing trades, reconciling fills, or keeping a local mirror in sync.
 
-DataDash is **analytical**. Nothing we return corresponds to a single stored record. Every response is the result of a query — filtered, joined, aggregated and ranked before it leaves the server.
+Datadash is **analytical**. Nothing we return corresponds to a single stored record. Every response is the result of a query — filtered, joined, aggregated and ranked before it leaves the server.
 
 The distinction matters more than it sounds like it should, because it decides where the work happens.
 
@@ -41,12 +46,12 @@ On a transactional API, that is a program:
 6. Resolve each position's market. More requests, or a bigger cache.
 
 <PullQuote>
-  You have written an analytics engine. It runs on your infrastructure, it is slow because the data
-  crossed the network before being reduced, and every consumer of your data writes step 3 slightly
-  differently.
+  You have written an analytics engine. It runs on your infrastructure, it is
+  slow because the data crossed the network before being reduced, and every
+  consumer of your data writes step 3 slightly differently.
 </PullQuote>
 
-On DataDash it is one request:
+On Datadash it is one request:
 
 ```json
 {
@@ -54,7 +59,11 @@ On DataDash it is one request:
   "orderBy": [{ "field": "totalPnl", "direction": "desc" }],
   "filter": [
     { "field": "tagIds", "operator": "in", "value": [12] },
-    { "field": "timestamp", "operator": "last", "value": { "unit": "month", "length": 1 } }
+    {
+      "field": "timestamp",
+      "operator": "last",
+      "value": { "unit": "month", "length": 1 }
+    }
   ]
 }
 ```
@@ -65,17 +74,19 @@ Sent to `/api/v1/profiles/user-tag`. The ranking is the response.
 
 **Aggregation happens next to the data.** Our storage is columnar, and the expensive rollups — per-wallet profiles, per-category breakdowns, position accounting — are precomputed by a pipeline rather than derived per request. Summing PnL across a million fills is a column scan, not a million objects serialized over HTTP so your process can add them up.
 
-**Rows arrive resolved.** Identifier columns come back *both* as an ID and as the entity, so a row already carries the market's question, the event's title and the category labels:
+**Rows arrive resolved.** Identifier columns come back already joined to the entity they name, so a row carries the market's question, the event's title and the category labels outright:
 
 ```json
 {
   "token": {
     "positionId": 2469,
     "marketQuestion": "Will X win?",
-    "eventId": 88,
-    "tagIds": [7, 9]
+    "eventId": 88
   },
-  "tags": [{ "id": 7, "label": "Politics" }, { "id": 9, "label": "US" }]
+  "tags": [
+    { "id": 7, "label": "Politics" },
+    { "id": 9, "label": "US" }
+  ]
 }
 ```
 
@@ -93,16 +104,25 @@ We are not claiming the analytical shape is better at everything. It isn't:
 
 <Versus
   left="Reach for transactional"
-  right="Reach for DataDash"
+  right="Reach for Datadash"
   rows={[
-    ['Placing orders and reconciling fills', 'Deciding what to place in the first place'],
-    ['Fetching one record by transaction hash', 'Ranking thousands of wallets by a computed metric'],
-    ['Sub-second order book state', 'Aggregates over months of history'],
-    ['Mirroring the raw feed into your own store', 'Asking a question without storing anything'],
+    [
+      "Placing orders and reconciling fills",
+      "Deciding what to place in the first place",
+    ],
+    [
+      "Fetching one record by transaction hash",
+      "Ranking thousands of wallets by a computed metric",
+    ],
+    ["Sub-second order book state", "Aggregates over months of history"],
+    [
+      "Mirroring the raw feed into your own store",
+      "Asking a question without storing anything",
+    ],
   ]}
 />
 
-The honest framing is that these are complementary. Plenty of teams use a transactional API for execution and DataDash for the analysis that decides what to execute.
+The honest framing is that these are complementary. Plenty of teams use a transactional API for execution and Datadash for the analysis that decides what to execute.
 
 ## The cost model is different too
 
@@ -115,7 +135,7 @@ It also changes what is worth building. When a cohort leaderboard is a single re
 Pick something you currently assemble client-side and see what it takes here.
 
 <CardGroup cols={2}>
-  <Card title="Filtering" icon="filter" href="/filters">
+  <Card title="Filtering" icon="funnel" href="/filters">
     The condition and group grammar behind every example above.
   </Card>
   <Card title="Generating a Client" icon="terminal" href="/openapi-clients">

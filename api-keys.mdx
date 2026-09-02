@@ -1,6 +1,6 @@
 ---
 title: "API Keys"
-description: "Authenticate your requests to the DataDash API."
+description: "Authenticate your requests to the Datadash API."
 ---
 
 Every API request must be authenticated with an API key, sent in the `X-Api-Key` header.
@@ -18,15 +18,107 @@ Requests without a key, or with a revoked or malformed one, return `401`:
 { "code": "unauthenticated", "message": "missing credentials: supply an X-Api-Key header or a bearer token" }
 ```
 
-## Getting a key
+Keys are managed over the API itself — there is no dashboard screen for it. Your **first** key has to be created with an access token, since you don't yet have a key to authenticate with.
 
-Create, list and revoke keys from your [dashboard](https://datadash.xyz). Key names are 1–30 characters, letters and digits only, and each key is listed by its name, creation time and last three characters — enough to tell your keys apart without exposing them.
+## Getting an access token
 
-Revocation takes effect within a few seconds across all servers.
+The API accepts either an `X-Api-Key` header or an `Authorization: Bearer` header carrying your Privy access token. The dashboard already sends that token on every request, so the quickest way to get one is to lift it from your own browser session.
+
+<Steps>
+  <Step title="Sign in to the dashboard">
+    Open [datadash.xyz](https://datadash.xyz) and log in.
+  </Step>
+
+  <Step title="Open the Network tab">
+    Open DevTools (<kbd>F12</kbd>, or <kbd>⌥⌘I</kbd> on macOS) and select **Network**. Filter to **Fetch/XHR**.
+  </Step>
+
+  <Step title="Find a request to the API">
+    Click around the app so it loads data, then pick any request going to `api.datadash.xyz`. The RPC calls are named after the method — `ListTable`, `GetMetadata`, and so on.
+  </Step>
+
+  <Step title="Copy the Authorization header">
+    In **Headers → Request Headers**, find `authorization`. Copy everything after `Bearer `.
+
+    ```
+    authorization: Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9...
+    ```
+  </Step>
+</Steps>
+
+```bash
+export ACCESS_TOKEN="eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9..."
+```
 
 <Warning>
-  The key is returned **once, at creation**. DataDash stores only a hash of it and can never show it to you again. Save it somewhere safe immediately — if you lose it, delete the key and create a new one.
+  Access tokens are short-lived and refresh as you use the dashboard. Use one to mint an API key, then authenticate with the key from then on — a token copied out of the browser will stop working, and it carries your full account access until it does.
 </Warning>
+
+## Creating a key
+
+```bash
+curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/Create \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "production"}'
+```
+
+```json
+{ "apiKey": "datadash_AGB1c2VyXzAxSFEy..." }
+```
+
+Names are 1–30 characters, **letters and digits only** — no spaces, dashes or underscores. The name is how you refer to the key later, so it has to be unique within your account.
+
+Once you hold a key, you can create further keys with it instead of a token, by swapping the header:
+
+```bash
+curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/Create \
+  -H "X-Api-Key: $DATADASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "staging"}'
+```
+
+<Warning>
+  The key is returned **once, at creation**. Datadash stores only a hash of it and can never show it to you again. Save it somewhere safe immediately — if you lose it, delete the key and create a new one.
+</Warning>
+
+## Listing your keys
+
+`page` is required; `limit` must be between 1 and 1000.
+
+```bash
+curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/List \
+  -H "X-Api-Key: $DATADASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"page": {"limit": 20}}'
+```
+
+```json
+{
+  "totalCount": 2,
+  "apiKeysInfos": [
+    { "name": "production", "endsWith": "f3a", "createdAt": "2026-01-15T10:22:31Z" },
+    { "name": "staging",    "endsWith": "b71", "createdAt": "2026-02-03T08:14:02Z" }
+  ]
+}
+```
+
+Listing returns each key's name, creation time, and last three characters — enough to tell your keys apart without exposing them. Page through with `offset`.
+
+## Revoking a key
+
+Delete a key by name. Revocation takes effect within a few seconds across all servers.
+
+```bash
+curl -X POST https://api.datadash.xyz/auth.v1.APIKeyService/Delete \
+  -H "X-Api-Key: $DATADASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "staging"}'
+```
+
+<Note>
+  A key can delete itself. If you revoke the key you're authenticating with, the call succeeds and every later request with it returns `401`.
+</Note>
 
 ## Keeping keys safe
 
@@ -42,7 +134,7 @@ Revocation takes effect within a few seconds across all servers.
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Filtering" icon="filter" href="/filters">
+  <Card title="Filtering" icon="funnel" href="/filters">
     Narrow any list endpoint with typed conditions and AND/OR groups.
   </Card>
   <Card title="Generate a client" icon="terminal" href="/openapi-clients">
