@@ -1,0 +1,167 @@
+---
+title: "How to copy profitable Polymarket traders, from zero"
+description: "Blind mirroring makes you someone else's exit liquidity. Reading the trade before you take it is a different job — and a measurable one."
+mode: "custom"
+---
+
+import {
+  PostLayout,
+  Takeaways,
+  PullQuote,
+  Versus,
+} from "/snippets/blog-ui.mdx";
+
+<PostLayout
+  category="Playbook"
+  date="29 June 2026"
+  readingTime="7 min read"
+  title="How to copy profitable Polymarket traders, from zero"
+  description="Blind mirroring makes you someone else's exit liquidity. Reading the trade before you take it is a different job — and a measurable one."
+  author="Datadash Engineering"
+  role="Engineering"
+>
+
+<Takeaways
+  items={[
+    "Auto-copy loses on price, on size, and on staleness — three separate failures, none of them bad luck.",
+    "A leaderboard ranks by raw PnL. It hides risk, and it hides everyone who already blew up.",
+    "Signals scores each held position on entry slippage, directional purity, the wallet's standing in that category, and how big the bet is for that wallet.",
+    "Follow one wallet, a whole category, or a cohort you defined — the same query, scoped three different ways.",
+  ]}
+/>
+
+You found a wallet up big on Polymarket. Clean chart, fat PnL, months of green. So you set a bot to copy every trade it makes.
+
+A month later, the wallet is still up. You are down.
+
+This happens to almost everyone who tries automatic copy trading, and it is not variance. The setup is broken in three specific, separable ways.
+
+## Three ways auto-copy loses
+
+### You are always last in line
+
+The bot copies the trade after the original trader is already in. On Polymarket's thin markets, the fill that moved the price is theirs; the one you get is worse. If the move was large enough, you are buying exactly what they are preparing to sell.
+
+That is the whole problem in one number. A trade entered at 12¢ and a trade entered at 19¢ are not the same trade, even though a mirroring bot records them as the same action. The edge lives in the gap.
+
+### Their bet size is not your bet size
+
+A position that is a small, careful probe for a whale can be half your account. A bot copies the entry, and sometimes the notional — it never copies the risk, or the conviction behind it.
+
+The useful question is not "how many dollars is this position?" It is "how big is this position *for them*?" A wallet whose typical bet is $4,000 putting on $40,000 has told you something. The same $40,000 from a wallet that swings $50,000 routinely has told you nothing.
+
+### You copied a snapshot, not a live edge
+
+Leaderboards rank by raw PnL. They hide risk, they hide leverage, and they hide every trader who already blew up — the graveyard is quiet, so the survivors look like a strategy.
+
+Worse, a bot keeps copying a wallet long after it has gone cold, because nothing in the setup ever tells it the edge is gone. Past performance is the entire input, and it is the one input that updates last.
+
+<PullQuote>
+  Auto-copy makes you the exit liquidity. A signal makes you the one holding
+  the information.
+</PullQuote>
+
+## Read the trade before you take it
+
+The alternative to mirroring is not "trade manually and hope." It is scoring each position on the things that actually decide whether it is still worth entering:
+
+| What you need to know | How it is measured |
+| --- | --- |
+| Has the price already run past you? | **Slippage** — the signed move from the trader's average entry to the live price. |
+| Is this a real bet for this wallet? | **Relative size** — the position against that wallet's own median position size. |
+| Is the wallet actually good *here*? | Its PnL rank inside the market's categories, not its rank overall. |
+| How long is your money committed? | **Days left** until the market resolves. |
+| Is it a directional bet at all? | The wallet's YES/NO book on that market — a balanced book is a market maker, not a view. |
+
+Watching that by hand, in real time, across dozens of wallets, is the reason most people give up and hand the job to a dumb bot. It is exactly why we built [Signals](/signals).
+
+## What the score gates on
+
+Every currently-held position in an active market gets a score from 0 to 100. It is not a weighted average of everything — some inputs are **gates** that multiply the score down, and some are **quality** terms that add to it. That distinction is the whole design.
+
+**Slippage is a gate.** Edge lost to price cannot be earned back by the trader being brilliant. A position whose price has run away from the entry is scored down no matter whose it is. Positions that have run *too far* aren't hidden, they just land in the bottom band — you can see them and skip them.
+
+**A balanced book is a veto.** A wallet holding both sides of the same market is making markets or arbing, not predicting. Directional purity multiplies in, so a two-sided book scores near zero regardless of track record.
+
+**Standing sets the ceiling.** A wallet's PnL rank is converted to a percentile within its field and decayed on a log curve, so the difference between the top 1% and the top 0.01% is worth far more than the difference between the median and the top quarter. Category standing is preferred over overall standing — being top of the field in Soccer is what matters when the market is a soccer market.
+
+**Conviction is a bonus, not a substitute.** Size relative to the wallet's own baseline adds to the score. It cannot rescue a wallet with no standing, and it is capped, so one outsized bet doesn't outrank genuine expertise.
+
+Before any of that, a wallet has to qualify: a real track record rather than a handful of lucky positions, a top-percentile rank in the market's category or on the overall leaderboard, and not a bot — wallets holding an implausibly broad book of concurrently open events are excluded outright, because breadth like that is a market maker or a farming script every time.
+
+| Band | Reading |
+| --- | --- |
+| 90–100 | Great |
+| 75–90 | Good |
+| 50–75 | Okay |
+| 25–50 | Poor |
+| 0–25 | Untradeable — the edge is already priced in |
+
+<Versus
+  left="Auto-copy bot"
+  right="Signals"
+  rows={[
+    ["Fires on the trade, after the fill", "Scores the position, continuously"],
+    ["Ignores the price you would pay", "Slippage gates the score"],
+    ["Copies notional, not conviction", "Sizes the bet against that wallet's own baseline"],
+    ["Trusts an all-time leaderboard", "Ranks standing inside the market's category"],
+    ["Cannot tell a maker from a predictor", "A two-sided book vetoes the signal"],
+  ]}
+/>
+
+## Three ways to follow
+
+Scoring positions is only useful if you can point it at the right set of wallets. There are three scopes, and they are the same query underneath.
+
+**Follow one wallet.** Find a trader that is genuinely good in one category and watch its signals — for example, a [wallet that specializes in football markets](https://datadash.xyz/@frostrizz). Narrow, high trust, low volume.
+
+**Follow a category.** Point Signals at [an entire category](https://datadash.xyz/predict/fifa-world-cup/signals) and let it surface the strongest positions across every qualified wallet in it. You stop betting on one trader staying hot.
+
+**Follow a cohort you defined.** Build a [cohort](/cohorts) on your own rules — say, wallets that cleared six figures in soccer last year and are still profitable — and [follow its signals as a group](https://datadash.xyz/cohorts/soccer-whales-7p45109c2190?tab=signals). Rule-based cohorts re-evaluate on a schedule, so a wallet that stops clearing the bar stops appearing. That is the part a bot never does on its own.
+
+## The same thing over the API
+
+Everything above is one request. Rank a cohort's held positions by score, drop anything the price has already run away from, and keep only bets that are large for the wallet holding them:
+
+```json
+{
+  "page": { "limit": 50 },
+  "orderBy": [{ "field": "score", "direction": "desc" }],
+  "filter": [
+    { "field": "userId", "operator": "inCohort", "value": ["0J9XQ4M7B2K5T"] },
+    { "field": "slipAbs", "operator": "lte", "value": 0.02 },
+    { "field": "relSize", "operator": "gte", "value": 1.5 },
+    { "field": "daysToResolution", "operator": "lte", "value": 30 },
+    { "field": "score", "operator": "gte", "value": 75 }
+  ]
+}
+```
+
+Sent to `/api/v1/signals/scores`. Rows come back with the market, event and category already resolved, so there is no second request to turn an id into a question.
+
+Note what `slipAbs` does there. It is signed — positive means the price rose above the trader's entry and you would be tailing at a worse price, negative means it fell and you would be getting in cheaper. A plain `lte` bound caps the adverse side and lets favourable moves through for free.
+
+Change one line and the same query becomes a different strategy. Swap `inCohort` for `in` with a single address to follow one wallet. Add `tagIds` to scope it to a category. Loosen `daysToResolution` if you are happy to have money committed for a quarter.
+
+## The point
+
+Copying a profitable trader is not a copying problem. It is a reading problem: by the time a trade is visible, the only question left is whether the edge that made it a good trade still survives at the price you would pay.
+
+Auto-copy answers that question by assuming yes, every time. That is the whole reason it loses.
+
+<CardGroup cols={2}>
+  <Card title="Signals" icon="radar" href="/signals">
+    Every column in the table, and what the score is built from.
+  </Card>
+  <Card title="Cohorts" icon="users" href="/cohorts">
+    Static and rule-based groups, and how to point Signals at one.
+  </Card>
+  <Card title="Filtering" icon="funnel" href="/filters">
+    The condition grammar behind the request above.
+  </Card>
+  <Card title="API keys" icon="key" href="/api-keys">
+    Get a key and run it yourself.
+  </Card>
+</CardGroup>
+
+</PostLayout>
