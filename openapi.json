@@ -874,6 +874,9 @@
           },
           {
             "$ref": "#/components/schemas/ActivityWalletLookupCondition"
+          },
+          {
+            "$ref": "#/components/schemas/ActivityMarketIdLookupCondition"
           }
         ],
         "title": "Condition"
@@ -1460,6 +1463,32 @@
           "value"
         ],
         "title": "ID",
+        "type": "object"
+      },
+      "ActivityMarketIdLookupCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "marketId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "market"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "$ref": "#/components/schemas/MarketInnerFilter"
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Market",
         "type": "object"
       },
       "ActivityNumericCondition": {
@@ -3049,9 +3078,6 @@
             "$ref": "#/components/schemas/UserProfileCriterion"
           },
           {
-            "$ref": "#/components/schemas/SignalScoreCriterion"
-          },
-          {
             "$ref": "#/components/schemas/CohortMembershipCriterion"
           }
         ],
@@ -3506,57 +3532,11 @@
         "title": "Event",
         "type": "object"
       },
-      "GlobalSmartMoneyAddressCondition": {
-        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
-        "properties": {
-          "field": {
-            "enum": [
-              "userId"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn",
-              "matches",
-              "notMatches",
-              "inCohort",
-              "notInCohort"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "title": "Single value",
-                "type": "string"
-              },
-              {
-                "items": {
-                  "type": "string"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Wallet address",
-        "type": "object"
-      },
       "GlobalSmartMoneyBooleanCondition": {
         "properties": {
           "field": {
             "enum": [
-              "isYes",
-              "inSignals"
+              "isYes"
             ],
             "type": "string"
           },
@@ -3591,13 +3571,7 @@
             "$ref": "#/components/schemas/GlobalSmartMoneyTextCondition"
           },
           {
-            "$ref": "#/components/schemas/GlobalSmartMoneyAddressCondition"
-          },
-          {
             "$ref": "#/components/schemas/GlobalSmartMoneyBooleanCondition"
-          },
-          {
-            "$ref": "#/components/schemas/GlobalSmartMoneyUserIdLookupCondition"
           }
         ],
         "title": "Condition"
@@ -3683,8 +3657,7 @@
         "properties": {
           "field": {
             "enum": [
-              "marketId",
-              "tagIds"
+              "marketId"
             ],
             "type": "string"
           },
@@ -3733,7 +3706,7 @@
               "liquidity",
               "wallets",
               "daysLeft",
-              "userRank"
+              "score"
             ],
             "type": "string"
           },
@@ -3778,24 +3751,24 @@
       "GlobalSmartMoneyRow": {
         "properties": {
           "atRisk": {
-            "description": "Total current USD value held in the market by the selected wallets, both sides, sum of unrealized_usd across the aggregated positions.",
+            "description": "Current USD value the selected wallets hold on the favored Side — on a neg-risk market the canonical bet on this outcome, or the wallet's remaining value on the rest of the field when Side is No.",
             "format": "double",
             "title": "At Risk",
             "type": "number"
           },
           "daysLeft": {
-            "description": "Whole days from now until the market's end date, falling back to the event's end date when the market has none (coalesce(end_date, event_end_date)); negative if the end date has passed, null if neither is set",
+            "description": "Whole days from now until the market's end date, falling back to the event's end date when the market has none (coalesce(end_date, event_end_date) in polymarket.open_markets); negative if the end date has passed, null if neither is set",
             "format": "int32",
             "title": "Days Left",
             "type": "integer"
           },
           "isYes": {
-            "description": "Whether the favored Side is the Yes side, true when the cohort's implied Yes price is above the live Yes price (cohort price - yes price \u003e 0). The boolean behind Side, for coloring/logic independent of the token name.",
+            "description": "Whether the favored Side is the Yes side, true when the cohort's implied Yes price is at or above the live Yes price (edge \u003e= 0). The boolean behind Side, for coloring/logic independent of the token name.",
             "title": "Is Yes",
             "type": "boolean"
           },
           "liquidity": {
-            "description": "The market's on-book liquidity (market_metadata.liquidity, latest by updated_at)",
+            "description": "The market's on-book liquidity (polymarket.open_markets.liquidity)",
             "format": "double",
             "title": "Liquidity",
             "type": "number"
@@ -3804,36 +3777,36 @@
             "$ref": "#/components/schemas/MarketLookup"
           },
           "marketPrice": {
-            "description": "The live market price for the Side outcome, the badge's \"vs market 62¢\" value. The live Yes price when Side is Yes, or 1 minus it when Side is No.",
+            "description": "The live market price for the Side outcome, the badge's \"vs market 62¢\" value. The live Yes price when Side is Yes, or 1 minus it when Side is No — normalized by the event's Yes-price sum on a neg-risk market, raw on a binary one.",
             "format": "double",
             "title": "Market Price",
             "type": "number"
           },
+          "score": {
+            "description": "Composite 0-100 conviction score for the row — the product of the percentile ranks of Edge, Wallets and At Risk across the result set, so a market only scores high when the mispricing, the crowd behind it and the money behind it all rank high.",
+            "format": "double",
+            "title": "Score",
+            "type": "number"
+          },
           "side": {
-            "description": "The outcome smart money favors relative to the market, the market's own token name for the Yes side (outcomes[1]) when the cohort's implied Yes price is above the live Yes price (cohort price - yes price \u003e 0), else the No-side token name (outcomes[2]). The badge's outcome label; direction of the Edge magnitude.",
+            "description": "The outcome smart money favors relative to the market — the market's own token name for the Yes side (outcomes[1]) when the cohort's implied Yes price is above the live Yes price, else the No-side token name (outcomes[2]). The badge's outcome label; direction of the Edge magnitude.",
             "title": "Side",
             "type": "string"
           },
           "smartMoneyPrice": {
-            "description": "Smart money's price for the Side outcome, the badge's \"Yes 70¢\" / \"No 78¢\" value. Smart Money Probability when Side is Yes, or 1 minus it when Side is No.",
+            "description": "Smart money's price for the Side outcome, the badge's \"Yes 70¢\" / \"No 78¢\" value. The cohort's implied Yes price when Side is Yes, or 1 minus it when Side is No.",
             "format": "double",
             "title": "Smart Money Price",
             "type": "number"
           },
-          "tags": {
-            "items": {
-              "$ref": "#/components/schemas/TagLookup"
-            },
-            "type": "array"
-          },
           "wallets": {
-            "description": "Number of distinct wallets from the selected set holding a position in the market",
+            "description": "Number of wallets from the selected set holding the favored Side in the market",
             "format": "int64",
             "title": "Wallets",
             "type": "integer"
           },
           "yesSlippage": {
-            "description": "Magnitude of the mispricing, the absolute gap between Smart Money Probability (the cohort's implied Yes price) and the live Yes price. Direction is carried by Side (Yes when the cohort price is above the market, No when below). Default sort is by this, descending (biggest mispricing first).",
+            "description": "Magnitude of the mispricing, the absolute gap between the cohort's implied Yes price and the live (normalized) Yes price. Direction is carried by Side (Yes when the cohort price is above the market, No when below). Default sort is by this, descending (biggest mispricing first).",
             "format": "double",
             "title": "Edge",
             "type": "number"
@@ -3841,11 +3814,99 @@
         },
         "type": "object"
       },
-      "GlobalSmartMoneyTextCondition": {
+      "GlobalSmartMoneySubQueryTagIdFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/GlobalSmartMoneySubQueryTagIdFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "GlobalSmartMoneySubQueryTagIdFilterGroup": {
+        "description": "A group of conditions, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/GlobalSmartMoneySubQueryTagIdIdCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "title": "Group",
+        "type": "object"
+      },
+      "GlobalSmartMoneySubQueryTagIdFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneySubQueryTagIdIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneySubQueryTagIdFilterGroup"
+          }
+        ],
+        "title": "Filter"
+      },
+      "GlobalSmartMoneySubQueryTagIdIdCondition": {
         "properties": {
           "field": {
             "enum": [
-              "side"
+              "tagIds"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "title": "Single value",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "title": "List of values",
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "ID",
+        "type": "object"
+      },
+      "GlobalSmartMoneySubQueryWalletAddressCondition": {
+        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
+        "properties": {
+          "field": {
+            "enum": [
+              "userId"
             ],
             "type": "string"
           },
@@ -3854,7 +3915,9 @@
               "in",
               "notIn",
               "matches",
-              "notMatches"
+              "notMatches",
+              "inCohort",
+              "notInCohort"
             ],
             "type": "string"
           },
@@ -3880,10 +3943,67 @@
           "operator",
           "value"
         ],
-        "title": "Text",
+        "title": "Wallet address",
         "type": "object"
       },
-      "GlobalSmartMoneyUserIdLookupCondition": {
+      "GlobalSmartMoneySubQueryWalletCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneySubQueryWalletAddressCondition"
+          },
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneySubQueryWalletUserIdLookupCondition"
+          }
+        ],
+        "title": "Condition"
+      },
+      "GlobalSmartMoneySubQueryWalletFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/GlobalSmartMoneySubQueryWalletFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "GlobalSmartMoneySubQueryWalletFilterGroup": {
+        "description": "A group of conditions, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/GlobalSmartMoneySubQueryWalletCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "title": "Group",
+        "type": "object"
+      },
+      "GlobalSmartMoneySubQueryWalletFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneySubQueryWalletCondition"
+          },
+          {
+            "$ref": "#/components/schemas/GlobalSmartMoneySubQueryWalletFilterGroup"
+          }
+        ],
+        "title": "Filter"
+      },
+      "GlobalSmartMoneySubQueryWalletUserIdLookupCondition": {
         "description": "Match this field against the keys a filter over one of its lookup tables yields. The operator names which lookup table to filter through.",
         "oneOf": [
           {
@@ -4092,6 +4212,48 @@
           }
         ],
         "title": "Wallet lookup filter"
+      },
+      "GlobalSmartMoneyTextCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "side"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "title": "Single value",
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "title": "List of values",
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Text",
+        "type": "object"
       },
       "MarketHolderAddressCondition": {
         "description": "inCohort/notInCohort take cohort ids instead of addresses.",
@@ -4630,6 +4792,232 @@
         ],
         "title": "Wallet lookup filter"
       },
+      "MarketInnerBooleanCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "active",
+              "closed",
+              "archived"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Boolean",
+        "type": "object"
+      },
+      "MarketInnerCondition": {
+        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/MarketInnerNumericCondition"
+          },
+          {
+            "$ref": "#/components/schemas/MarketInnerIdCondition"
+          },
+          {
+            "$ref": "#/components/schemas/MarketInnerTextCondition"
+          },
+          {
+            "$ref": "#/components/schemas/MarketInnerBooleanCondition"
+          }
+        ],
+        "title": "Condition"
+      },
+      "MarketInnerFilter": {
+        "description": "Filters to apply, combined with AND. Use a group for OR.",
+        "items": {
+          "$ref": "#/components/schemas/MarketInnerFilterNode"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "MarketInnerFilterGroup": {
+        "description": "A group of conditions, combined with the group's operator.",
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/MarketInnerCondition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "operator": {
+            "enum": [
+              "AND",
+              "OR"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operator",
+          "filters"
+        ],
+        "title": "Group",
+        "type": "object"
+      },
+      "MarketInnerFilterNode": {
+        "description": "A single condition, or a group combining conditions with AND/OR.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/MarketInnerCondition"
+          },
+          {
+            "$ref": "#/components/schemas/MarketInnerFilterGroup"
+          }
+        ],
+        "title": "Filter"
+      },
+      "MarketInnerIdCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "id",
+              "eventId"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "int32",
+                "title": "Single value",
+                "type": "integer"
+              },
+              {
+                "items": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "title": "List of values",
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "ID",
+        "type": "object"
+      },
+      "MarketInnerNumericCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "volume",
+              "volume24h",
+              "liquidity",
+              "openInterest",
+              "daysLeft"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "eq",
+              "neq",
+              "lt",
+              "lte",
+              "gt",
+              "gte"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "format": "double",
+                "title": "Single value",
+                "type": "number"
+              },
+              {
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                },
+                "minItems": 1,
+                "title": "List of values",
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Numeric",
+        "type": "object"
+      },
+      "MarketInnerTextCondition": {
+        "properties": {
+          "field": {
+            "enum": [
+              "eventSlug"
+            ],
+            "type": "string"
+          },
+          "operator": {
+            "enum": [
+              "in",
+              "notIn",
+              "matches",
+              "notMatches"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "title": "Single value",
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "title": "List of values",
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "Text",
+        "type": "object"
+      },
       "MarketLookup": {
         "description": "Resolved Market row.",
         "properties": {
@@ -4647,6 +5035,12 @@
             "description": "Whether the market has been resolved",
             "title": "Closed",
             "type": "boolean"
+          },
+          "daysLeft": {
+            "description": "Days left until market ends",
+            "format": "int32",
+            "title": "Days Left",
+            "type": "integer"
           },
           "description": {
             "description": "Detailed market description",
@@ -4908,304 +5302,6 @@
           }
         ],
         "title": "Condition"
-      },
-      "SignalScoreCriteriaAddressCondition": {
-        "description": "inCohort/notInCohort take cohort ids instead of addresses.",
-        "properties": {
-          "field": {
-            "enum": [
-              "userId"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn",
-              "inCohort",
-              "notInCohort"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "title": "Single value",
-                "type": "string"
-              },
-              {
-                "items": {
-                  "type": "string"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Wallet address",
-        "type": "object"
-      },
-      "SignalScoreCriteriaCondition": {
-        "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/SignalScoreCriteriaNumericCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SignalScoreCriteriaIdCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SignalScoreCriteriaAddressCondition"
-          }
-        ],
-        "title": "Condition"
-      },
-      "SignalScoreCriteriaFilter": {
-        "description": "Filters to apply, combined with AND. Use a group for OR.",
-        "items": {
-          "$ref": "#/components/schemas/SignalScoreCriteriaFilterNode"
-        },
-        "minItems": 1,
-        "type": "array"
-      },
-      "SignalScoreCriteriaFilterGroup": {
-        "description": "A group of conditions, combined with the group's operator.",
-        "properties": {
-          "filters": {
-            "items": {
-              "$ref": "#/components/schemas/SignalScoreCriteriaCondition"
-            },
-            "minItems": 1,
-            "type": "array"
-          },
-          "operator": {
-            "enum": [
-              "AND",
-              "OR"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "operator",
-          "filters"
-        ],
-        "title": "Group",
-        "type": "object"
-      },
-      "SignalScoreCriteriaFilterNode": {
-        "description": "A single condition, or a group combining conditions with AND/OR.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/SignalScoreCriteriaCondition"
-          },
-          {
-            "$ref": "#/components/schemas/SignalScoreCriteriaFilterGroup"
-          }
-        ],
-        "title": "Filter"
-      },
-      "SignalScoreCriteriaIdCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "positionId",
-              "marketId",
-              "eventId",
-              "tagIds"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "in",
-              "notIn"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "format": "int32",
-                "title": "Single value",
-                "type": "integer"
-              },
-              {
-                "items": {
-                  "format": "int32",
-                  "type": "integer"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "ID",
-        "type": "object"
-      },
-      "SignalScoreCriteriaNumericCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "avgEntryPrice",
-              "totalBoughtShares",
-              "tradeSize",
-              "relSize",
-              "daysToResolution",
-              "pNow",
-              "slipAbs",
-              "score",
-              "userRank"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "eq",
-              "neq",
-              "lt",
-              "lte",
-              "gt",
-              "gte"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "oneOf": [
-              {
-                "format": "double",
-                "title": "Single value",
-                "type": "number"
-              },
-              {
-                "items": {
-                  "format": "double",
-                  "type": "number"
-                },
-                "minItems": 1,
-                "title": "List of values",
-                "type": "array"
-              }
-            ]
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Numeric",
-        "type": "object"
-      },
-      "SignalScoreCriterion": {
-        "description": "Per-(wallet, position) insider score for currently-held legs in active markets",
-        "properties": {
-          "condition": {
-            "$ref": "#/components/schemas/CohortMeasureCondition"
-          },
-          "filter": {
-            "$ref": "#/components/schemas/SignalScoreCriteriaFilter"
-          },
-          "measure": {
-            "$ref": "#/components/schemas/SignalScoreCriterionMeasure"
-          },
-          "negative": {
-            "description": "Match wallets that do NOT satisfy this criterion. Activity table only.",
-            "type": "boolean"
-          },
-          "table": {
-            "description": "Selects Signal Score.",
-            "enum": [
-              "signalScore"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "table",
-          "measure",
-          "condition"
-        ],
-        "title": "Signal Score",
-        "type": "object"
-      },
-      "SignalScoreCriterionMeasure": {
-        "description": "Aggregate one field, or count rows. Whether an aggregation is required depends on the table: it is omitted for tables holding a single row per wallet.",
-        "oneOf": [
-          {
-            "properties": {
-              "aggregation": {
-                "enum": [
-                  "sum",
-                  "min",
-                  "max",
-                  "median",
-                  "average",
-                  "p25",
-                  "p75",
-                  "p90",
-                  "p99",
-                  "distinctCount"
-                ],
-                "type": "string"
-              },
-              "field": {
-                "enum": [
-                  "userId",
-                  "positionId",
-                  "marketId",
-                  "eventId",
-                  "tagIds",
-                  "avgEntryPrice",
-                  "totalBoughtShares",
-                  "tradeSize",
-                  "relSize",
-                  "daysToResolution",
-                  "pNow",
-                  "slipAbs",
-                  "score"
-                ],
-                "type": "string"
-              }
-            },
-            "required": [
-              "field"
-            ],
-            "title": "Field",
-            "type": "object"
-          },
-          {
-            "description": "Count the matching rows.",
-            "properties": {
-              "totalCount": {
-                "enum": [
-                  true
-                ],
-                "type": "boolean"
-              }
-            },
-            "required": [
-              "totalCount"
-            ],
-            "title": "Row count",
-            "type": "object"
-          }
-        ],
-        "title": "Measure"
       },
       "SignalScoreFilter": {
         "description": "Filters to apply, combined with AND. Use a group for OR.",
@@ -5667,6 +5763,12 @@
       "TagLookup": {
         "description": "Resolved Tag row.",
         "properties": {
+          "allTimeVolume": {
+            "description": "All-time trading volume for this tag",
+            "format": "double",
+            "title": "All Time Volume",
+            "type": "number"
+          },
           "id": {
             "description": "Tag identifier",
             "format": "int32",
@@ -5890,32 +5992,6 @@
         "title": "Wallet address",
         "type": "object"
       },
-      "UnifiedSmartMoneyHoldersBooleanCondition": {
-        "properties": {
-          "field": {
-            "enum": [
-              "inSignals"
-            ],
-            "type": "string"
-          },
-          "operator": {
-            "enum": [
-              "eq"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "field",
-          "operator",
-          "value"
-        ],
-        "title": "Boolean",
-        "type": "object"
-      },
       "UnifiedSmartMoneyHoldersCondition": {
         "description": "A single field condition. in/notIn take an array of values; matches/notMatches take one search term.",
         "oneOf": [
@@ -5924,9 +6000,6 @@
           },
           {
             "$ref": "#/components/schemas/UnifiedSmartMoneyHoldersAddressCondition"
-          },
-          {
-            "$ref": "#/components/schemas/UnifiedSmartMoneyHoldersBooleanCondition"
           },
           {
             "$ref": "#/components/schemas/UnifiedSmartMoneyHoldersUserIdLookupCondition"
@@ -8898,12 +8971,6 @@
             "title": "Avg Trades Per Prediction",
             "type": "number"
           },
-          "count": {
-            "description": "A special property that will count the number of wallets",
-            "format": "int64",
-            "title": "Count",
-            "type": "integer"
-          },
           "holdTime": {
             "description": "Average hold time in seconds",
             "format": "int32",
@@ -11583,7 +11650,6 @@
                             "numP2pTrades",
                             "numPredictions",
                             "avgTradesPerPrediction",
-                            "count",
                             "rank"
                           ],
                           "type": "string"
@@ -12007,7 +12073,7 @@
                             "liquidity",
                             "wallets",
                             "daysLeft",
-                            "tagIds"
+                            "score"
                           ],
                           "type": "string"
                         }
@@ -12025,6 +12091,12 @@
                   "searchKey": {
                     "description": "Free-text search over: Market (embedding + full-text relevance).",
                     "type": "string"
+                  },
+                  "tagIdFilters": {
+                    "$ref": "#/components/schemas/GlobalSmartMoneySubQueryTagIdFilter"
+                  },
+                  "walletFilters": {
+                    "$ref": "#/components/schemas/GlobalSmartMoneySubQueryWalletFilter"
                   }
                 },
                 "required": [
