@@ -91,7 +91,13 @@
           },
           {
             "group": "Using the API",
-            "pages": ["api-keys", "filters", "position-ids", "openapi-clients"]
+            "pages": [
+              "api-keys",
+              "filters",
+              "position-ids",
+              "openapi-clients",
+              "mcp"
+            ]
           }
         ]
       },

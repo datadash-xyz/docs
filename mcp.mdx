@@ -1,0 +1,145 @@
+---
+title: "MCP Server"
+description: "Query Datadash analytics and manage cohorts from Claude, Cursor, VS Code or any MCP client."
+---
+
+Datadash runs a [Model Context Protocol](https://modelcontextprotocol.io) server alongside the REST API. Connect it to an AI assistant and you can ask questions in plain English — "which wallets are up the most on election markets this month?" — and the assistant composes the queries, runs them and reads the rows for you.
+
+```
+https://api.datadash.xyz/mcp
+```
+
+It uses the Streamable HTTP transport and authenticates with the same `X-Api-Key` header as the REST API. If you don't have a key yet, [create one](/api-keys) first.
+
+<Note>
+  The **MCP** option in this site's page menu connects an assistant to *these docs*, for searching them. The server on this page connects it to Datadash's *data*.
+</Note>
+
+## Connecting a client
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```bash
+    claude mcp add --transport http datadash https://api.datadash.xyz/mcp --header "X-Api-Key: <your-api-key-here>"
+    ```
+
+    This adds the server to the current project only. Add `--scope user` to make it available in every project.
+
+    Run `claude mcp list` to check it connected, or `/mcp` from inside a session.
+  </Tab>
+
+  <Tab title="Cursor">
+    Add to `~/.cursor/mcp.json`, or `.cursor/mcp.json` in a project:
+
+    ```json mcp.json
+    {
+      "mcpServers": {
+        "datadash": {
+          "url": "https://api.datadash.xyz/mcp",
+          "headers": {
+            "X-Api-Key": "<your-api-key-here>"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="VS Code">
+    Add to `.vscode/mcp.json` in your workspace. The `inputs` entry has VS Code prompt for the key once and store it, so it never sits in the file:
+
+    ```json .vscode/mcp.json
+    {
+      "inputs": [
+        {
+          "type": "promptString",
+          "id": "datadash-api-key",
+          "description": "Datadash API key",
+          "password": true
+        }
+      ],
+      "servers": {
+        "datadash": {
+          "type": "http",
+          "url": "https://api.datadash.xyz/mcp",
+          "headers": {
+            "X-Api-Key": "${input:datadash-api-key}"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Other clients">
+    Any client that speaks Streamable HTTP and can send a custom header will work. Point it at `https://api.datadash.xyz/mcp` and send your key as `X-Api-Key`.
+
+    The server is stateless: every request is authenticated on its own, and no session carries over between them.
+  </Tab>
+</Tabs>
+
+<Warning>
+  The assistant acts with your key, and a key carries the full access of the account that created it. That includes creating, changing and deleting your cohorts. Give the MCP server a [key of its own](/api-keys#creating-a-key) so you can revoke it without touching anything else.
+</Warning>
+
+## What you can ask
+
+Once connected, just ask. A few starting points:
+
+- *"Who are the top 10 wallets by realized PnL in crypto markets?"*
+- *"What is smart money positioned on in the biggest active politics markets?"*
+- *"Show me the open positions of 0xAb8D...90F1, largest first."*
+- *"Build a cohort of wallets with over $100k in volume and a win rate above 60%, then tell me what they're holding."*
+
+The assistant works out the table, fields and filters itself. You don't need to know the request shape. When it creates or reports on a cohort, it links you to that cohort in the dashboard.
+
+## Tools
+
+The server exposes a small, fixed set of tools. Rather than one tool per endpoint, a single `query_table` takes the table as an argument, and `get_schema` describes every table in one call.
+
+| Tool | What it does |
+| --- | --- |
+| `get_schema` | Every table, its fields, which are filterable and sortable, and a worked request example. Called once, before anything else. |
+| `query_table` | Run a query against one table: the same filter, `orderBy` and `page` body the REST endpoint takes. |
+| `query_lookup` | Find IDs by name — for example, the market IDs matching "presidential election" — to use in a `query_table` filter. |
+| `list_cohorts` | List your cohorts and their build status. |
+| `get_cohort` | Read a cohort's status, size and criteria. Can wait for a build to finish. |
+| `list_cohort_wallets` | Page through the wallet addresses in a cohort. |
+| `create_cohort` | Save a wallet segment defined by criteria over the tables. |
+| `update_cohort` | Rename a cohort or replace its criteria, which rebuilds it. |
+| `create_static_cohort` | Save a fixed list of wallet addresses as a cohort. |
+| `update_static_cohort` | Rename a static cohort or replace its wallet list. |
+| `delete_cohort` | Delete a cohort permanently. |
+
+The schema is also published as the resource `datadashxyz://schema`, for clients that can load resources into context without spending a tool call.
+
+## Things worth knowing
+
+<AccordionGroup>
+  <Accordion title="It's the REST API underneath" icon="layers">
+    A tool call runs through the same validation, filtering and authentication as the equivalent REST request. The [filter grammar](/filters), page limits and error messages are identical, so anything you can do over MCP you can reproduce with `curl`. That makes it a quick way to prototype a query before you write code.
+  </Accordion>
+
+  <Accordion title="Results are paged" icon="list">
+    The assistant picks a `page.limit` for each query. When a result fills the page, the tool says so, and the assistant can either narrow the filter or read on with `page.offset`. If an answer looks suspiciously round, ask whether it saw every row.
+  </Accordion>
+
+  <Accordion title="Cohorts build in the background" icon="hourglass">
+    A criteria cohort's membership is computed asynchronously after it's created or changed. The assistant waits for the build to finish (up to two minutes) before reading its wallets. A static cohort is ready as soon as it's saved. See [Cohorts](/cohorts) for how criteria work.
+  </Accordion>
+
+  <Accordion title="Names resolve to IDs" icon="search">
+    Markets, events and similar entities are filtered by ID, not name. The assistant finds the IDs with `query_lookup` first. When a name matches several candidates, it should pick the right ones or ask you. If an answer covers the wrong market, name the market more precisely.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="API Keys" icon="key" href="/api-keys">
+    Create a dedicated key for your MCP client.
+  </Card>
+  <Card title="Cohorts" icon="users" href="/cohorts">
+    How cohort criteria are defined and built.
+  </Card>
+</CardGroup>
