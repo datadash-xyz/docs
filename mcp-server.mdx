@@ -1,6 +1,6 @@
 ---
 title: "MCP Server"
-description: "Query Datadash analytics and manage cohorts from Claude, Cursor, VS Code or any MCP client."
+description: "Query Datadash analytics and manage cohorts from Claude Code, Cursor, Codex, VS Code or any MCP client."
 ---
 
 Datadash runs a [Model Context Protocol](https://modelcontextprotocol.io) server alongside the REST API. Connect it to an AI assistant and you can ask questions in plain English — "which wallets are up the most on election markets this month?" — and the assistant composes the queries, runs them and reads the rows for you.
@@ -9,78 +9,116 @@ Datadash runs a [Model Context Protocol](https://modelcontextprotocol.io) server
 https://api.datadash.xyz/mcp
 ```
 
-It uses the Streamable HTTP transport and authenticates with the same `X-Api-Key` header as the REST API. If you don't have a key yet, [create one](/api-keys) first.
+It uses the Streamable HTTP transport and authenticates with the same `X-Api-Key` header as the REST API.
 
 <Note>
   The **MCP** option in this site's page menu connects an assistant to *these docs*, for searching them. The server on this page connects it to Datadash's *data*.
 </Note>
 
-## Connecting a client
+## Setup
 
-<Tabs>
-  <Tab title="Claude Code">
-    ```bash
-    claude mcp add --transport http datadash https://api.datadash.xyz/mcp --header "X-Api-Key: <your-api-key-here>"
-    ```
+<Steps>
+  <Step title="Create an API key">
+    Follow [API Keys](/api-keys) to create one.
 
-    This adds the server to the current project only. Add `--scope user` to make it available in every project.
+    The assistant acts with that key's full access, including creating, changing and deleting your cohorts. Create a key just for your MCP client, so you can revoke it without affecting anything else.
+  </Step>
 
-    Run `claude mcp list` to check it connected, or `/mcp` from inside a session.
-  </Tab>
+  <Step title="Pick your AI tool">
+    Each tab has the exact setup. Replace `<your-api-key-here>` with the key from step 1.
 
-  <Tab title="Cursor">
-    Add to `~/.cursor/mcp.json`, or `.cursor/mcp.json` in a project:
+    <Tabs>
+      <Tab title="Claude Code" icon="terminal">
+        Register the Datadash MCP server. `--scope user` makes it available in every project:
 
-    ```json mcp.json
-    {
-      "mcpServers": {
-        "datadash": {
-          "url": "https://api.datadash.xyz/mcp",
-          "headers": {
-            "X-Api-Key": "<your-api-key-here>"
-          }
-        }
-      }
-    }
-    ```
-  </Tab>
+        ```bash
+        claude mcp add --scope user --transport http datadash https://api.datadash.xyz/mcp --header "X-Api-Key: <your-api-key-here>"
+        ```
 
-  <Tab title="VS Code">
-    Add to `.vscode/mcp.json` in your workspace. The `inputs` entry has VS Code prompt for the key once and store it, so it never sits in the file:
+        Start a new session and open the MCP menu. **datadash** should be listed as connected:
 
-    ```json .vscode/mcp.json
-    {
-      "inputs": [
+        ```bash
+        claude /mcp
+        ```
+      </Tab>
+
+      <Tab title="Cursor" icon="mouse-pointer-2">
+        Add the server to `~/.cursor/mcp.json`, or `.cursor/mcp.json` to limit it to one project:
+
+        ```json mcp.json
         {
-          "type": "promptString",
-          "id": "datadash-api-key",
-          "description": "Datadash API key",
-          "password": true
-        }
-      ],
-      "servers": {
-        "datadash": {
-          "type": "http",
-          "url": "https://api.datadash.xyz/mcp",
-          "headers": {
-            "X-Api-Key": "${input:datadash-api-key}"
+          "mcpServers": {
+            "datadash": {
+              "url": "https://api.datadash.xyz/mcp",
+              "headers": {
+                "X-Api-Key": "<your-api-key-here>"
+              }
+            }
           }
         }
-      }
-    }
-    ```
-  </Tab>
+        ```
 
-  <Tab title="Other clients">
-    Any client that speaks Streamable HTTP and can send a custom header will work. Point it at `https://api.datadash.xyz/mcp` and send your key as `X-Api-Key`.
+        Open **Cursor Settings** and find **datadash** in the MCP section. A green dot means it's connected.
+      </Tab>
 
-    The server is stateless: every request is authenticated on its own, and no session carries over between them.
-  </Tab>
-</Tabs>
+      <Tab title="Codex" icon="square-terminal">
+        `codex mcp add` can't set a custom header, so add the server to `~/.codex/config.toml` directly:
 
-<Warning>
-  The assistant acts with your key, and a key carries the full access of the account that created it. That includes creating, changing and deleting your cohorts. Give the MCP server a [key of its own](/api-keys#creating-a-key) so you can revoke it without touching anything else.
-</Warning>
+        ```toml ~/.codex/config.toml
+        [mcp_servers.datadash]
+        url = "https://api.datadash.xyz/mcp"
+        http_headers = { "X-Api-Key" = "<your-api-key-here>" }
+        ```
+
+        To keep the key out of the file, use `env_http_headers = { "X-Api-Key" = "DATADASH_API_KEY" }` instead and export `DATADASH_API_KEY` in your shell.
+
+        Check that **datadash** is listed as enabled:
+
+        ```bash
+        codex mcp list
+        ```
+      </Tab>
+
+      <Tab title="VS Code" icon="code-xml">
+        Add the server to `.vscode/mcp.json` in your workspace. The `inputs` entry has VS Code prompt for the key once and store it, so it never sits in the file:
+
+        ```json .vscode/mcp.json
+        {
+          "inputs": [
+            {
+              "type": "promptString",
+              "id": "datadash-api-key",
+              "description": "Datadash API key",
+              "password": true
+            }
+          ],
+          "servers": {
+            "datadash": {
+              "type": "http",
+              "url": "https://api.datadash.xyz/mcp",
+              "headers": {
+                "X-Api-Key": "${input:datadash-api-key}"
+              }
+            }
+          }
+        }
+        ```
+
+        Select **Start** above the `datadash` entry and enter your key when prompted. The tools are then available in Chat's agent mode.
+      </Tab>
+
+      <Tab title="Other" icon="ellipsis">
+        Any client that speaks Streamable HTTP and can send a custom header will work. Point it at `https://api.datadash.xyz/mcp` and send your key as `X-Api-Key`.
+
+        The server is stateless: every request is authenticated on its own, and no session carries over between them.
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="You're set">
+    Datadash is connected. Start a new chat and ask about the data. The prompts below are a good place to start.
+  </Step>
+</Steps>
 
 ## What you can ask
 

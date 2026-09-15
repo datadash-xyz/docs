@@ -7,12 +7,12 @@
     "dark": "#8b5cf6"
   },
   "logo": {
-    "light": "/images/logo-wordmark.svg",
+    "light": "/images/logo-wordmark-dark.svg",
     "dark": "/images/logo-wordmark.svg"
   },
   "favicon": {
-    "light": "/images/favicon.svg",
-    "dark": "/images/favicon.svg"
+    "light": "/images/icon.svg",
+    "dark": "/images/icon.svg"
   },
   "appearance": {
     "default": "dark"
@@ -31,8 +31,7 @@
     }
   },
   "fonts": {
-    "family": "Geist",
-    "weight": 500
+    "family": "Geist"
   },
   "icons": {
     "library": "lucide"
@@ -96,7 +95,7 @@
               "filters",
               "position-ids",
               "openapi-clients",
-              "mcp"
+              "mcp-server"
             ]
           }
         ]
