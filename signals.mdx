@@ -11,7 +11,11 @@ Signals surfaces the highest-conviction, currently-held bets across active marke
 
 ## Signal score
 
-Each position gets a **Score** from 0 to 100, where higher means stronger conviction. The score blends how far the trade moved the price, how large it is relative to the trader's usual size, its absolute size, and how far the market is from resolving.
+Each position gets a **Score** from 0 to 100. Most of it comes from how the trader ranks by profit in the market's categories over the past year, with a bonus when the bet is big for them. It goes down when the price has moved away from their entry, or when they hold both sides of the market.
+
+<Card title="How the Signal score works" icon="book-open" href="https://datadash.xyz/blog/polymarket-signal-score">
+  Who gets scored, what goes into the score and how to read it, with a worked example.
+</Card>
 
 ## Columns
 
@@ -22,7 +26,7 @@ Each position gets a **Score** from 0 to 100, where higher means stronger convic
 | **Score** | Signal score from 0 to 100. Higher means stronger conviction. |
 | **Slippage** | Entry price slippage. A lower value means better pricing. |
 | **Rel. Size** | Trade size relative to the trader's typical position size. |
-| **Trade Size** | Total USD value of the position. |
+| **Trade Size** | The most the trader has had in this position, in USD. |
 | **Days Left** | Whole days until the market resolves. |
 
 ## Filtering
