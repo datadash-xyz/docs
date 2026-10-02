@@ -40,12 +40,9 @@ Multi-outcome (neg-risk) events are handled separately, canonicalizing each wall
     `POST /api/v1/smart-money/global`: markets ranked by edge across the selected wallets.
   </Card>
   <Card title="Smart Money Summary" icon="chart-column" href="/api-reference">
-    `POST /api/v1/smart-money/summary`: Yes/No summary of held positions for one market.
+    `POST /api/v1/smart-money/summary`: the Yes/No summary of an event, one row per open market, for binary and multi-outcome events alike.
   </Card>
-  <Card title="Smart Money Positions" icon="users" href="/api-reference">
-    `POST /api/v1/smart-money/positions`: per-wallet positions on one binary market.
-  </Card>
-  <Card title="Neg-Risk Summary & Positions" icon="layers" href="/api-reference">
-    `POST /api/v1/smart-money/neg-risk/summary` and `/neg-risk/positions` for multi-outcome events.
+  <Card title="Smart Money Holders" icon="users" href="/api-reference">
+    `POST /api/v1/smart-money/holders`: the wallets holding one side of one market within an event.
   </Card>
 </CardGroup>
