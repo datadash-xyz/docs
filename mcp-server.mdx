@@ -1,6 +1,6 @@
 ---
 title: "MCP Server"
-description: "Query Datadash analytics and manage cohorts from Claude Code, Cursor, Codex, VS Code or any MCP client."
+description: "Query Datadash analytics and manage cohorts from Claude Code, the Claude app, Codex, Cursor, VS Code, Gemini CLI or any MCP client."
 ---
 
 Datadash runs a [Model Context Protocol](https://modelcontextprotocol.io) server alongside the REST API. Connect it to an AI assistant and you can ask questions in plain English — "which wallets are up the most on election markets this month?" — and the assistant composes the queries, runs them and reads the rows for you.
@@ -10,6 +10,8 @@ https://api.datadash.xyz/mcp
 ```
 
 It uses the Streamable HTTP transport and authenticates with the same `X-Api-Key` header as the REST API.
+
+The [Datadash AI plugin](https://github.com/datadash-xyz/mcp-skills-plugin) bundles this server with skills, such as wallet analysis and smart money, that teach the assistant which tables answer which question and how to read the numbers. Where your tool supports it, installing the plugin is the quickest setup.
 
 <Note>
   The **MCP** option in this site's page menu connects an assistant to *these docs*, for searching them. The server on this page connects it to Datadash's *data*.
@@ -29,7 +31,15 @@ It uses the Streamable HTTP transport and authenticates with the same `X-Api-Key
 
     <Tabs>
       <Tab title="Claude Code" icon="terminal">
-        Register the Datadash MCP server. `--scope user` makes it available in every project:
+        Install the Datadash AI plugin from inside Claude Code (v2.1.275 or later):
+
+        ```
+        /plugin install datadash --marketplace datadash-xyz/mcp-skills-plugin
+        ```
+
+        Confirm the marketplace, choose a scope, then enter your Datadash API key when prompted.
+
+        To add only the server, without the plugin's skills, register it directly. `--scope user` makes it available in every project:
 
         ```bash
         claude mcp add --scope user --transport http datadash https://api.datadash.xyz/mcp --header "X-Api-Key: <your-api-key-here>"
@@ -39,6 +49,42 @@ It uses the Streamable HTTP transport and authenticates with the same `X-Api-Key
 
         ```bash
         claude /mcp
+        ```
+      </Tab>
+
+      <Tab title="Claude app" icon="app-window">
+        Install the Datadash AI plugin in Claude on the web or desktop:
+
+        1. Open **Customize**, then **Plugins**.
+        2. Select **Add marketplace** and enter `datadash-xyz/mcp-skills-plugin`.
+        3. Install **Datadash** from it.
+        4. Open the plugin's **Connectors** tab and connect Datadash.
+      </Tab>
+
+      <Tab title="Codex" icon="square-terminal">
+        Install the Datadash AI plugin. Set your key in the environment Codex runs in, then add the marketplace:
+
+        ```bash
+        export DATADASH_API_KEY=<your-api-key-here>
+        codex plugin marketplace add datadash-xyz/mcp-skills-plugin
+        ```
+
+        Then run `/plugins` inside Codex, select **Datadash** and install it.
+
+        To add only the server, without the plugin's skills: `codex mcp add` can't set a custom header, so add the server to `~/.codex/config.toml` directly:
+
+        ```toml ~/.codex/config.toml
+        [mcp_servers.datadash]
+        url = "https://api.datadash.xyz/mcp"
+        http_headers = { "X-Api-Key" = "<your-api-key-here>" }
+        ```
+
+        To keep the key out of the file, use `env_http_headers = { "X-Api-Key" = "DATADASH_API_KEY" }` instead and export `DATADASH_API_KEY` in your shell.
+
+        Check that **datadash** is listed as enabled:
+
+        ```bash
+        codex mcp list
         ```
       </Tab>
 
@@ -59,24 +105,6 @@ It uses the Streamable HTTP transport and authenticates with the same `X-Api-Key
         ```
 
         Open **Cursor Settings** and find **datadash** in the MCP section. A green dot means it's connected.
-      </Tab>
-
-      <Tab title="Codex" icon="square-terminal">
-        `codex mcp add` can't set a custom header, so add the server to `~/.codex/config.toml` directly:
-
-        ```toml ~/.codex/config.toml
-        [mcp_servers.datadash]
-        url = "https://api.datadash.xyz/mcp"
-        http_headers = { "X-Api-Key" = "<your-api-key-here>" }
-        ```
-
-        To keep the key out of the file, use `env_http_headers = { "X-Api-Key" = "DATADASH_API_KEY" }` instead and export `DATADASH_API_KEY` in your shell.
-
-        Check that **datadash** is listed as enabled:
-
-        ```bash
-        codex mcp list
-        ```
       </Tab>
 
       <Tab title="VS Code" icon="code-xml">
@@ -105,6 +133,16 @@ It uses the Streamable HTTP transport and authenticates with the same `X-Api-Key
         ```
 
         Select **Start** above the `datadash` entry and enter your key when prompted. The tools are then available in Chat's agent mode.
+      </Tab>
+
+      <Tab title="Gemini CLI" icon="sparkle">
+        Install the Datadash AI plugin as a Gemini CLI extension:
+
+        ```bash
+        gemini extensions install https://github.com/datadash-xyz/mcp-skills-plugin
+        ```
+
+        Enter your Datadash API key when prompted. It is stored as `DATADASH_API_KEY`.
       </Tab>
 
       <Tab title="Other" icon="ellipsis">
