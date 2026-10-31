@@ -3370,6 +3370,12 @@
             "title": "Closed",
             "type": "boolean"
           },
+          "daysLeft": {
+            "description": "Whole days until the event's end date; negative if it has passed, null if the event has no end date",
+            "format": "int32",
+            "title": "Days Left",
+            "type": "integer"
+          },
           "description": {
             "description": "Detailed event description",
             "title": "Description",
@@ -3380,6 +3386,12 @@
             "format": "date-time",
             "title": "End Date",
             "type": "string"
+          },
+          "hoursSinceCreated": {
+            "description": "Whole hours since the event was created",
+            "format": "int32",
+            "title": "Hours Since Created",
+            "type": "integer"
           },
           "icon": {
             "description": "Event icon URL",
@@ -4934,7 +4946,8 @@
               "volume24h",
               "liquidity",
               "openInterest",
-              "daysLeft"
+              "daysLeft",
+              "hoursSinceCreated"
             ],
             "type": "string"
           },
@@ -5068,6 +5081,12 @@
             "description": "Title within a multi-market event group",
             "title": "Group Item Title",
             "type": "string"
+          },
+          "hoursSinceCreated": {
+            "description": "Whole hours since the market was created",
+            "format": "int32",
+            "title": "Hours Since Created",
+            "type": "integer"
           },
           "icon": {
             "description": "Market icon URL",
