@@ -8543,7 +8543,8 @@
               "numP2pTrades",
               "numPredictions",
               "avgTradesPerPrediction",
-              "rank"
+              "rank",
+              "rankPercent"
             ],
             "type": "string"
           },
@@ -8659,7 +8660,8 @@
                   "numP2pTrades",
                   "numPredictions",
                   "avgTradesPerPrediction",
-                  "rank"
+                  "rank",
+                  "rankPercent"
                 ],
                 "type": "string"
               }
@@ -8874,7 +8876,8 @@
             "enum": [
               "rank",
               "roi",
-              "realizedPnl"
+              "realizedPnl",
+              "rankPercent"
             ],
             "type": "string"
           },
@@ -8940,7 +8943,8 @@
               "numP2pTrades",
               "numPredictions",
               "avgTradesPerPrediction",
-              "rank"
+              "rank",
+              "rankPercent"
             ],
             "type": "string"
           },
@@ -9073,6 +9077,12 @@
             "format": "int32",
             "title": "Rank",
             "type": "integer"
+          },
+          "rankPercent": {
+            "description": "User rank by PnL as a percent of the users ranked for the duration (1 = top 1%)",
+            "format": "float",
+            "title": "Rank Percent",
+            "type": "number"
           },
           "realizedBuyCost": {
             "description": "Total cost of closed buys",
@@ -9456,7 +9466,8 @@
               "numTrades",
               "numPredictions",
               "avgTradesPerPrediction",
-              "rank"
+              "rank",
+              "rankPercent"
             ],
             "type": "string"
           },
@@ -9567,7 +9578,8 @@
                   "numTrades",
                   "numPredictions",
                   "avgTradesPerPrediction",
-                  "rank"
+                  "rank",
+                  "rankPercent"
                 ],
                 "type": "string"
               }
@@ -9824,7 +9836,8 @@
             "enum": [
               "rank",
               "roi",
-              "realizedPnl"
+              "realizedPnl",
+              "rankPercent"
             ],
             "type": "string"
           },
@@ -9885,7 +9898,8 @@
               "numTrades",
               "numPredictions",
               "avgTradesPerPrediction",
-              "rank"
+              "rank",
+              "rankPercent"
             ],
             "type": "string"
           },
@@ -9988,6 +10002,12 @@
             "format": "int32",
             "title": "Rank",
             "type": "integer"
+          },
+          "rankPercent": {
+            "description": "User rank by PnL as a percent of the users ranked in the category for the duration (1 = top 1%)",
+            "format": "float",
+            "title": "Rank Percent",
+            "type": "number"
           },
           "realizedBuyCost": {
             "description": "Total cost of closed buys",
@@ -11669,7 +11689,8 @@
                             "numP2pTrades",
                             "numPredictions",
                             "avgTradesPerPrediction",
-                            "rank"
+                            "rank",
+                            "rankPercent"
                           ],
                           "type": "string"
                         }
@@ -11851,7 +11872,8 @@
                             "numTrades",
                             "numPredictions",
                             "avgTradesPerPrediction",
-                            "rank"
+                            "rank",
+                            "rankPercent"
                           ],
                           "type": "string"
                         }
