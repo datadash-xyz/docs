@@ -5456,7 +5456,8 @@
               "pNow",
               "slipAbs",
               "score",
-              "userRank"
+              "userRank",
+              "updatedAt"
             ],
             "type": "string"
           },
@@ -12036,7 +12037,7 @@
                 }
               }
             },
-            "description": "List of Signal Score rows"
+            "description": "List of Signal rows"
           },
           "400": {
             "content": {
@@ -12060,7 +12061,7 @@
           }
         },
         "security": [],
-        "summary": "Signal Score",
+        "summary": "Signal",
         "tags": [
           "Signals"
         ]
